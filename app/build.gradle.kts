@@ -1,0 +1,25 @@
+plugins {
+    id("com.android.application")
+    kotlin("android")
+}
+
+android {
+    namespace = "org.kashmir.heatguard"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "org.kashmir.heatguard"
+        minSdk = 26
+        targetSdk = 35
+        versionCode = 1
+        versionName = "0.1.0-mvp"
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+dependencies {
+    implementation(project(":core"))
+}

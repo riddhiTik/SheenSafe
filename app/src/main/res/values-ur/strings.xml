@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ہیٹ گارڈ کشمیر</string>
+    <string name="state_safe">محفوظ</string>
+    <string name="state_check">چیک کریں</string>
+    <string name="state_action">فوری عمل</string>
+    <string name="state_emergency">ایمرجنسی</string>
+    <string name="i_am_safe">میں محفوظ ہوں</string>
+    <string name="report_symptoms">علامات بتائیں</string>
+    <string name="manual_emergency">ابھی ایمرجنسی</string>
+    <string name="call_contact">ایمرجنسی رابطہ کو کال کریں</string>
+    <string name="share_alert">الرٹ شیئر کریں</string>
+    <string name="set_contact">ایمرجنسی رابطہ سیٹ کریں</string>
+    <string name="set_weather">مقامی موسم سیٹ کریں</string>
+    <string name="volunteer_view">رضاکار منظر</string>
+    <string name="volunteer_stub">نمونہ صارف قطار۔ ڈیمو قطاروں کو حقیقی ڈیٹا سے بدلیں۔</string>
+    <string name="contact_name">رابطہ نام</string>
+    <string name="contact_phone">رابطہ فون</string>
+    <string name="contact_label">رابطہ</string>
+    <string name="temperature_c">درجہ حرارت °C</string>
+    <string name="relative_humidity">نمی %</string>
+    <string name="direct_sun">براہ راست دھوپ</string>
+    <string name="save">محفوظ کریں</string>
+    <string name="cancel">منسوخ</string>
+    <string name="unknown">نامعلوم</string>
+    <string name="confidence_label">اعتماد: %1$s</string>
+    <string name="heat_index_label">ہیٹ انڈیکس</string>
+    <string name="ring_age_label">رِنگ ڈیٹا عمر</string>
+    <string name="weather_age_label">موسم ڈیٹا عمر</string>
+    <string name="reasons_label">وجوہات</string>
+    <string name="status_label">حالت</string>
+    <string name="heat_alert_title">گرمی کا خطرہ: %1$s</string>
+    <string name="share_emergency_prefix">ہیٹ گارڈ الرٹ۔ صارف کو مدد کی ضرورت ہو سکتی ہے۔</string>
+    <string name="symptom_thirst">پیاس</string>
+    <string name="symptom_headache">سر درد</string>
+    <string name="symptom_nausea">متلی</string>
+    <string name="symptom_dizziness">چکر</string>
+    <string name="symptom_weakness">کمزوری</string>
+    <string name="symptom_heavy_sweating">زیادہ پسینہ</string>
+    <string name="symptom_confusion">الجھن</string>
+    <string name="symptom_slurred_speech">لڑکھڑاتی بولی</string>
+    <string name="symptom_fainting">بے ہوشی</string>
+    <string name="symptom_seizure">دورہ</string>
+    <string name="symptom_cannot_stand">کھڑے نہیں ہو سکتے</string>
+</resources>
