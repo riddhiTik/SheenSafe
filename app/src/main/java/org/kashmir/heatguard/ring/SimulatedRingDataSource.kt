@@ -3,6 +3,8 @@ package org.kashmir.heatguard.ring
 import android.os.Handler
 import android.os.Looper
 import org.kashmir.heatguard.core.model.SensorSample
+import org.kashmir.heatguard.core.ring.RingDataSource
+import org.kashmir.heatguard.core.ring.RingSampleListener
 import kotlin.math.roundToInt
 import kotlin.random.Random
 

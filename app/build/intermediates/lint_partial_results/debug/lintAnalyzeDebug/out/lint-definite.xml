@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.13.2" type="incidents">
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/org/kashmir/heatguard/ui/MainActivity.kt"
+            line="198"
+            column="65"
+            startOffset="7573"
+            endLine="198"
+            endColumn="92"
+            endOffset="7600"/>
+    </incident>
+
+    <incident
+        id="OldTargetApi"
+        severity="warning"
+        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the `android.os.Build.VERSION_CODES` javadoc for details.">
+        <fix-replace
+            description="Update targetSdkVersion to 36"
+            oldString="35"
+            replacement="36"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="13"
+            column="9"
+            startOffset="236"
+            endLine="13"
+            endColumn="23"
+            endOffset="250"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of `compileSdkVersion` than 35 is available: 36">
+        <fix-replace
+            description="Set compileSdkVersion to 36"
+            oldString="35"
+            replacement="36"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="8"
+            column="5"
+            startOffset="123"
+            endLine="8"
+            endColumn="20"
+            endOffset="138"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;simulated_mode_label&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="45"
+            column="13"
+            startOffset="2516"
+            endLine="45"
+            endColumn="40"
+            endOffset="2543"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;edit_risk_profile&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="46"
+            column="13"
+            startOffset="2586"
+            endLine="46"
+            endColumn="37"
+            endOffset="2610"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;risk_profile_title&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="47"
+            column="13"
+            startOffset="2651"
+            endLine="47"
+            endColumn="38"
+            endOffset="2676"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;age_band_label&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="48"
+            column="13"
+            startOffset="2712"
+            endLine="48"
+            endColumn="34"
+            endOffset="2733"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;pregnant_label&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="49"
+            column="13"
+            startOffset="2766"
+            endLine="49"
+            endColumn="34"
+            endOffset="2787"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;chronic_illness_label&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="50"
+            column="13"
+            startOffset="2819"
+            endLine="50"
+            endColumn="41"
+            endOffset="2847"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;outdoor_work_label&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="51"
+            column="13"
+            startOffset="2886"
+            endLine="51"
+            endColumn="38"
+            endOffset="2911"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;fasting_label&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="52"
+            column="13"
+            startOffset="2957"
+            endLine="52"
+            endColumn="33"
+            endOffset="2977"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;prior_heat_illness_label&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="53"
+            column="13"
+            startOffset="3029"
+            endLine="53"
+            endColumn="44"
+            endOffset="3060"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;limited_cooling_label&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="54"
+            column="13"
+            startOffset="3102"
+            endLine="54"
+            endColumn="41"
+            endOffset="3130"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;days_acclimatized_label&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="55"
+            column="13"
+            startOffset="3176"
+            endLine="55"
+            endColumn="43"
+            endOffset="3206"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;cooling_instructions_header&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="56"
+            column="13"
+            startOffset="3253"
+            endLine="56"
+            endColumn="47"
+            endOffset="3287"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;data_freshness_label&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="57"
+            column="13"
+            startOffset="3331"
+            endLine="57"
+            endColumn="40"
+            endOffset="3358"/>
+    </incident>
+
+    <incident
+        id="MissingTranslation"
+        severity="error"
+        message="&quot;data_stale_warning&quot; is not translated in &quot;hi&quot; (Hindi), &quot;ks&quot; (Kashmiri), &quot;ur&quot; (Urdu)">
+        <fix-attribute
+            description="Mark non-translatable"
+            attribute="translatable"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="58"
+            column="13"
+            startOffset="3424"
+            endLine="58"
+            endColumn="38"
+            endOffset="3449"/>
+    </incident>
+
+    <incident
+        id="ObsoleteSdkInt"
+        severity="warning"
+        message="Unnecessary; `SDK_INT` is always >= 26">
+        <fix-data conditional="true"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/org/kashmir/heatguard/alerts/EscalationManager.kt"
+            line="31"
+            column="32"
+            startOffset="1153"
+            endLine="31"
+            endColumn="78"
+            endOffset="1199"/>
+    </incident>
+
+    <incident
+        id="ObsoleteSdkInt"
+        severity="warning"
+        message="Unnecessary; `SDK_INT` is always >= 26">
+        <fix-data conditional="true"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/org/kashmir/heatguard/service/HeatMonitoringService.kt"
+            line="103"
+            column="36"
+            startOffset="4207"
+            endLine="103"
+            endColumn="104"
+            endOffset="4275"/>
+    </incident>
+
+    <incident
+        id="ObsoleteSdkInt"
+        severity="warning"
+        message="Unnecessary; `SDK_INT` is always >= 26">
+        <fix-data conditional="true"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/org/kashmir/heatguard/service/HeatMonitoringService.kt"
+            line="118"
+            column="20"
+            startOffset="4865"
+            endLine="118"
+            endColumn="88"
+            endOffset="4933"/>
+    </incident>
+
+    <incident
+        id="ObsoleteSdkInt"
+        severity="warning"
+        message="Unnecessary; `SDK_INT` is never &lt; 26">
+        <fix-data conditional="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/org/kashmir/heatguard/ui/MainActivity.kt"
+            line="355"
+            column="13"
+            startOffset="14176"
+            endLine="355"
+            endColumn="58"
+            endOffset="14221"/>
+    </incident>
+
+    <incident
+        id="ObsoleteSdkInt"
+        severity="warning"
+        message="Unnecessary; `SDK_INT` is always >= 26">
+        <fix-data conditional="true"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/org/kashmir/heatguard/ui/MainActivity.kt"
+            line="372"
+            column="13"
+            startOffset="15005"
+            endLine="372"
+            endColumn="59"
+            endOffset="15051"/>
+    </incident>
+
+    <incident
+        id="ObsoleteSdkInt"
+        severity="warning"
+        message="Unnecessary; `SDK_INT` is always >= 26">
+        <fix-data conditional="true"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/org/kashmir/heatguard/ui/MainActivity.kt"
+            line="378"
+            column="13"
+            startOffset="15261"
+            endLine="378"
+            endColumn="59"
+            endOffset="15307"/>
+    </incident>
+
+    <incident
+        id="ObsoleteSdkInt"
+        severity="warning"
+        message="Unnecessary; `SDK_INT` is never &lt; 26">
+        <fix-data conditional="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/org/kashmir/heatguard/alerts/NotificationHelper.kt"
+            line="13"
+            column="13"
+            startOffset="354"
+            endLine="13"
+            endColumn="58"
+            endOffset="399"/>
+    </incident>
+
+</incidents>

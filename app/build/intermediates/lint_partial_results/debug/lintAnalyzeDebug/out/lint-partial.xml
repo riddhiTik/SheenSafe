@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.13.2" type="partial_results">
+    <map id="NotificationPermission">
+        <entry
+            name="source"
+            boolean="true"/>
+    </map>
+    <map id="UnsafeImplicitIntentLaunch">
+            <map id="actionsSent">
+                    <map id="android.intent.action.DIAL (used to start an activity)">
+                        <location id="0"
+                            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/org/kashmir/heatguard/alerts/EscalationManager.kt"
+                            line="48"
+                            column="22"
+                            startOffset="1916"
+                            endLine="48"
+                            endColumn="87"
+                            endOffset="1981"/>
+                    </map>
+            </map>
+    </map>
+    <map id="UnsafeIntentLaunch">
+            <map id="unprotected">
+                <entry
+                    name="org.kashmir.heatguard.ui.MainActivity"
+                    boolean="true"/>
+            </map>
+    </map>
+    <map id="UnusedResources">
+        <location id="R.string.data_stale_warning"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="58"
+            column="13"
+            startOffset="3424"
+            endLine="58"
+            endColumn="38"
+            endOffset="3449"/>
+        <location id="R.string.ring_age_label"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="28"
+            column="13"
+            startOffset="1508"
+            endLine="28"
+            endColumn="34"
+            endOffset="1529"/>
+        <location id="R.string.weather_age_label"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="29"
+            column="13"
+            startOffset="1566"
+            endLine="29"
+            endColumn="37"
+            endOffset="1590"/>
+        <entry
+            name="model"
+            string="string[app_name(U),state_safe(U),state_check(U),state_action(U),state_emergency(U),i_am_safe(U),report_symptoms(U),manual_emergency(U),call_contact(U),share_alert(U),set_contact(U),set_weather(U),volunteer_view(U),volunteer_stub(U),contact_name(U),contact_phone(U),contact_label(U),temperature_c(U),relative_humidity(U),direct_sun(U),save(U),cancel(U),unknown(U),confidence_label(U),heat_index_label(U),ring_age_label(D),weather_age_label(D),reasons_label(U),status_label(U),heat_alert_title(U),share_emergency_prefix(U),symptom_thirst(U),symptom_headache(U),symptom_nausea(U),symptom_dizziness(U),symptom_weakness(U),symptom_heavy_sweating(U),symptom_confusion(U),symptom_slurred_speech(U),symptom_fainting(U),symptom_seizure(U),symptom_cannot_stand(U),simulated_mode_label(U),edit_risk_profile(U),risk_profile_title(U),age_band_label(U),pregnant_label(U),chronic_illness_label(U),outdoor_work_label(U),fasting_label(U),prior_heat_illness_label(U),limited_cooling_label(U),days_acclimatized_label(U),cooling_instructions_header(U),data_freshness_label(U),data_stale_warning(D)],style[AppTheme(U)];;;;"/>
+    </map>
+
+</incidents>

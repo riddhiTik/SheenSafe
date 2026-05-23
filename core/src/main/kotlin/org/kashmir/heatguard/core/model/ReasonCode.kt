@@ -2,6 +2,7 @@ package org.kashmir.heatguard.core.model
 
 enum class ReasonCode {
     NORMAL,
+    LOW_HEAT_INDEX,
     HIGH_HEAT_INDEX,
     EXTREME_HEAT_INDEX,
     OFFICIAL_HEAT_WATCH,

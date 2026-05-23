@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.kashmir.heatguard.core.ConfidenceScoreTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-05-21T19:32:28.170Z" hostname="DESKTOP-4OLVILP" time="0.002">
+  <properties/>
+  <testcase name="bothStaleIsLowConfidence" classname="org.kashmir.heatguard.core.ConfidenceScoreTest" time="0.0"/>
+  <testcase name="onlyWeatherFreshIsMediumConfidence" classname="org.kashmir.heatguard.core.ConfidenceScoreTest" time="0.0"/>
+  <testcase name="noResponseEmergencyIsMediumConfidence" classname="org.kashmir.heatguard.core.ConfidenceScoreTest" time="0.0"/>
+  <testcase name="onlyRingFreshIsMediumConfidence" classname="org.kashmir.heatguard.core.ConfidenceScoreTest" time="0.0"/>
+  <testcase name="severeSymptomsAlwaysHighConfidence" classname="org.kashmir.heatguard.core.ConfidenceScoreTest" time="0.0"/>
+  <testcase name="manualEmergencyAlwaysHighConfidence" classname="org.kashmir.heatguard.core.ConfidenceScoreTest" time="0.0"/>
+  <testcase name="bothFreshIsHighConfidence" classname="org.kashmir.heatguard.core.ConfidenceScoreTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

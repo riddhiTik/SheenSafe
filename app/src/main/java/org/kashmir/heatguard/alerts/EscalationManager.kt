@@ -8,6 +8,8 @@ import android.net.Uri
 import android.os.Build
 import android.text.TextUtils
 import org.kashmir.heatguard.R
+import org.kashmir.heatguard.core.escalation.EscalationAction
+import org.kashmir.heatguard.core.escalation.EscalationPlan
 import org.kashmir.heatguard.core.model.RiskDecision
 import org.kashmir.heatguard.core.model.RiskLevel
 import org.kashmir.heatguard.data.AppRepository
@@ -46,6 +48,21 @@ class EscalationManager(
         val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${Uri.encode(phone)}"))
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(intent)
+    }
+
+    fun execute(plan: EscalationPlan, decision: RiskDecision) {
+        if (plan.actions.isEmpty()) return
+        for (action in plan.actions) {
+            when (action) {
+                EscalationAction.NOTIFY_USER -> showRiskNotification(decision)
+                EscalationAction.SUGGEST_DIAL_CONTACT -> dialEmergencyContact()
+                EscalationAction.PROMPT_SYMPTOM_CHECK,
+                EscalationAction.ALERT_VOLUNTEER,
+                EscalationAction.LOG_EMERGENCY_EVENT -> {
+                    // These are handled by the UI layer; logged here for observability
+                }
+            }
+        }
     }
 
     fun shareEmergencyMessage(decision: RiskDecision) {

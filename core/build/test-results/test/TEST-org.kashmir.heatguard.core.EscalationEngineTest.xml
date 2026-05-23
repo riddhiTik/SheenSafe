@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.kashmir.heatguard.core.EscalationEngineTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-05-21T19:32:28.182Z" hostname="DESKTOP-4OLVILP" time="0.019">
+  <properties/>
+  <testcase name="cooldownExpiresAfterWindow" classname="org.kashmir.heatguard.core.EscalationEngineTest" time="0.017"/>
+  <testcase name="emergencyBypassesCooldown" classname="org.kashmir.heatguard.core.EscalationEngineTest" time="0.0"/>
+  <testcase name="emergencyHasAllFiveActions" classname="org.kashmir.heatguard.core.EscalationEngineTest" time="0.001"/>
+  <testcase name="actionLevelIncludesAlertVolunteer" classname="org.kashmir.heatguard.core.EscalationEngineTest" time="0.0"/>
+  <testcase name="resetCooldownsAllowsImmediateRetrigger" classname="org.kashmir.heatguard.core.EscalationEngineTest" time="0.0"/>
+  <testcase name="coolingInstructionsMatchLevel" classname="org.kashmir.heatguard.core.EscalationEngineTest" time="0.0"/>
+  <testcase name="checkLevelProducesNotifyAndPrompt" classname="org.kashmir.heatguard.core.EscalationEngineTest" time="0.0"/>
+  <testcase name="cooldownPreventsRepeatNotify" classname="org.kashmir.heatguard.core.EscalationEngineTest" time="0.0"/>
+  <testcase name="safeProducesEmptyActions" classname="org.kashmir.heatguard.core.EscalationEngineTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

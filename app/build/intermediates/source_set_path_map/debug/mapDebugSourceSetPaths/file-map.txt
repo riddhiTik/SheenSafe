@@ -1,0 +1,8 @@
+org.kashmir.heatguard.app-pngs-0 C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\build\generated\res\pngs\debug
+org.kashmir.heatguard.app-resValues-1 C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\build\generated\res\resValues\debug
+org.kashmir.heatguard.app-updated_navigation_xml-2 C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\build\generated\updated_navigation_xml\debug
+org.kashmir.heatguard.app-packageDebugResources-3 C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+org.kashmir.heatguard.app-packageDebugResources-4 C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+org.kashmir.heatguard.app-debug-5 C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\build\intermediates\merged_res\debug\mergeDebugResources
+org.kashmir.heatguard.app-debug-6 C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\debug\res
+org.kashmir.heatguard.app-main-7 C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\res

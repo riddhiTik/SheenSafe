@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.kashmir.heatguard.core.HeatIndexCalculatorTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-05-21T19:32:28.204Z" hostname="DESKTOP-4OLVILP" time="0.01">
+  <properties/>
+  <testcase name="threshold103FIsAction" classname="org.kashmir.heatguard.core.HeatIndexCalculatorTest" time="0.0"/>
+  <testcase name="belowThresholdReturnsAirTemp" classname="org.kashmir.heatguard.core.HeatIndexCalculatorTest" time="0.0"/>
+  <testcase name="knownValueHighHumidity" classname="org.kashmir.heatguard.core.HeatIndexCalculatorTest" time="0.008"/>
+  <testcase name="threshold125FIsEmergency" classname="org.kashmir.heatguard.core.HeatIndexCalculatorTest" time="0.001"/>
+  <testcase name="celsiusFahrenheitRoundTrip" classname="org.kashmir.heatguard.core.HeatIndexCalculatorTest" time="0.0"/>
+  <testcase name="directSunAdds8_33CToHeatIndex" classname="org.kashmir.heatguard.core.HeatIndexCalculatorTest" time="0.0"/>
+  <testcase name="threshold80FIsCheck" classname="org.kashmir.heatguard.core.HeatIndexCalculatorTest" time="0.001"/>
+  <testcase name="humidityClampedAt100" classname="org.kashmir.heatguard.core.HeatIndexCalculatorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

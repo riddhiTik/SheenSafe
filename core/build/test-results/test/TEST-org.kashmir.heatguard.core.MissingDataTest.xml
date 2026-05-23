@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.kashmir.heatguard.core.MissingDataTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-05-21T19:32:28.217Z" hostname="DESKTOP-4OLVILP" time="0.002">
+  <properties/>
+  <testcase name="nullSymptomNotPenalized" classname="org.kashmir.heatguard.core.MissingDataTest" time="0.0"/>
+  <testcase name="noWeatherNoRingDefaultsToSafe" classname="org.kashmir.heatguard.core.MissingDataTest" time="0.0"/>
+  <testcase name="baselineAllNullDoesNotCrash" classname="org.kashmir.heatguard.core.MissingDataTest" time="0.001"/>
+  <testcase name="nullRingAddsMissingCode" classname="org.kashmir.heatguard.core.MissingDataTest" time="0.0"/>
+  <testcase name="ringSkinTempNullDoesNotCrash" classname="org.kashmir.heatguard.core.MissingDataTest" time="0.0"/>
+  <testcase name="nullWeatherAddsMissingCode" classname="org.kashmir.heatguard.core.MissingDataTest" time="0.0"/>
+  <testcase name="partialBaselineTempPresentHrAbsent" classname="org.kashmir.heatguard.core.MissingDataTest" time="0.001"/>
+  <testcase name="ringHrNullDoesNotCrash" classname="org.kashmir.heatguard.core.MissingDataTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

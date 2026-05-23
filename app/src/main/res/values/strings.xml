@@ -42,4 +42,18 @@
     <string name="symptom_fainting">Fainting</string>
     <string name="symptom_seizure">Seizure</string>
     <string name="symptom_cannot_stand">Cannot stand</string>
+    <string name="simulated_mode_label">Simulated ring mode</string>
+    <string name="edit_risk_profile">Edit risk profile</string>
+    <string name="risk_profile_title">Risk Profile</string>
+    <string name="age_band_label">Age group</string>
+    <string name="pregnant_label">Pregnant</string>
+    <string name="chronic_illness_label">Chronic illness</string>
+    <string name="outdoor_work_label">Outdoor work or travel</string>
+    <string name="fasting_label">Fasting or fluid restriction</string>
+    <string name="prior_heat_illness_label">Prior heat illness</string>
+    <string name="limited_cooling_label">Limited cooling access</string>
+    <string name="days_acclimatized_label">Days acclimatized: %1$d</string>
+    <string name="cooling_instructions_header">Cooling instructions</string>
+    <string name="data_freshness_label">Weather: %1$s min ago | Ring: %2$s min ago</string>
+    <string name="data_stale_warning">Some data is stale</string>
 </resources>

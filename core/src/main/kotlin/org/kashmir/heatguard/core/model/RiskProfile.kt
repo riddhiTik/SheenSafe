@@ -7,7 +7,8 @@ data class RiskProfile(
     val outdoorWorkOrTravel: Boolean = false,
     val fastingOrFluidRestriction: Boolean = false,
     val priorHeatIllness: Boolean = false,
-    val limitedCoolingAccess: Boolean = false
+    val limitedCoolingAccess: Boolean = false,
+    val daysAcclimatized: Int = 0
 ) {
     val hasHigherVulnerability: Boolean
         get() = ageBand == AgeBand.CHILD ||
@@ -16,5 +17,6 @@ data class RiskProfile(
             chronicIllness ||
             fastingOrFluidRestriction ||
             priorHeatIllness ||
-            limitedCoolingAccess
+            limitedCoolingAccess ||
+            daysAcclimatized < 5
 }

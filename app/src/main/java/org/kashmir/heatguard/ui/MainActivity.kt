@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
@@ -12,10 +13,13 @@ import android.view.View
 import android.widget.*
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.alerts.EscalationManager
+import org.kashmir.heatguard.core.SystemClock
+import org.kashmir.heatguard.core.escalation.EscalationEngine
+import org.kashmir.heatguard.core.escalation.EscalationPlan
 import org.kashmir.heatguard.core.model.*
 import org.kashmir.heatguard.core.risk.HeatRiskEngine
 import org.kashmir.heatguard.data.AppRepository
-import org.kashmir.heatguard.ring.RingDataSource
+import org.kashmir.heatguard.core.ring.RingDataSource
 import org.kashmir.heatguard.ring.SimulatedRingDataSource
 import org.kashmir.heatguard.service.HeatMonitoringService
 import org.kashmir.heatguard.weather.ManualWeatherProvider
@@ -25,13 +29,18 @@ class MainActivity : Activity() {
     private lateinit var escalationManager: EscalationManager
     private lateinit var ringDataSource: RingDataSource
     private val engine = HeatRiskEngine()
+    private val escalationEngine = EscalationEngine(SystemClock)
     private var latestSymptoms: SymptomReport? = null
     private var latestDecision: RiskDecision? = null
+    private var latestPlan: EscalationPlan? = null
 
     private lateinit var statusText: TextView
     private lateinit var actionText: TextView
     private lateinit var detailsText: TextView
     private lateinit var confidenceText: TextView
+    private lateinit var freshnessText: TextView
+    private lateinit var coolingHeader: TextView
+    private lateinit var coolingText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,11 +81,26 @@ class MainActivity : Activity() {
         }
         confidenceText = TextView(this).apply {
             textSize = 16f
-            setPadding(0, 8, 0, 8)
+            setPadding(8, 8, 8, 8)
         }
         detailsText = TextView(this).apply {
             textSize = 14f
-            setPadding(0, 8, 0, 24)
+            setPadding(0, 8, 0, 8)
+        }
+        freshnessText = TextView(this).apply {
+            textSize = 13f
+            setPadding(0, 4, 0, 16)
+        }
+        coolingHeader = TextView(this).apply {
+            text = getString(R.string.cooling_instructions_header)
+            textSize = 16f
+            setPadding(0, 16, 0, 4)
+            visibility = View.GONE
+        }
+        coolingText = TextView(this).apply {
+            textSize = 14f
+            setPadding(16, 0, 0, 16)
+            visibility = View.GONE
         }
 
         root.addView(TextView(this).apply {
@@ -88,6 +112,9 @@ class MainActivity : Activity() {
         root.addView(actionText)
         root.addView(confidenceText)
         root.addView(detailsText)
+        root.addView(freshnessText)
+        root.addView(coolingHeader)
+        root.addView(coolingText)
 
         root.addView(button(R.string.i_am_safe) {
             latestSymptoms = SymptomReport(
@@ -107,9 +134,20 @@ class MainActivity : Activity() {
         })
         root.addView(button(R.string.call_contact) { escalationManager.dialEmergencyContact() })
         root.addView(button(R.string.share_alert) { latestDecision?.let { escalationManager.shareEmergencyMessage(it) } })
+        root.addView(button(R.string.edit_risk_profile) { startActivity(Intent(this, RiskProfileActivity::class.java)) })
         root.addView(button(R.string.set_contact) { showContactDialog() })
         root.addView(button(R.string.set_weather) { showWeatherDialog() })
         root.addView(button(R.string.volunteer_view) { startActivity(Intent(this, VolunteerActivity::class.java)) })
+
+        root.addView(CheckBox(this).apply {
+            text = getString(R.string.simulated_mode_label)
+            textSize = 16f
+            isChecked = repository.getBoolean("use_simulated_ring", true)
+            setOnCheckedChangeListener { _, checked ->
+                repository.setBoolean("use_simulated_ring", checked)
+                restartService()
+            }
+        })
 
         setContentView(scroll)
     }
@@ -133,12 +171,14 @@ class MainActivity : Activity() {
                 riskProfile = repository.getRiskProfile()
             )
         )
+        val plan = escalationEngine.plan(decision)
         latestDecision = decision
+        latestPlan = plan
         repository.saveLastDecision(decision)
-        render(decision)
+        render(decision, plan)
     }
 
-    private fun render(decision: RiskDecision) {
+    private fun render(decision: RiskDecision, plan: EscalationPlan) {
         statusText.text = when (decision.level) {
             RiskLevel.SAFE -> getString(R.string.state_safe)
             RiskLevel.CHECK -> getString(R.string.state_check)
@@ -147,26 +187,43 @@ class MainActivity : Activity() {
         }
         actionText.text = decision.recommendedAction
         confidenceText.text = getString(R.string.confidence_label, decision.confidence.name)
+        confidenceText.setBackgroundColor(
+            when (decision.confidence) {
+                Confidence.HIGH -> Color.parseColor("#4CAF50")
+                Confidence.MEDIUM -> Color.parseColor("#FFEB3B")
+                Confidence.LOW -> Color.parseColor("#F44336")
+            }
+        )
+
         val heatIndexText = decision.effectiveHeatIndexC?.let { String.format("%.1f°C", it) } ?: getString(R.string.unknown)
         detailsText.text = buildString {
             append(getString(R.string.heat_index_label))
             append(": ")
             append(heatIndexText)
             append('\n')
-            append(getString(R.string.ring_age_label))
-            append(": ")
-            append(decision.ringDataAgeMinutes?.toString() ?: getString(R.string.unknown))
-            append(" min")
-            append('\n')
-            append(getString(R.string.weather_age_label))
-            append(": ")
-            append(decision.weatherDataAgeMinutes?.toString() ?: getString(R.string.unknown))
-            append(" min")
-            append('\n')
             append(getString(R.string.reasons_label))
             append(": ")
             append(decision.reasonCodes.joinToString())
         }
+
+        val weatherAge = decision.weatherDataAgeMinutes
+        val ringAge = decision.ringDataAgeMinutes
+        val isStale = (weatherAge != null && weatherAge > 15) || (ringAge != null && ringAge > 15)
+        freshnessText.text = getString(
+            R.string.data_freshness_label,
+            weatherAge?.toString() ?: getString(R.string.unknown),
+            ringAge?.toString() ?: getString(R.string.unknown)
+        )
+        freshnessText.setTextColor(if (isStale) Color.parseColor("#FFA000") else Color.DKGRAY)
+
+        val showCooling = decision.level.rank >= RiskLevel.ACTION.rank && plan.coolingInstructions.isNotEmpty()
+        val coolingVisibility = if (showCooling) View.VISIBLE else View.GONE
+        coolingHeader.visibility = coolingVisibility
+        coolingText.visibility = coolingVisibility
+        if (showCooling) {
+            coolingText.text = plan.coolingInstructions.joinToString("\n") { "- $it" }
+        }
+
         if (decision.level.rank >= RiskLevel.ACTION.rank) {
             escalationManager.showRiskNotification(decision)
         }
@@ -240,7 +297,7 @@ class MainActivity : Activity() {
             orientation = LinearLayout.VERTICAL
             setPadding(32, 16, 32, 0)
         }
-        val existing = repository.getLastManualWeather()
+        val existing = repository.getLastManualWeather(System.currentTimeMillis())
         val temp = EditText(this).apply {
             hint = getString(R.string.temperature_c)
             setText(existing.airTemperatureC?.toString() ?: "36.0")
@@ -312,6 +369,12 @@ class MainActivity : Activity() {
 
     private fun startHeatMonitoringService() {
         val intent = Intent(this, HeatMonitoringService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(intent) else startService(intent)
+    }
+
+    private fun restartService() {
+        val intent = Intent(this, HeatMonitoringService::class.java)
+        stopService(intent)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(intent) else startService(intent)
     }
 }

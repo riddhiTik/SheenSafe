@@ -4,6 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.kashmir.heatguard.core.model.*
+import org.kashmir.heatguard.core.risk.HeatIndex
 import org.kashmir.heatguard.core.risk.HeatRiskEngine
 
 class HeatRiskEngineTest {
@@ -29,7 +30,7 @@ class HeatRiskEngineTest {
         val decision = engine.assess(
             RiskInput(
                 nowMillis = now,
-                weatherSample = WeatherSample(now, airTemperatureC = 39.0, relativeHumidityPercent = 55.0),
+                weatherSample = WeatherSample(now, airTemperatureC = 36.0, relativeHumidityPercent = 50.0),
                 sensorSample = SensorSample(now, heartRateBpm = 122, skinTemperatureC = 36.2, stepsSinceLastSample = 0),
                 baseline = Baseline(typicalRestingHeartRateBpm = 78, typicalSkinTemperatureC = 34.1, skinTemperatureStdDevC = 0.5)
             )
@@ -62,5 +63,49 @@ class HeatRiskEngineTest {
             )
         )
         assertEquals(RiskLevel.SAFE, decision.level)
+    }
+
+    // Heat index boundary tests using provided heatIndexC field to pin exact values
+    private fun decisionAtHeatIndexF(f: Double) = engine.assess(
+        RiskInput(
+            nowMillis = now,
+            weatherSample = WeatherSample(
+                timestampMillis = now,
+                heatIndexC = HeatIndex.fahrenheitToCelsius(f)
+            )
+        )
+    )
+
+    @Test
+    fun heatIndex79_9FIsSafe() {
+        assertEquals(RiskLevel.SAFE, decisionAtHeatIndexF(79.9).level)
+    }
+
+    @Test
+    fun heatIndex80FIsCheck() {
+        assertEquals(RiskLevel.CHECK, decisionAtHeatIndexF(80.0).level)
+        assertTrue(decisionAtHeatIndexF(80.0).reasonCodes.contains(ReasonCode.LOW_HEAT_INDEX))
+    }
+
+    @Test
+    fun heatIndex102FIsCheck() {
+        assertEquals(RiskLevel.CHECK, decisionAtHeatIndexF(102.0).level)
+    }
+
+    @Test
+    fun heatIndex103FIsAction() {
+        assertEquals(RiskLevel.ACTION, decisionAtHeatIndexF(103.0).level)
+        assertTrue(decisionAtHeatIndexF(103.0).reasonCodes.contains(ReasonCode.HIGH_HEAT_INDEX))
+    }
+
+    @Test
+    fun heatIndex124FIsAction() {
+        assertEquals(RiskLevel.ACTION, decisionAtHeatIndexF(124.0).level)
+    }
+
+    @Test
+    fun heatIndex125FIsEmergency() {
+        assertEquals(RiskLevel.EMERGENCY, decisionAtHeatIndexF(125.0).level)
+        assertTrue(decisionAtHeatIndexF(125.0).reasonCodes.contains(ReasonCode.EXTREME_HEAT_INDEX))
     }
 }

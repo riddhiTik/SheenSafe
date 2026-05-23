@@ -34,6 +34,10 @@
             android:name=".ui.VolunteerActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.RiskProfileActivity"
+            android:exported="false" />
+
         <service
             android:name=".service.HeatMonitoringService"
             android:exported="false"

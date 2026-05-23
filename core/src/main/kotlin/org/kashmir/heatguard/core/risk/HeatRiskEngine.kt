@@ -96,7 +96,7 @@ class HeatRiskEngine(
                     RiskLevel.CHECK
                 }
                 effectiveHeatIndexF >= 80.0 -> {
-                    reasons += ReasonCode.HIGH_HEAT_INDEX
+                    reasons += ReasonCode.LOW_HEAT_INDEX
                     RiskLevel.CHECK
                 }
                 else -> RiskLevel.SAFE

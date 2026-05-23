@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.kashmir.heatguard.core.OfficialHeatWarningTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-05-21T19:32:28.236Z" hostname="DESKTOP-4OLVILP" time="0.001">
+  <properties/>
+  <testcase name="extremeBeatsEverything" classname="org.kashmir.heatguard.core.OfficialHeatWarningTest" time="0.0"/>
+  <testcase name="noneHasNoEffect" classname="org.kashmir.heatguard.core.OfficialHeatWarningTest" time="0.001"/>
+  <testcase name="watchProducesCheck" classname="org.kashmir.heatguard.core.OfficialHeatWarningTest" time="0.0"/>
+  <testcase name="warningBeatsMildEnvCheck" classname="org.kashmir.heatguard.core.OfficialHeatWarningTest" time="0.0"/>
+  <testcase name="warningProducesAction" classname="org.kashmir.heatguard.core.OfficialHeatWarningTest" time="0.0"/>
+  <testcase name="extremeProducesEmergency" classname="org.kashmir.heatguard.core.OfficialHeatWarningTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

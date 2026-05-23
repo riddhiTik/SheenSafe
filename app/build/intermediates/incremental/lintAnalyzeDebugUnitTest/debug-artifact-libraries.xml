@@ -1,0 +1,33 @@
+<libraries>
+  <library
+      name=":@@:app::debug"
+      project=":app"/>
+  <library
+      name=":@@:core"
+      jars="C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\core\build\libs\core.jar"
+      resolved="::"/>
+  <library
+      name="org.jetbrains.kotlin:kotlin-test-junit:2.0.21@jar"
+      jars="C:\Users\riddh\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-test-junit\2.0.21\977fd8384b1557420643e28be93a0faf30d99f7a\kotlin-test-junit-2.0.21.jar"
+      resolved="org.jetbrains.kotlin:kotlin-test-junit:2.0.21"/>
+  <library
+      name="org.jetbrains.kotlin:kotlin-test:2.0.21@jar"
+      jars="C:\Users\riddh\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-test\2.0.21\c6ea143e356327ddfda57e53e829c553e3b45b64\kotlin-test-2.0.21.jar"
+      resolved="org.jetbrains.kotlin:kotlin-test:2.0.21"/>
+  <library
+      name="org.jetbrains.kotlin:kotlin-stdlib:2.0.21@jar"
+      jars="C:\Users\riddh\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-stdlib\2.0.21\618b539767b4899b4660a83006e052b63f1db551\kotlin-stdlib-2.0.21.jar"
+      resolved="org.jetbrains.kotlin:kotlin-stdlib:2.0.21"/>
+  <library
+      name="org.jetbrains:annotations:13.0@jar"
+      jars="C:\Users\riddh\.gradle\caches\modules-2\files-2.1\org.jetbrains\annotations\13.0\919f0dfe192fb4e063e7dacadee7f8bb9a2672a9\annotations-13.0.jar"
+      resolved="org.jetbrains:annotations:13.0"/>
+  <library
+      name="junit:junit:4.13.2@jar"
+      jars="C:\Users\riddh\.gradle\caches\modules-2\files-2.1\junit\junit\4.13.2\8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12\junit-4.13.2.jar"
+      resolved="junit:junit:4.13.2"/>
+  <library
+      name="org.hamcrest:hamcrest-core:1.3@jar"
+      jars="C:\Users\riddh\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar"
+      resolved="org.hamcrest:hamcrest-core:1.3"/>
+</libraries>

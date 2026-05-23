@@ -1,0 +1,123 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:2:1-47:12
+INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:2:1-47:12
+INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:2:1-47:12
+INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:2:1-47:12
+	package
+		INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.BLUETOOTH
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:4:5-95
+	android:maxSdkVersion
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:4:66-92
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:4:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:5:5-101
+	android:maxSdkVersion
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:5:72-98
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:5:22-71
+uses-permission#android.permission.BLUETOOTH_SCAN
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:6:5-73
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:6:22-70
+uses-permission#android.permission.BLUETOOTH_CONNECT
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:7:5-76
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:7:22-73
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:8:5-79
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:8:22-76
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:9:5-81
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:9:22-78
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:10:5-67
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:10:22-64
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:11:5-77
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:11:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:12:5-77
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:12:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:13:5-94
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:13:22-91
+uses-feature#android.hardware.bluetooth_le
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:15:5-90
+	android:required
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:15:64-87
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:15:19-63
+application
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:17:5-46:19
+INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:17:5-46:19
+	android:extractNativeLibs
+		INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml
+	android:supportsRtl
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:21:9-35
+	android:label
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:20:9-41
+	android:allowBackup
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:19:9-36
+	android:theme
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:22:9-40
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:18:9-45
+activity#org.kashmir.heatguard.ui.MainActivity
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:24:9-31:20
+	android:exported
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:26:13-36
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:25:13-44
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:27:13-30:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:28:17-69
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:28:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:29:17-77
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:29:27-74
+activity#org.kashmir.heatguard.ui.VolunteerActivity
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:33:9-35:40
+	android:exported
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:35:13-37
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:34:13-49
+activity#org.kashmir.heatguard.ui.RiskProfileActivity
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:37:9-39:40
+	android:exported
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:39:13-37
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:38:13-51
+service#org.kashmir.heatguard.service.HeatMonitoringService
+ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:41:9-44:63
+	android:exported
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:43:13-37
+	android:foregroundServiceType
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:44:13-60
+	android:name
+		ADDED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:42:13-58
+uses-sdk
+INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml

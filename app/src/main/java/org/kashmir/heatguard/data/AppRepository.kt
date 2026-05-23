@@ -4,26 +4,30 @@ import android.content.Context
 import android.content.SharedPreferences
 import org.kashmir.heatguard.core.model.*
 
-class AppRepository(context: Context) {
+// TODO: [PRIVACY-HARDENING] Replace SharedPreferences with EncryptedSharedPreferences once
+// androidx is enabled. Set android.useAndroidX=true in gradle.properties, add
+// implementation("androidx.security:security-crypto:1.1.0-alpha06") to app/build.gradle.kts,
+// then replace context.getSharedPreferences(...) with EncryptedSharedPreferences.create(...).
+class AppRepository(context: Context) : BaselineRepository, RiskProfileRepository, ContactRepository, WeatherRepository {
     private val prefs: SharedPreferences = context.getSharedPreferences("heatguard", Context.MODE_PRIVATE)
 
-    fun getEmergencyContactName(): String = prefs.getString(KEY_CONTACT_NAME, "") ?: ""
-    fun getEmergencyContactPhone(): String = prefs.getString(KEY_CONTACT_PHONE, "") ?: ""
+    override fun getEmergencyContactName(): String = prefs.getString(KEY_CONTACT_NAME, "") ?: ""
+    override fun getEmergencyContactPhone(): String = prefs.getString(KEY_CONTACT_PHONE, "") ?: ""
 
-    fun setEmergencyContact(name: String, phone: String) {
+    override fun setEmergencyContact(name: String, phone: String) {
         prefs.edit()
             .putString(KEY_CONTACT_NAME, name.trim())
             .putString(KEY_CONTACT_PHONE, phone.trim())
             .apply()
     }
 
-    fun getBaseline(): Baseline = Baseline(
+    override fun getBaseline(): Baseline = Baseline(
         typicalRestingHeartRateBpm = prefs.getIntOrNull(KEY_BASELINE_HR),
         typicalSkinTemperatureC = prefs.getDoubleOrNull(KEY_BASELINE_TEMP),
         skinTemperatureStdDevC = prefs.getDoubleOrNull(KEY_BASELINE_TEMP_STD)
     )
 
-    fun setBaseline(baseline: Baseline) {
+    override fun setBaseline(baseline: Baseline) {
         prefs.edit()
             .putIntOrRemove(KEY_BASELINE_HR, baseline.typicalRestingHeartRateBpm)
             .putDoubleOrRemove(KEY_BASELINE_TEMP, baseline.typicalSkinTemperatureC)
@@ -31,17 +35,18 @@ class AppRepository(context: Context) {
             .apply()
     }
 
-    fun getRiskProfile(): RiskProfile = RiskProfile(
+    override fun getRiskProfile(): RiskProfile = RiskProfile(
         ageBand = AgeBand.valueOf(prefs.getString(KEY_AGE_BAND, AgeBand.UNKNOWN.name) ?: AgeBand.UNKNOWN.name),
         pregnant = prefs.getBoolean(KEY_PREGNANT, false),
         chronicIllness = prefs.getBoolean(KEY_CHRONIC, false),
         outdoorWorkOrTravel = prefs.getBoolean(KEY_OUTDOOR, false),
         fastingOrFluidRestriction = prefs.getBoolean(KEY_FASTING, false),
         priorHeatIllness = prefs.getBoolean(KEY_PRIOR_HEAT_ILLNESS, false),
-        limitedCoolingAccess = prefs.getBoolean(KEY_LIMITED_COOLING, false)
+        limitedCoolingAccess = prefs.getBoolean(KEY_LIMITED_COOLING, false),
+        daysAcclimatized = prefs.getInt(KEY_DAYS_ACCLIMATIZED, 0)
     )
 
-    fun setRiskProfile(profile: RiskProfile) {
+    override fun setRiskProfile(profile: RiskProfile) {
         prefs.edit()
             .putString(KEY_AGE_BAND, profile.ageBand.name)
             .putBoolean(KEY_PREGNANT, profile.pregnant)
@@ -50,6 +55,7 @@ class AppRepository(context: Context) {
             .putBoolean(KEY_FASTING, profile.fastingOrFluidRestriction)
             .putBoolean(KEY_PRIOR_HEAT_ILLNESS, profile.priorHeatIllness)
             .putBoolean(KEY_LIMITED_COOLING, profile.limitedCoolingAccess)
+            .putInt(KEY_DAYS_ACCLIMATIZED, profile.daysAcclimatized)
             .apply()
     }
 
@@ -61,7 +67,7 @@ class AppRepository(context: Context) {
             .apply()
     }
 
-    fun getLastManualWeather(nowMillis: Long = System.currentTimeMillis()): WeatherSample {
+    override fun getLastManualWeather(nowMillis: Long): WeatherSample {
         val temp = prefs.getDoubleOrNull(KEY_WEATHER_TEMP) ?: 36.0
         val rh = prefs.getDoubleOrNull(KEY_WEATHER_RH) ?: 45.0
         val timestamp = prefs.getLong(KEY_WEATHER_TIME, nowMillis)
@@ -77,7 +83,7 @@ class AppRepository(context: Context) {
         )
     }
 
-    fun setManualWeather(tempC: Double, relativeHumidityPercent: Double, directSun: Boolean, warning: OfficialHeatWarning) {
+    override fun setManualWeather(tempC: Double, relativeHumidityPercent: Double, directSun: Boolean, warning: OfficialHeatWarning) {
         prefs.edit()
             .putDouble(KEY_WEATHER_TEMP, tempC)
             .putDouble(KEY_WEATHER_RH, relativeHumidityPercent)
@@ -85,6 +91,37 @@ class AppRepository(context: Context) {
             .putString(KEY_WEATHER_WARNING, warning.name)
             .putLong(KEY_WEATHER_TIME, System.currentTimeMillis())
             .apply()
+    }
+
+    override fun getCachedApiWeather(): WeatherSample? {
+        if (!prefs.contains(KEY_API_WEATHER_TIME)) return null
+        val time = prefs.getLong(KEY_API_WEATHER_TIME, 0L)
+        val temp = prefs.getDoubleOrNull(KEY_API_WEATHER_TEMP) ?: return null
+        val rh = prefs.getDoubleOrNull(KEY_API_WEATHER_RH) ?: return null
+        return WeatherSample(
+            timestampMillis = time,
+            airTemperatureC = temp,
+            relativeHumidityPercent = rh,
+            source = "open-meteo-cached"
+        )
+    }
+
+    override fun setCachedApiWeather(sample: WeatherSample) {
+        prefs.edit()
+            .putDouble(KEY_API_WEATHER_TEMP, sample.airTemperatureC ?: return)
+            .putDouble(KEY_API_WEATHER_RH, sample.relativeHumidityPercent ?: return)
+            .putLong(KEY_API_WEATHER_TIME, sample.timestampMillis)
+            .apply()
+    }
+
+    fun getBoolean(key: String, default: Boolean): Boolean = prefs.getBoolean(key, default)
+
+    fun setBoolean(key: String, value: Boolean) {
+        prefs.edit().putBoolean(key, value).apply()
+    }
+
+    fun deleteAllData() {
+        prefs.edit().clear().apply()
     }
 
     private fun SharedPreferences.getIntOrNull(key: String): Int? = if (contains(key)) getInt(key, 0) else null
@@ -114,6 +151,7 @@ class AppRepository(context: Context) {
         private const val KEY_FASTING = "fasting"
         private const val KEY_PRIOR_HEAT_ILLNESS = "prior_heat_illness"
         private const val KEY_LIMITED_COOLING = "limited_cooling"
+        private const val KEY_DAYS_ACCLIMATIZED = "days_acclimatized"
         private const val KEY_LAST_LEVEL = "last_level"
         private const val KEY_LAST_ACTION = "last_action"
         private const val KEY_LAST_DECISION_TIME = "last_decision_time"
@@ -122,5 +160,8 @@ class AppRepository(context: Context) {
         private const val KEY_WEATHER_DIRECT_SUN = "weather_direct_sun"
         private const val KEY_WEATHER_WARNING = "weather_warning"
         private const val KEY_WEATHER_TIME = "weather_time"
+        private const val KEY_API_WEATHER_TEMP = "api_weather_temp"
+        private const val KEY_API_WEATHER_RH = "api_weather_rh"
+        private const val KEY_API_WEATHER_TIME = "api_weather_time"
     }
 }

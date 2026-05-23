@@ -1,0 +1,18 @@
+<lint-module
+    format="1"
+    dir="C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app"
+    name=":app"
+    type="APP"
+    maven="HeatGuardKashmir:app:unspecified"
+    agpVersion="8.13.2"
+    buildFolder="build"
+    bootClassPath="C:\Users\riddh\AppData\Local\Android\Sdk\platforms\android-35\android.jar;C:\Users\riddh\AppData\Local\Android\Sdk\build-tools\35.0.0\core-lambda-stubs.jar"
+    javaSourceLevel="17"
+    compileTarget="android-35"
+    neverShrinking="true">
+  <lintOptions
+      absolutePaths="true"
+      checkReleaseBuilds="true"
+      explainIssues="true"/>
+  <variant name="debug"/>
+</lint-module>
