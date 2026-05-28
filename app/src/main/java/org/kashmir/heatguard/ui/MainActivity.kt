@@ -1,8 +1,8 @@
 package org.kashmir.heatguard.ui
 
 import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -24,7 +24,7 @@ import org.kashmir.heatguard.ring.SimulatedRingDataSource
 import org.kashmir.heatguard.service.HeatMonitoringService
 import org.kashmir.heatguard.weather.ManualWeatherProvider
 
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var repository: AppRepository
     private lateinit var escalationManager: EscalationManager
     private lateinit var ringDataSource: RingDataSource

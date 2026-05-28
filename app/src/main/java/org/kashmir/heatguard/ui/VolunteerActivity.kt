@@ -1,6 +1,6 @@
 package org.kashmir.heatguard.ui
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.LinearLayout
@@ -8,7 +8,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import org.kashmir.heatguard.R
 
-class VolunteerActivity : Activity() {
+class VolunteerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val scroll = ScrollView(this)

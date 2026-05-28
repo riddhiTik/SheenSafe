@@ -114,6 +114,18 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
             .apply()
     }
 
+    fun isOnboardingComplete(): Boolean = prefs.getBoolean(KEY_ONBOARDING_DONE, false)
+
+    fun setOnboardingComplete() {
+        prefs.edit().putBoolean(KEY_ONBOARDING_DONE, true).apply()
+    }
+
+    fun getLanguage(): String = prefs.getString(KEY_LANGUAGE, "en") ?: "en"
+
+    fun setLanguage(code: String) {
+        prefs.edit().putString(KEY_LANGUAGE, code).apply()
+    }
+
     fun getBoolean(key: String, default: Boolean): Boolean = prefs.getBoolean(key, default)
 
     fun setBoolean(key: String, value: Boolean) {
@@ -163,5 +175,7 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         private const val KEY_API_WEATHER_TEMP = "api_weather_temp"
         private const val KEY_API_WEATHER_RH = "api_weather_rh"
         private const val KEY_API_WEATHER_TIME = "api_weather_time"
+        private const val KEY_ONBOARDING_DONE = "onboarding_done"
+        private const val KEY_LANGUAGE = "language"
     }
 }

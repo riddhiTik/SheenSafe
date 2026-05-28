@@ -1,6 +1,6 @@
 package org.kashmir.heatguard.ui
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.*
@@ -9,7 +9,7 @@ import org.kashmir.heatguard.core.model.AgeBand
 import org.kashmir.heatguard.core.model.RiskProfile
 import org.kashmir.heatguard.data.AppRepository
 
-class RiskProfileActivity : Activity() {
+class RiskProfileActivity : AppCompatActivity() {
     private lateinit var repository: AppRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {

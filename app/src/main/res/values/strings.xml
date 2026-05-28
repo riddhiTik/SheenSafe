@@ -56,4 +56,18 @@
     <string name="cooling_instructions_header">Cooling instructions</string>
     <string name="data_freshness_label">Weather: %1$s min ago | Ring: %2$s min ago</string>
     <string name="data_stale_warning">Some data is stale</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_app_name">Welcome to SheenSafe</string>
+    <string name="onboarding_tagline">Your Empathetic Guardian</string>
+    <string name="onboarding_choose_language">Choose your language</string>
+    <string name="onboarding_begin_journey">Begin your journey →</string>
+    <string name="lang_english_name">English</string>
+    <string name="lang_english_greeting">Welcome</string>
+    <string name="lang_hindi_name">हिंदी</string>
+    <string name="lang_hindi_greeting">नमस्ते</string>
+    <string name="lang_kashmiri_name">کاشُر</string>
+    <string name="lang_kashmiri_greeting">آداب</string>
+    <string name="lang_urdu_name">اردو</string>
+    <string name="lang_urdu_greeting">خوش آمدید</string>
 </resources>
