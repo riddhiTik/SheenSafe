@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_light"
+    android:paddingHorizontal="24dp">
+
+    <!-- Back arrow -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Go back"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@color/primary_dark" />
+
+    <!-- BLE scan illustration -->
+    <FrameLayout
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp">
+
+        <!-- Outer pulse ring -->
+        <View
+            android:id="@+id/outerRing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_pulse_ring" />
+
+        <!-- Middle pulse ring -->
+        <View
+            android:id="@+id/middleRing"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_pulse_ring" />
+
+        <!-- Inner green card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="148dp"
+            android:layout_height="148dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#33006E29">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_cell_tower"
+                app:tint="@color/primary_dark" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Scanning dot (orbits) -->
+        <View
+            android:id="@+id/scanDot"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="top|center_horizontal"
+            android:background="@drawable/bg_scan_dot" />
+    </FrameLayout>
+
+    <!-- Step label -->
+    <TextView
+        android:id="@+id/tvStepLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textColor="@color/primary_dark"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.1"
+        android:fontFamily="sans-serif" />
+
+    <!-- Headline -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/onboarding_device_title"
+        android:textColor="@color/text_main"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:fontFamily="serif"
+        android:lineSpacingMultiplier="1.1" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/onboarding_device_subtitle"
+        android:textColor="@color/on_surface_variant"
+        android:textSize="15sp"
+        android:lineSpacingMultiplier="1.3"
+        android:fontFamily="sans-serif" />
+
+    <!-- Device card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_gender_card_default"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_avatar_circle">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_watch"
+                app:tint="@color/primary_dark" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="14dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/onboarding_device_name"
+                android:textColor="@color/text_main"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/onboarding_device_status"
+                android:textColor="@color/primary_dark"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_check_circle"
+            app:tint="@color/primary_dark" />
+    </LinearLayout>
+
+    <!-- Hint -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/onboarding_device_hint"
+        android:textColor="@color/muted"
+        android:textSize="13sp"
+        android:textStyle="italic"
+        android:fontFamily="sans-serif" />
+
+    <!-- Spacer -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Connect button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConnect"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/onboarding_connect_device"
+        android:textColor="@color/on_primary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
+        app:backgroundTint="@color/primary_dark"
+        app:cornerRadius="28dp" />
+
+</LinearLayout>

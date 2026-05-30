@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.kashmir.heatguard.core.RingOutlierFilterTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-05-21T19:32:28.240Z" hostname="DESKTOP-4OLVILP" time="0.008">
+<testsuite name="org.kashmir.heatguard.core.RingOutlierFilterTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-05-30T04:39:37.583Z" hostname="DESKTOP-4OLVILP" time="0.013">
   <properties/>
-  <testcase name="smallWindowAcceptsAll" classname="org.kashmir.heatguard.core.RingOutlierFilterTest" time="0.007"/>
-  <testcase name="normalTempVarianceNotRejected" classname="org.kashmir.heatguard.core.RingOutlierFilterTest" time="0.0"/>
+  <testcase name="smallWindowAcceptsAll" classname="org.kashmir.heatguard.core.RingOutlierFilterTest" time="0.011"/>
+  <testcase name="normalTempVarianceNotRejected" classname="org.kashmir.heatguard.core.RingOutlierFilterTest" time="0.001"/>
   <testcase name="normalSequenceNotRejected" classname="org.kashmir.heatguard.core.RingOutlierFilterTest" time="0.0"/>
-  <testcase name="skinTempSpikeRejected" classname="org.kashmir.heatguard.core.RingOutlierFilterTest" time="0.001"/>
+  <testcase name="skinTempSpikeRejected" classname="org.kashmir.heatguard.core.RingOutlierFilterTest" time="0.0"/>
   <testcase name="nullInputPassedThrough" classname="org.kashmir.heatguard.core.RingOutlierFilterTest" time="0.0"/>
   <testcase name="recoveryAfterSpikeAccepted" classname="org.kashmir.heatguard.core.RingOutlierFilterTest" time="0.0"/>
   <testcase name="heartRateSpikeRejected" classname="org.kashmir.heatguard.core.RingOutlierFilterTest" time="0.0"/>

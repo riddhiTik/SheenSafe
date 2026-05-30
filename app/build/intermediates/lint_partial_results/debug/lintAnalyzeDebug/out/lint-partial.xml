@@ -22,11 +22,27 @@
     <map id="UnsafeIntentLaunch">
             <map id="unprotected">
                 <entry
-                    name="org.kashmir.heatguard.ui.MainActivity"
+                    name="org.kashmir.heatguard.ui.onboarding.OnboardingActivity"
                     boolean="true"/>
             </map>
     </map>
     <map id="UnusedResources">
+        <location id="R.color.surface"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/colors.xml"
+            line="5"
+            column="12"
+            startOffset="155"
+            endLine="5"
+            endColumn="26"
+            endOffset="169"/>
+        <location id="R.color.surface_container"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/colors.xml"
+            line="15"
+            column="12"
+            startOffset="566"
+            endLine="15"
+            endColumn="36"
+            endOffset="590"/>
         <location id="R.string.data_stale_warning"
             file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
             line="58"
@@ -53,7 +69,7 @@
             endOffset="1590"/>
         <entry
             name="model"
-            string="string[app_name(U),state_safe(U),state_check(U),state_action(U),state_emergency(U),i_am_safe(U),report_symptoms(U),manual_emergency(U),call_contact(U),share_alert(U),set_contact(U),set_weather(U),volunteer_view(U),volunteer_stub(U),contact_name(U),contact_phone(U),contact_label(U),temperature_c(U),relative_humidity(U),direct_sun(U),save(U),cancel(U),unknown(U),confidence_label(U),heat_index_label(U),ring_age_label(D),weather_age_label(D),reasons_label(U),status_label(U),heat_alert_title(U),share_emergency_prefix(U),symptom_thirst(U),symptom_headache(U),symptom_nausea(U),symptom_dizziness(U),symptom_weakness(U),symptom_heavy_sweating(U),symptom_confusion(U),symptom_slurred_speech(U),symptom_fainting(U),symptom_seizure(U),symptom_cannot_stand(U),simulated_mode_label(U),edit_risk_profile(U),risk_profile_title(U),age_band_label(U),pregnant_label(U),chronic_illness_label(U),outdoor_work_label(U),fasting_label(U),prior_heat_illness_label(U),limited_cooling_label(U),days_acclimatized_label(U),cooling_instructions_header(U),data_freshness_label(U),data_stale_warning(D)],style[AppTheme(U)];;;;"/>
+            string="anim[slide_in_left(U),slide_in_right(U),slide_out_left(U),slide_out_right(U)],attr[selectableItemBackgroundBorderless(R),selectableItemBackground(R)],color[btn_primary_tint(U),surface_container_lowest(U),primary_dark(U),outline_variant(U),background_light(U),on_surface_variant(U),text_main(U),muted(U),on_primary(U),outline(U),error_color(U),white(U),card_stroke_default(U),text_on_primary(U),primary(U),surface(D),card_selected_bg(U),surface_container(D)],drawable[bg_avatar_circle(U),bg_feature_card(U),bg_gender_card_default(U),bg_gender_card_selected(U),bg_input_field(U),bg_notification_card(U),bg_pulse_ring(U),bg_scan_dot(U),bg_white_circle(U),ic_add_circle(U),ic_arrow_back(U),ic_arrow_forward(U),ic_cell_tower(U),ic_check_circle(U),ic_cloud(U),ic_delete(U),ic_female(U),ic_location_on(U),ic_lock(U),ic_male(U),ic_notifications(U),ic_person(U),ic_person_avatar(U),ic_privacy_tip(U),ic_transgender(U),ic_watch(U),ic_water_drop(U)],id[onboardingContainer(U),btnBack(U),tvStepLabel(U),etAge(U),cardMale(U),checkMale(U),cardFemale(U),checkFemale(U),cardOther(U),checkOther(U),btnContinue(U),outerRing(U),middleRing(U),scanDot(U),btnConnect(U),contact1Section(D),tvContact1Label(U),etContact1Name(U),etContact1Phone(U),contact2Section(U),tvContact2Label(U),btnRemoveContact2(U),etContact2Name(U),etContact2Phone(U),btnAddContact(U),tvSkip(U),cardEnglish(U),checkEnglish(U),cardHindi(U),checkHindi(U),cardKashmiri(U),checkKashmiri(U),cardUrdu(U),checkUrdu(U),btnBeginJourney(U),illustrationBg(U),btnEnableLocation(U),tvNotNow(U),tvTitle(D),tvSubtitle(D),etName(U),ivBell(U),btnEnableNotifications(U)],layout[activity_onboarding(U),fragment_about_you(U),fragment_connect_device(U),fragment_emergency_contact(U),fragment_language_selection(U),fragment_location_permission(U),fragment_name(U),fragment_notification_permission(U)],string[app_name(U),onboarding_about_title(U),onboarding_about_subtitle(U),onboarding_age_label(U),onboarding_age_suffix(U),onboarding_gender_label(U),onboarding_gender_male(U),onboarding_gender_female(U),onboarding_gender_other(U),onboarding_continue(U),onboarding_device_title(U),onboarding_device_subtitle(U),onboarding_device_name(U),onboarding_device_status(U),onboarding_device_hint(U),onboarding_connect_device(U),onboarding_contact_title(U),onboarding_contact_subtitle(U),onboarding_contact_name_placeholder(U),onboarding_contact_phone_placeholder(U),onboarding_add_contact(U),onboarding_skip(U),onboarding_privacy_title(U),onboarding_privacy_body(U),onboarding_app_name(U),onboarding_tagline(U),onboarding_choose_language(U),lang_english_name(U),lang_english_greeting(U),lang_hindi_name(U),lang_hindi_greeting(U),lang_kashmiri_name(U),lang_kashmiri_greeting(U),lang_urdu_name(U),lang_urdu_greeting(U),onboarding_begin_journey(U),onboarding_location_title(U),onboarding_location_subtitle(U),onboarding_location_feature_weather(U),onboarding_location_feature_alerts(U),onboarding_enable_location(U),onboarding_not_now_later(U),onboarding_step_label(U),onboarding_name_title(U),onboarding_name_subtitle(U),onboarding_name_placeholder(U),onboarding_name_privacy(U),onboarding_notifications_title(U),onboarding_notifications_subtitle(U),onboarding_notif_preview_label(U),onboarding_notif_preview_time(U),onboarding_notif_preview_title(U),onboarding_notif_preview_body(U),onboarding_enable_notifications(U),onboarding_not_now(U),state_safe(U),state_check(U),state_action(U),state_emergency(U),i_am_safe(U),report_symptoms(U),manual_emergency(U),call_contact(U),share_alert(U),set_contact(U),set_weather(U),volunteer_view(U),volunteer_stub(U),contact_name(U),contact_phone(U),contact_label(U),temperature_c(U),relative_humidity(U),direct_sun(U),save(U),cancel(U),unknown(U),confidence_label(U),heat_index_label(U),ring_age_label(D),weather_age_label(D),reasons_label(U),status_label(U),heat_alert_title(U),share_emergency_prefix(U),symptom_thirst(U),symptom_headache(U),symptom_nausea(U),symptom_dizziness(U),symptom_weakness(U),symptom_heavy_sweating(U),symptom_confusion(U),symptom_slurred_speech(U),symptom_fainting(U),symptom_seizure(U),symptom_cannot_stand(U),simulated_mode_label(U),edit_risk_profile(U),risk_profile_title(U),age_band_label(U),pregnant_label(U),chronic_illness_label(U),outdoor_work_label(U),fasting_label(U),prior_heat_illness_label(U),limited_cooling_label(U),days_acclimatized_label(U),cooling_instructions_header(U),data_freshness_label(U),data_stale_warning(D),onboarding_contact_section_label(U)],style[AppTheme(U),Theme_MaterialComponents_Light_NoActionBar(R)];1a^7,1b^8,1c^7^9,1f^8,20^7,5e^a,5f^a^4^22^8^b^67^c^68^69^1c^d^6a^6b^1a^18^2b^6c^25^28^6d^30^6e^6f^e,60^a^4^22^8^1e^24^1f^70^c^71^b^1a^18^31^72^73^25^74^d^75^e,61^a^4^22^8^f^76^c^77^b^2d^1c^78^d^79^27^10^5^21^7a^6f^e^7b^19^2f^7c^7d,62^a^18^2e^7e^c^7f^d^80^11^12^81^82^25^83^84^85^86^87^88^89^13^6,63^a^4^22^8^18^20^29^b^8a^c^8b^19^26^8c^2c^8d^8e^e^5^8f,64^a^4^22^8^90^d^91^c^92^b^1c^93^f^2a^94^6f^e^23^5^7b,65^a^4^22^8^b^18^2c^95^c^96^1d^32^97^98^d^99^9a^9b^e^23^5^9c,d5^d6^14^c;;;"/>
     </map>
 
 </incidents>

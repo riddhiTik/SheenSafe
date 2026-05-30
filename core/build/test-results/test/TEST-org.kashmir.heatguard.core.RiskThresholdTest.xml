@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.kashmir.heatguard.core.RiskThresholdTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-05-21T19:32:28.251Z" hostname="DESKTOP-4OLVILP" time="0.003">
+<testsuite name="org.kashmir.heatguard.core.RiskThresholdTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-05-30T04:39:37.601Z" hostname="DESKTOP-4OLVILP" time="0.003">
   <properties/>
   <testcase name="officialWarningProducesAction" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.0"/>
-  <testcase name="at125FIsEmergency" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.001"/>
-  <testcase name="officialExtremeProducesEmergency" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.0"/>
+  <testcase name="at125FIsEmergency" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.0"/>
+  <testcase name="officialExtremeProducesEmergency" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.001"/>
   <testcase name="officialWatchProducesCheck" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.0"/>
-  <testcase name="below80FIsSafe" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.0"/>
+  <testcase name="below80FIsSafe" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.001"/>
   <testcase name="at80FIsCheck" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.0"/>
   <testcase name="at103FIsAction" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.0"/>
   <testcase name="at124FIsAction" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.0"/>
-  <testcase name="directSunPushesRiskHigher" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.0"/>
+  <testcase name="directSunPushesRiskHigher" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.001"/>
   <testcase name="at102FIsCheck" classname="org.kashmir.heatguard.core.RiskThresholdTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

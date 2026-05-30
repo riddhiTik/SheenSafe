@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "org.kashmir.heatguard.app-mergeDebugResources-2:/values-ks/values-ks.xml",
+            "outputFile": "org.kashmir.heatguard.app-mergeDebugResources-35:/values-ks/values-ks.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\riddh\\OneDrive\\Desktop\\Heatstroke-Help\\app\\src\\main\\res\\values-ks\\strings.xml",
+                    "source": "C:\\Users\\riddh\\AndroidStudioProjects\\Heatstroke-Help\\app\\src\\main\\res\\values-ks\\strings.xml",
                     "from": {
                         "startLines": "3,11,24,26,19,17,18,22,32,27,8,10,30,21,9,28,23,13,14,12,33,6,5,7,4,31,44,40,37,42,35,39,36,43,41,34,38,20,25,16,15,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

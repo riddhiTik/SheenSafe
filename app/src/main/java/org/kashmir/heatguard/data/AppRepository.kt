@@ -126,6 +126,43 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         prefs.edit().putString(KEY_LANGUAGE, code).apply()
     }
 
+    fun getUserName(): String = prefs.getString(KEY_USER_NAME, "") ?: ""
+    fun setUserName(name: String) { prefs.edit().putString(KEY_USER_NAME, name.trim()).apply() }
+
+    fun getUserAge(): Int = prefs.getInt(KEY_USER_AGE, 0)
+    fun setUserAge(age: Int) {
+        val band = when {
+            age < 18 -> AgeBand.CHILD
+            age >= 60 -> AgeBand.OLDER_ADULT
+            age > 0  -> AgeBand.ADULT
+            else     -> AgeBand.UNKNOWN
+        }
+        prefs.edit()
+            .putInt(KEY_USER_AGE, age)
+            .putString(KEY_AGE_BAND, band.name)
+            .apply()
+    }
+
+    fun getUserGender(): String = prefs.getString(KEY_USER_GENDER, "") ?: ""
+    fun setUserGender(gender: String) { prefs.edit().putString(KEY_USER_GENDER, gender).apply() }
+
+    fun isDeviceConnected(): Boolean = prefs.getBoolean(KEY_DEVICE_CONNECTED, false)
+    fun setDeviceConnected(connected: Boolean) {
+        prefs.edit()
+            .putBoolean(KEY_DEVICE_CONNECTED, connected)
+            .putBoolean("use_simulated_ring", true)
+            .apply()
+    }
+
+    fun getSecondContactName(): String = prefs.getString(KEY_CONTACT_2_NAME, "") ?: ""
+    fun getSecondContactPhone(): String = prefs.getString(KEY_CONTACT_2_PHONE, "") ?: ""
+    fun setSecondContact(name: String, phone: String) {
+        prefs.edit()
+            .putString(KEY_CONTACT_2_NAME, name.trim())
+            .putString(KEY_CONTACT_2_PHONE, phone.trim())
+            .apply()
+    }
+
     fun getBoolean(key: String, default: Boolean): Boolean = prefs.getBoolean(key, default)
 
     fun setBoolean(key: String, value: Boolean) {
@@ -177,5 +214,11 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         private const val KEY_API_WEATHER_TIME = "api_weather_time"
         private const val KEY_ONBOARDING_DONE = "onboarding_done"
         private const val KEY_LANGUAGE = "language"
+        private const val KEY_USER_NAME = "user_name"
+        private const val KEY_USER_AGE = "user_age"
+        private const val KEY_USER_GENDER = "user_gender"
+        private const val KEY_DEVICE_CONNECTED = "device_connected"
+        private const val KEY_CONTACT_2_NAME = "contact_2_name"
+        private const val KEY_CONTACT_2_PHONE = "contact_2_phone"
     }
 }

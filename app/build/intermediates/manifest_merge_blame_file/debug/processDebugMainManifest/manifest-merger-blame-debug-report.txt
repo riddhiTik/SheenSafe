@@ -9,101 +9,186 @@
 9        android:targetSdkVersion="35" />
 10
 11    <uses-permission
-11-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:4:5-95
+11-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:4:5-95
 12        android:name="android.permission.BLUETOOTH"
-12-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:4:22-65
+12-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:4:22-65
 13        android:maxSdkVersion="30" />
-13-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:4:66-92
+13-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:4:66-92
 14    <uses-permission
-14-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:5:5-101
+14-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:5:5-101
 15        android:name="android.permission.BLUETOOTH_ADMIN"
-15-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:5:22-71
+15-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:5:22-71
 16        android:maxSdkVersion="30" />
-16-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:5:72-98
+16-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:5:72-98
 17    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
-17-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:6:5-73
-17-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:6:22-70
+17-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:6:5-73
+17-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:6:22-70
 18    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-18-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:7:5-76
-18-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:7:22-73
+18-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:7:5-76
+18-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:7:22-73
 19    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-19-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:8:5-79
-19-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:8:22-76
+19-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:8:5-79
+19-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:8:22-76
 20    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-20-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:9:5-81
-20-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:9:22-78
+20-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:9:5-81
+20-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:9:22-78
 21    <uses-permission android:name="android.permission.INTERNET" />
-21-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:10:5-67
-21-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:10:22-64
+21-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:10:5-67
+21-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:10:22-64
 22    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-22-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:11:5-77
-22-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:11:22-74
+22-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:11:5-77
+22-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:11:22-74
 23    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-23-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:12:5-77
-23-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:12:22-74
+23-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:12:5-77
+23-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:12:22-74
 24    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
-24-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:13:5-94
-24-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:13:22-91
+24-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:13:5-94
+24-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:13:22-91
 25
 26    <uses-feature
-26-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:15:5-90
+26-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:15:5-90
 27        android:name="android.hardware.bluetooth_le"
-27-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:15:19-63
+27-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:15:19-63
 28        android:required="true" />
-28-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:15:64-87
+28-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:15:64-87
 29
-30    <application
-30-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:17:5-46:19
-31        android:name="org.kashmir.heatguard.HeatGuardApplication"
-31-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:18:9-45
-32        android:allowBackup="false"
-32-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:19:9-36
-33        android:debuggable="true"
-34        android:extractNativeLibs="false"
-35        android:label="@string/app_name"
-35-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:20:9-41
-36        android:supportsRtl="true"
-36-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:21:9-35
-37        android:theme="@style/AppTheme" >
-37-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:22:9-40
-38        <activity
-38-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:24:9-31:20
-39            android:name="org.kashmir.heatguard.ui.MainActivity"
-39-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:25:13-44
-40            android:exported="true" >
-40-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:26:13-36
-41            <intent-filter>
-41-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:27:13-30:29
-42                <action android:name="android.intent.action.MAIN" />
-42-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:28:17-69
-42-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:28:25-66
-43
-44                <category android:name="android.intent.category.LAUNCHER" />
-44-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:29:17-77
-44-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:29:27-74
-45            </intent-filter>
-46        </activity>
-47        <activity
-47-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:33:9-35:40
-48            android:name="org.kashmir.heatguard.ui.VolunteerActivity"
-48-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:34:13-49
-49            android:exported="false" />
-49-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:35:13-37
-50        <activity
-50-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:37:9-39:40
-51            android:name="org.kashmir.heatguard.ui.RiskProfileActivity"
-51-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:38:13-51
-52            android:exported="false" />
-52-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:39:13-37
-53
-54        <service
-54-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:41:9-44:63
-55            android:name="org.kashmir.heatguard.service.HeatMonitoringService"
-55-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:42:13-58
-56            android:exported="false"
-56-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:43:13-37
-57            android:foregroundServiceType="connectedDevice" />
-57-->C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app\src\main\AndroidManifest.xml:44:13-60
-58    </application>
-59
-60</manifest>
+30    <permission
+30-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+31        android:name="org.kashmir.heatguard.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+31-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+32        android:protectionLevel="signature" />
+32-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+33
+34    <uses-permission android:name="org.kashmir.heatguard.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+34-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+34-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+35
+36    <application
+36-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:17:5-50:19
+37        android:name="org.kashmir.heatguard.HeatGuardApplication"
+37-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:18:9-45
+38        android:allowBackup="false"
+38-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:19:9-36
+39        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+39-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+40        android:debuggable="true"
+41        android:extractNativeLibs="false"
+42        android:label="@string/app_name"
+42-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:20:9-41
+43        android:supportsRtl="true"
+43-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:21:9-35
+44        android:theme="@style/AppTheme" >
+44-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:22:9-40
+45        <activity
+45-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:24:9-31:20
+46            android:name="org.kashmir.heatguard.ui.onboarding.OnboardingActivity"
+46-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:25:13-61
+47            android:exported="true" >
+47-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:26:13-36
+48            <intent-filter>
+48-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:27:13-30:29
+49                <action android:name="android.intent.action.MAIN" />
+49-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:28:17-69
+49-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:28:25-66
+50
+51                <category android:name="android.intent.category.LAUNCHER" />
+51-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:29:17-77
+51-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:29:27-74
+52            </intent-filter>
+53        </activity>
+54        <activity
+54-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:33:9-35:40
+55            android:name="org.kashmir.heatguard.ui.MainActivity"
+55-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:34:13-44
+56            android:exported="false" />
+56-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:35:13-37
+57        <activity
+57-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:37:9-39:40
+58            android:name="org.kashmir.heatguard.ui.VolunteerActivity"
+58-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:38:13-49
+59            android:exported="false" />
+59-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:39:13-37
+60        <activity
+60-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:41:9-43:40
+61            android:name="org.kashmir.heatguard.ui.RiskProfileActivity"
+61-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:42:13-51
+62            android:exported="false" />
+62-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:43:13-37
+63
+64        <service
+64-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:45:9-48:63
+65            android:name="org.kashmir.heatguard.service.HeatMonitoringService"
+65-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:46:13-58
+66            android:exported="false"
+66-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:47:13-37
+67            android:foregroundServiceType="connectedDevice" />
+67-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:48:13-60
+68
+69        <provider
+69-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+70            android:name="androidx.startup.InitializationProvider"
+70-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+71            android:authorities="org.kashmir.heatguard.androidx-startup"
+71-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+72            android:exported="false" >
+72-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+73            <meta-data
+73-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+74                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+74-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+75                android:value="androidx.startup" />
+75-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+76            <meta-data
+76-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1d202b16606c80ba0093e82ba9241039\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+77                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+77-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1d202b16606c80ba0093e82ba9241039\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+78                android:value="androidx.startup" />
+78-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1d202b16606c80ba0093e82ba9241039\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+79            <meta-data
+79-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+80                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+80-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+81                android:value="androidx.startup" />
+81-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+82        </provider>
+83
+84        <receiver
+84-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+85            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+85-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+86            android:directBootAware="false"
+86-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+87            android:enabled="true"
+87-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+88            android:exported="true"
+88-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+89            android:permission="android.permission.DUMP" >
+89-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+90            <intent-filter>
+90-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+91                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+91-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+91-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+92            </intent-filter>
+93            <intent-filter>
+93-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+94                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+94-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+94-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+95            </intent-filter>
+96            <intent-filter>
+96-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+97                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+98            </intent-filter>
+99            <intent-filter>
+99-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+100                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+100-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+100-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+101            </intent-filter>
+102        </receiver>
+103    </application>
+104
+105</manifest>

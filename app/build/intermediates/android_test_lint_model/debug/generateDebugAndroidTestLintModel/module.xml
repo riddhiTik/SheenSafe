@@ -1,6 +1,6 @@
 <lint-module
     format="1"
-    dir="C:\Users\riddh\OneDrive\Desktop\Heatstroke-Help\app"
+    dir="C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app"
     name=":app"
     type="APP"
     maven="HeatGuardKashmir:app:unspecified"

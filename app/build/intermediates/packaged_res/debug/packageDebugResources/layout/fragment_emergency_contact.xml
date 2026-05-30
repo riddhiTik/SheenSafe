@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingBottom="24dp">
+
+        <!-- Back arrow -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Go back"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/primary_dark" />
+
+        <!-- Step label -->
+        <TextView
+            android:id="@+id/tvStepLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/outline"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1"
+            android:fontFamily="sans-serif" />
+
+        <!-- Headline -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/onboarding_contact_title"
+            android:textColor="@color/text_main"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif" />
+
+        <!-- Subtitle -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/onboarding_contact_subtitle"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="15sp"
+            android:lineSpacingMultiplier="1.3"
+            android:fontFamily="sans-serif" />
+
+        <!-- Contact 1 section -->
+        <LinearLayout
+            android:id="@+id/contact1Section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_person"
+                    app:tint="@color/primary_dark" />
+
+                <TextView
+                    android:id="@+id/tvContact1Label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:textColor="@color/outline"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"
+                    android:fontFamily="sans-serif" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/etContact1Name"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_input_field"
+                android:hint="@string/onboarding_contact_name_placeholder"
+                android:inputType="textPersonName|textCapWords"
+                android:paddingHorizontal="20dp"
+                android:textColor="@color/text_main"
+                android:textColorHint="@color/muted"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:imeOptions="actionNext"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/etContact1Phone"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_input_field"
+                android:hint="@string/onboarding_contact_phone_placeholder"
+                android:inputType="phone"
+                android:paddingHorizontal="20dp"
+                android:textColor="@color/text_main"
+                android:textColorHint="@color/muted"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:imeOptions="actionNext"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <!-- Contact 2 section (hidden by default) -->
+        <LinearLayout
+            android:id="@+id/contact2Section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_person"
+                    app:tint="@color/primary_dark" />
+
+                <TextView
+                    android:id="@+id/tvContact2Label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:textColor="@color/outline"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"
+                    android:fontFamily="sans-serif" />
+
+                <ImageButton
+                    android:id="@+id/btnRemoveContact2"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_delete"
+                    android:contentDescription="Remove contact"
+                    app:tint="@color/error_color" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/etContact2Name"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_input_field"
+                android:hint="@string/onboarding_contact_name_placeholder"
+                android:inputType="textPersonName|textCapWords"
+                android:paddingHorizontal="20dp"
+                android:textColor="@color/text_main"
+                android:textColorHint="@color/muted"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:imeOptions="actionNext"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/etContact2Phone"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_input_field"
+                android:hint="@string/onboarding_contact_phone_placeholder"
+                android:inputType="phone"
+                android:paddingHorizontal="20dp"
+                android:textColor="@color/text_main"
+                android:textColorHint="@color/muted"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:imeOptions="actionDone"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <!-- Add Another Contact button -->
+        <LinearLayout
+            android:id="@+id/btnAddContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_add_circle"
+                app:tint="@color/primary_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/onboarding_add_contact"
+                android:textColor="@color/primary_dark"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif" />
+        </LinearLayout>
+
+        <!-- Continue button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnContinue"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/onboarding_continue"
+            android:textColor="@color/on_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            app:backgroundTint="@color/primary_dark"
+            app:cornerRadius="28dp" />
+
+        <!-- Skip for now -->
+        <TextView
+            android:id="@+id/tvSkip"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/onboarding_skip"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif"
+            android:background="?attr/selectableItemBackground" />
+
+        <!-- Privacy card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_feature_card"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/ic_privacy_tip"
+                app:tint="@color/primary_dark" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/onboarding_privacy_title"
+                    android:textColor="@color/primary_dark"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"
+                    android:fontFamily="sans-serif" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/onboarding_privacy_body"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="13sp"
+                    android:lineSpacingMultiplier="1.3"
+                    android:fontFamily="sans-serif" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

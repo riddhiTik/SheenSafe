@@ -54,4 +54,23 @@
         </map>
     </incident>
 
+    <incident
+        id="RtlSymmetry"
+        severity="warning"
+        message="When you define `paddingEnd` you should probably also define `paddingStart` for right-to-left symmetry">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/fragment_about_you.xml"
+            line="93"
+            column="17"
+            startOffset="3564"
+            endLine="93"
+            endColumn="35"
+            endOffset="3582"/>
+        <map>
+            <entry
+                name="applies"
+                int="2"/>
+        </map>
+    </incident>
+
 </incidents>
