@@ -1,0 +1,1089 @@
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\build.gradle.kts:13: Warning: Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details. [OldTargetApi]
+        targetSdk = 35
+        ~~~~~~~~~~~~~~
+
+   Explanation for issues of type "OldTargetApi":
+   When your application or sdk runs on a version of Android that is more
+   recent than your targetSdkVersion specifies that it has been tested with,
+   various compatibility modes kick in. This ensures that your application
+   continues to work, but it may look out of place. For example, if the
+   targetSdkVersion is less than 14, your app may get an option button in the
+   UI.
+
+   To fix this issue, set the targetSdkVersion to the highest available value.
+   Then test your app to make sure everything works correctly. You may want to
+   consult the compatibility notes to see what changes apply to each version
+   you are adding support for:
+   https://developer.android.com/reference/android/os/Build.VERSION_CODES.html
+   as well as follow this guide:
+   https://developer.android.com/distribute/best-practices/develop/target-sdk.
+   html
+
+   https://developer.android.com/distribute/best-practices/develop/target-sdk.html
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\build.gradle.kts:8: Warning: A newer version of compileSdkVersion than 35 is available: 36 [GradleDependency]
+    compileSdk = 35
+    ~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\build.gradle.kts:33: Warning: A newer version of androidx.appcompat:appcompat than 1.7.0 is available: 1.7.1 [GradleDependency]
+    implementation("androidx.appcompat:appcompat:1.7.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\build.gradle.kts:34: Warning: A newer version of com.google.android.material:material than 1.12.0 is available: 1.14.0 [GradleDependency]
+    implementation("com.google.android.material:material:1.12.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\build.gradle.kts:35: Warning: A newer version of androidx.fragment:fragment-ktx than 1.8.4 is available: 1.8.9 [GradleDependency]
+    implementation("androidx.fragment:fragment-ktx:1.8.4")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\build.gradle.kts:36: Warning: A newer version of androidx.core:core-ktx than 1.13.1 is available: 1.18.0 [GradleDependency]
+    implementation("androidx.core:core-ktx:1.13.1")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "GradleDependency":
+   This detector looks for usages of libraries where the version you are using
+   is not the current stable release. Using older versions is fine, and there
+   are cases where you deliberately want to stick with an older version.
+   However, you may simply not be aware that a more recent version is
+   available, and that is what this lint check helps find.
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\service\HeatMonitoringService.kt:47: Warning: Use of scheduleAtFixedRate is strongly discouraged because it can lead to unexpected behavior when Android processes become cached (tasks may unexpectedly execute hundreds or thousands of times in quick succession when a process changes from cached to uncached); prefer using scheduleWithFixedDelay [DiscouragedApi]
+        executor.scheduleAtFixedRate({ assessOnce() }, 0L, 5L, TimeUnit.MINUTES)
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "DiscouragedApi":
+   Discouraged APIs are allowed and are not deprecated, but they may be unfit
+   for common use (e.g. due to slow performance or subtle behavior).
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:45: Error: "simulated_mode_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="simulated_mode_label">Simulated ring mode</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:46: Error: "edit_risk_profile" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="edit_risk_profile">Edit risk profile</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:47: Error: "risk_profile_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="risk_profile_title">Risk Profile</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:48: Error: "age_band_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="age_band_label">Age group</string>
+            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:49: Error: "pregnant_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="pregnant_label">Pregnant</string>
+            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:50: Error: "chronic_illness_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="chronic_illness_label">Chronic illness</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:51: Error: "outdoor_work_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="outdoor_work_label">Outdoor work or travel</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:52: Error: "fasting_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="fasting_label">Fasting or fluid restriction</string>
+            ~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:53: Error: "prior_heat_illness_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="prior_heat_illness_label">Prior heat illness</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:54: Error: "limited_cooling_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="limited_cooling_label">Limited cooling access</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:55: Error: "days_acclimatized_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="days_acclimatized_label">Days acclimatized: %1$d</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:56: Error: "cooling_instructions_header" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="cooling_instructions_header">Cooling instructions</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:57: Error: "data_freshness_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="data_freshness_label">Weather: %1$s min ago | Ring: %2$s min ago</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:58: Error: "data_stale_warning" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="data_stale_warning">Some data is stale</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:61: Error: "onboarding_app_name" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_app_name">Welcome to SheenSafe</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:62: Error: "onboarding_tagline" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_tagline">Your Empathetic Guardian</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:63: Error: "onboarding_choose_language" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_choose_language">Choose your language</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:64: Error: "onboarding_begin_journey" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_begin_journey">Begin your journey →</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:65: Error: "lang_english_name" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="lang_english_name">English</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:66: Error: "lang_english_greeting" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="lang_english_greeting">Welcome</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:67: Error: "lang_hindi_name" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="lang_hindi_name">हिंदी</string>
+            ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:68: Error: "lang_hindi_greeting" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="lang_hindi_greeting">नमस्ते</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:69: Error: "lang_kashmiri_name" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="lang_kashmiri_name">کاشُر</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:70: Error: "lang_kashmiri_greeting" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="lang_kashmiri_greeting">آداب</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:71: Error: "lang_urdu_name" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="lang_urdu_name">اردو</string>
+            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:72: Error: "lang_urdu_greeting" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="lang_urdu_greeting">خوش آمدید</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:75: Error: "onboarding_step_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_step_label">STEP %1$d OF 6</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:76: Error: "onboarding_continue" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_continue">Continue</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:77: Error: "onboarding_skip" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_skip">Skip for now</string>
+            ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:80: Error: "onboarding_name_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_name_title">What should we call you?</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:81: Error: "onboarding_name_subtitle" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_name_subtitle">Your name helps us personalize safety alerts and emergency support.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:82: Error: "onboarding_name_placeholder" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_name_placeholder">e.g. Alex Rivera</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:83: Error: "onboarding_name_privacy" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_name_privacy">Your name is stored securely on this device.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:86: Error: "onboarding_about_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_about_title">Tell us a bit about yourself.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:87: Error: "onboarding_about_subtitle" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_about_subtitle">Age and gender help our risk model better assess your specific heat-stress risks.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:88: Error: "onboarding_age_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_age_label">YOUR AGE</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:89: Error: "onboarding_age_suffix" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_age_suffix">years</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:90: Error: "onboarding_gender_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_gender_label">GENDER IDENTITY</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:91: Error: "onboarding_gender_male" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_gender_male">Male</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:92: Error: "onboarding_gender_female" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_gender_female">Female</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:93: Error: "onboarding_gender_other" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_gender_other">Other</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:96: Error: "onboarding_device_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_device_title">Let\'s find your Guardian device.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:97: Error: "onboarding_device_subtitle" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_device_subtitle">Connecting your watch helps us keep a close eye on your safety.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:98: Error: "onboarding_device_name" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_device_name">Sheen Watch</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:99: Error: "onboarding_device_status" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_device_status">Nearby &amp; Pairing Ready</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:100: Error: "onboarding_device_hint" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_device_hint">Make sure your device is charged and nearby.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:101: Error: "onboarding_connect_device" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_connect_device">Connect Device</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:104: Error: "onboarding_location_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_location_title">Assess local risk.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:105: Error: "onboarding_location_subtitle" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_location_subtitle">SheenSafe uses your location to monitor local weather, humidity, and heat index so we can warn you before conditions become dangerous.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:106: Error: "onboarding_location_feature_weather" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_location_feature_weather">Live Weather</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:107: Error: "onboarding_location_feature_alerts" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_location_feature_alerts">Instant Alerts</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:108: Error: "onboarding_enable_location" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_enable_location">Enable Location</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:109: Error: "onboarding_not_now_later" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_not_now_later">Not now, maybe later</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:112: Error: "onboarding_notifications_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_notifications_title">Stay alerted.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:113: Error: "onboarding_notifications_subtitle" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_notifications_subtitle">We\'ll send hydration reminders and urgent alerts if we detect a high risk of heatstroke.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:114: Error: "onboarding_notif_preview_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_notif_preview_label">REMINDER</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:115: Error: "onboarding_notif_preview_time" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_notif_preview_time">Just now</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:116: Error: "onboarding_notif_preview_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_notif_preview_title">Time for a water break</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:117: Error: "onboarding_notif_preview_body" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_notif_preview_body">It\'s hot outside. Staying hydrated can help reduce your risk of heatstroke.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:118: Error: "onboarding_enable_notifications" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_enable_notifications">Enable Notifications</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:119: Error: "onboarding_not_now" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_not_now">Not now</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:122: Error: "onboarding_contact_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_contact_title">Who should we contact?</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:123: Error: "onboarding_contact_subtitle" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_contact_subtitle">If you ever reach a critical heat-stress level, we will automatically notify your loved ones.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:124: Error: "onboarding_contact_section_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_contact_section_label">CONTACT %1$d</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:125: Error: "onboarding_contact_name_placeholder" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_contact_name_placeholder">Contact Name</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:126: Error: "onboarding_contact_phone_placeholder" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_contact_phone_placeholder">Phone Number</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:127: Error: "onboarding_add_contact" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_add_contact">Add Another Contact</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:128: Error: "onboarding_privacy_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_privacy_title">PRIVACY FIRST</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:129: Error: "onboarding_privacy_body" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="onboarding_privacy_body">Your contact data is only used for safety protocols. We never share this information with third parties.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:132: Error: "dashboard_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="dashboard_title">SheenSafe</string>
+            ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:133: Error: "status_safe_heading" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="status_safe_heading">You\'re safe.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:134: Error: "status_safe_sub" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="status_safe_sub">Body temperature is stable.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:135: Error: "status_check_heading" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="status_check_heading">Check in needed.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:136: Error: "status_check_sub" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="status_check_sub">Monitor your symptoms carefully.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:137: Error: "status_action_heading" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="status_action_heading">Take action now.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:138: Error: "status_action_sub" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="status_action_sub">Move to a cool area immediately.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:139: Error: "status_emergency_heading" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="status_emergency_heading">Emergency detected.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:140: Error: "status_emergency_sub" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="status_emergency_sub">Seek help immediately.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:141: Error: "care_message_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="care_message_title">Heat Safety Tip</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:142: Error: "metric_body_temp" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="metric_body_temp">Body Temp</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:143: Error: "metric_heart_rate" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="metric_heart_rate">Heart Rate</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:144: Error: "metric_humidity" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="metric_humidity">Humidity</string>
+            ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:145: Error: "metric_outside_temp" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="metric_outside_temp">Outside Temp</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:146: Error: "metric_no_data" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="metric_no_data">--</string>
+            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:147: Error: "unit_celsius" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="unit_celsius">°C</string>
+            ~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:148: Error: "unit_bpm" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="unit_bpm"> bpm</string>
+            ~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:149: Error: "unit_percent" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="unit_percent">%</string>
+            ~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:150: Error: "nav_dashboard" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="nav_dashboard">Dashboard</string>
+            ~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:151: Error: "nav_contacts" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="nav_contacts">Contacts</string>
+            ~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:152: Error: "nav_settings" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="nav_settings">Settings</string>
+            ~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:155: Error: "contacts_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="contacts_title">Contacts</string>
+            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:156: Error: "contacts_empty" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="contacts_empty">No emergency contacts set yet.\nAdd contacts during setup or edit in Settings.</string>
+            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:157: Error: "contacts_call_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="contacts_call_label">Call</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:160: Error: "settings_title" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_title">Settings</string>
+            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:161: Error: "settings_watch_connected" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_watch_connected">Sheen Watch Connected</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:162: Error: "settings_watch_battery" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_watch_battery">%1$d%% Battery</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:163: Error: "settings_reconnect" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_reconnect">Reconnect Watch</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:164: Error: "settings_section_alerts" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_section_alerts">ALERTS</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:165: Error: "settings_alert_heat" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_alert_heat">Heat Risk Alerts</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:166: Error: "settings_alert_hydration" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_alert_hydration">Hydration Reminders</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:167: Error: "settings_alert_emergency" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_alert_emergency">Emergency Alerts</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:168: Error: "settings_section_profile" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_section_profile">PROFILE</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:169: Error: "settings_edit_profile" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_edit_profile">Edit Profile</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:170: Error: "settings_name_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_name_label">Name</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:171: Error: "settings_age_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_age_label">Age</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:172: Error: "settings_gender_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_gender_label">Gender</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:173: Error: "settings_section_permissions" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_section_permissions">PERMISSIONS</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:174: Error: "settings_location" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_location">Location</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:175: Error: "settings_notifications_label" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_notifications_label">Notifications</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:176: Error: "settings_permission_enabled" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_permission_enabled">Enabled</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:177: Error: "settings_permission_disabled" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_permission_disabled">Disabled</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:178: Error: "settings_section_app" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_section_app">APP SETTINGS</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:179: Error: "settings_temp_units" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_temp_units">Temperature Units</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:180: Error: "settings_about" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_about">About SheenSafe</string>
+            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:181: Error: "settings_reconnect_toast" is not translated in "hi" (Hindi), "ks" (Kashmiri), "ur" (Urdu) [MissingTranslation]
+    <string name="settings_reconnect_toast">Watch reconnected.</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "MissingTranslation":
+   If an application has more than one locale, then all the strings declared
+   in one language should also be translated in all other languages.
+
+   If the string should not be translated, you can add the attribute
+   translatable="false" on the <string> element, or you can define all your
+   non-translatable strings in a resource file called donottranslate.xml. Or,
+   you can ignore the issue with a tools:ignore="MissingTranslation"
+   attribute.
+
+   You can tell lint (and other tools) which language is the default language
+   in your res/values/ folder by specifying tools:locale="languageCode" for
+   the root <resources> element in your resource file. (The tools prefix
+   refers to the namespace declaration http://schemas.android.com/tools.)
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:19: Warning: The attribute android:allowBackup is deprecated from Android 12 and higher and may be removed in future versions. Consider adding the attribute android:dataExtractionRules specifying an @xml resource which configures cloud backups and device transfers on Android 12 and higher. [DataExtractionRules]
+        android:allowBackup="false"
+                             ~~~~~
+
+   Explanation for issues of type "DataExtractionRules":
+   Before Android 12, the attributes android:allowBackup and
+   android:fullBackupContent were used to configure all forms of backup,
+   including cloud backups, device-to-device transfers and adb backup.
+
+   In Android 12 and higher, these attributes have been deprecated and will
+   only apply to cloud backups. You should instead use the attribute
+   android:dataExtractionRules, specifying an @xml resource that configures
+   which files to back up, for cloud backups and for device-to-device
+   transfers, separately. If your minSdkVersion supports older versions,
+   you'll still want to specify an android:fullBackupContent resource if the
+   default behavior is not right for your app.
+
+   https://developer.android.com/about/versions/12/backup-restore#xml-changes
+   https://goo.gle/DataExtractionRules
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\alerts\EscalationManager.kt:31: Warning: Unnecessary; SDK_INT is always >= 26 [ObsoleteSdkInt]
+        val notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\service\HeatMonitoringService.kt:103: Warning: Unnecessary; SDK_INT is always >= 26 [ObsoleteSdkInt]
+            val notification = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\service\HeatMonitoringService.kt:118: Warning: Unnecessary; SDK_INT is always >= 26 [ObsoleteSdkInt]
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\MainActivity.kt:46: Warning: Unnecessary; SDK_INT is never < 26 [ObsoleteSdkInt]
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\MainActivity.kt:63: Warning: Unnecessary; SDK_INT is always >= 26 [ObsoleteSdkInt]
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(intent) else startService(intent)
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\alerts\NotificationHelper.kt:13: Warning: Unnecessary; SDK_INT is never < 26 [ObsoleteSdkInt]
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "ObsoleteSdkInt":
+   This check flags version checks that are not necessary, because the
+   minSdkVersion (or surrounding known API level) is already at least as high
+   as the version checked for.
+
+   Similarly, it also looks for resources in -vNN folders, such as values-v14
+   where the version qualifier is less than or equal to the minSdkVersion,
+   where the contents should be merged into the best folder.
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:69: Warning: This tag and its children can be replaced by one <TextView/> and a compound drawable [UseCompoundDrawables]
+            <LinearLayout
+             ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_name.xml:81: Warning: This tag and its children can be replaced by one <TextView/> and a compound drawable [UseCompoundDrawables]
+    <LinearLayout
+     ~~~~~~~~~~~~
+
+   Explanation for issues of type "UseCompoundDrawables":
+   A LinearLayout which contains an ImageView and a TextView can be more
+   efficiently handled as a compound drawable (a single TextView, using the
+   drawableTop, drawableLeft, drawableRight and/or drawableBottom attributes
+   to draw one or more images adjacent to the text).
+
+   If the two widgets are offset from each other with margins, this can be
+   replaced with a drawablePadding attribute.
+
+   There's a lint quickfix to perform this conversion in the Eclipse plugin.
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_dashboard.xml:114: Warning: Set android:baselineAligned="false" on this element for better performance [DisableBaselineAlignment]
+            <LinearLayout
+             ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_location_permission.xml:97: Warning: Set android:baselineAligned="false" on this element for better performance [DisableBaselineAlignment]
+    <LinearLayout
+     ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_notification_permission.xml:87: Warning: Set android:baselineAligned="false" on this element for better performance [DisableBaselineAlignment]
+    <LinearLayout
+     ~~~~~~~~~~~~
+
+   Explanation for issues of type "DisableBaselineAlignment":
+   When a LinearLayout is used to distribute the space proportionally between
+   nested layouts, the baseline alignment property should be turned off to
+   make the layout computation faster.
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\activity_main.xml:7: Warning: Possible overdraw: Root element paints background @color/background_light with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_light">
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\activity_onboarding.xml:6: Warning: Possible overdraw: Root element paints background @color/background_light with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_light" />
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:6: Warning: Possible overdraw: Root element paints background @color/background_light with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_light"
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_connect_device.xml:7: Warning: Possible overdraw: Root element paints background @color/background_light with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_light"
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_contacts.xml:7: Warning: Possible overdraw: Root element paints background @color/background_light with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_light">
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_dashboard.xml:6: Warning: Possible overdraw: Root element paints background @color/background_surface with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_surface"
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:6: Warning: Possible overdraw: Root element paints background @color/background_light with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_light"
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_language_selection.xml:7: Warning: Possible overdraw: Root element paints background @color/background_light with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_light">
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_location_permission.xml:7: Warning: Possible overdraw: Root element paints background @color/background_light with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_light"
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_name.xml:7: Warning: Possible overdraw: Root element paints background @color/background_light with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_light"
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_notification_permission.xml:7: Warning: Possible overdraw: Root element paints background @color/background_light with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_light">
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_settings.xml:6: Warning: Possible overdraw: Root element paints background @color/background_light with a theme that also paints a background (inferred theme is @style/AppTheme) [Overdraw]
+    android:background="@color/background_light">
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "Overdraw":
+   If you set a background drawable on a root view, then you should use a
+   custom theme where the theme background is null. Otherwise, the theme
+   background will be painted first, only to have your custom background
+   completely cover it; this is called "overdraw".
+
+   NOTE: This detector relies on figuring out which layouts are associated
+   with which activities based on scanning the Java code, and it's currently
+   doing that using an inexact pattern matching algorithm. Therefore, it can
+   incorrectly conclude which activity the layout is associated with and then
+   wrongly complain that a background-theme is hidden.
+
+   If you want your custom background on multiple pages, then you should
+   consider making a custom theme with your custom background and just using
+   that theme instead of a root element background.
+
+   Of course it's possible that your custom drawable is translucent and you
+   want it to be mixed with the background. However, you will get better
+   performance if you pre-mix the background with your drawable and use that
+   resulting image or color as a custom theme background instead.
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\drawable\bg_section_card.xml:2: Warning: The resource R.drawable.bg_section_card appears to be unused [UnusedResources]
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+^
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\colors.xml:15: Warning: The resource R.color.surface_container appears to be unused [UnusedResources]
+    <color name="surface_container">#CFF7DE</color>
+           ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\colors.xml:32: Warning: The resource R.color.nav_border appears to be unused [UnusedResources]
+    <color name="nav_border">#E7F3EB</color>
+           ~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:4: Warning: The resource R.string.state_safe appears to be unused [UnusedResources]
+    <string name="state_safe">SAFE</string>
+            ~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:5: Warning: The resource R.string.state_check appears to be unused [UnusedResources]
+    <string name="state_check">CHECK</string>
+            ~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:6: Warning: The resource R.string.state_action appears to be unused [UnusedResources]
+    <string name="state_action">ACTION</string>
+            ~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:7: Warning: The resource R.string.state_emergency appears to be unused [UnusedResources]
+    <string name="state_emergency">EMERGENCY</string>
+            ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:8: Warning: The resource R.string.i_am_safe appears to be unused [UnusedResources]
+    <string name="i_am_safe">I am safe</string>
+            ~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:9: Warning: The resource R.string.report_symptoms appears to be unused [UnusedResources]
+    <string name="report_symptoms">Report symptoms</string>
+            ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:10: Warning: The resource R.string.manual_emergency appears to be unused [UnusedResources]
+    <string name="manual_emergency">Emergency now</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:11: Warning: The resource R.string.call_contact appears to be unused [UnusedResources]
+    <string name="call_contact">Call emergency contact</string>
+            ~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:17: Warning: The resource R.string.contact_name appears to be unused [UnusedResources]
+    <string name="contact_name">Contact name</string>
+            ~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:18: Warning: The resource R.string.contact_phone appears to be unused [UnusedResources]
+    <string name="contact_phone">Contact phone</string>
+            ~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:25: Warning: The resource R.string.unknown appears to be unused [UnusedResources]
+    <string name="unknown">unknown</string>
+            ~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:26: Warning: The resource R.string.confidence_label appears to be unused [UnusedResources]
+    <string name="confidence_label">Confidence: %1$s</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:27: Warning: The resource R.string.heat_index_label appears to be unused [UnusedResources]
+    <string name="heat_index_label">Heat index</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:28: Warning: The resource R.string.ring_age_label appears to be unused [UnusedResources]
+    <string name="ring_age_label">Ring data age</string>
+            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:29: Warning: The resource R.string.weather_age_label appears to be unused [UnusedResources]
+    <string name="weather_age_label">Weather data age</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:30: Warning: The resource R.string.reasons_label appears to be unused [UnusedResources]
+    <string name="reasons_label">Reasons</string>
+            ~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:34: Warning: The resource R.string.symptom_thirst appears to be unused [UnusedResources]
+    <string name="symptom_thirst">Thirst</string>
+            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:35: Warning: The resource R.string.symptom_headache appears to be unused [UnusedResources]
+    <string name="symptom_headache">Headache</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:36: Warning: The resource R.string.symptom_nausea appears to be unused [UnusedResources]
+    <string name="symptom_nausea">Nausea</string>
+            ~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:37: Warning: The resource R.string.symptom_dizziness appears to be unused [UnusedResources]
+    <string name="symptom_dizziness">Dizziness</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:38: Warning: The resource R.string.symptom_weakness appears to be unused [UnusedResources]
+    <string name="symptom_weakness">Weakness</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:39: Warning: The resource R.string.symptom_heavy_sweating appears to be unused [UnusedResources]
+    <string name="symptom_heavy_sweating">Heavy sweating</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:40: Warning: The resource R.string.symptom_confusion appears to be unused [UnusedResources]
+    <string name="symptom_confusion">Confusion</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:41: Warning: The resource R.string.symptom_slurred_speech appears to be unused [UnusedResources]
+    <string name="symptom_slurred_speech">Slurred speech</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:42: Warning: The resource R.string.symptom_fainting appears to be unused [UnusedResources]
+    <string name="symptom_fainting">Fainting</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:43: Warning: The resource R.string.symptom_seizure appears to be unused [UnusedResources]
+    <string name="symptom_seizure">Seizure</string>
+            ~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:44: Warning: The resource R.string.symptom_cannot_stand appears to be unused [UnusedResources]
+    <string name="symptom_cannot_stand">Cannot stand</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:45: Warning: The resource R.string.simulated_mode_label appears to be unused [UnusedResources]
+    <string name="simulated_mode_label">Simulated ring mode</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:46: Warning: The resource R.string.edit_risk_profile appears to be unused [UnusedResources]
+    <string name="edit_risk_profile">Edit risk profile</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:56: Warning: The resource R.string.cooling_instructions_header appears to be unused [UnusedResources]
+    <string name="cooling_instructions_header">Cooling instructions</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:57: Warning: The resource R.string.data_freshness_label appears to be unused [UnusedResources]
+    <string name="data_freshness_label">Weather: %1$s min ago | Ring: %2$s min ago</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:58: Warning: The resource R.string.data_stale_warning appears to be unused [UnusedResources]
+    <string name="data_stale_warning">Some data is stale</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:157: Warning: The resource R.string.contacts_call_label appears to be unused [UnusedResources]
+    <string name="contacts_call_label">Call</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\values\strings.xml:162: Warning: The resource R.string.settings_watch_battery appears to be unused [UnusedResources]
+    <string name="settings_watch_battery">%1$d%% Battery</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UnusedResources":
+   Unused resources make applications larger and slow down builds.
+
+
+   The unused resource check can ignore tests. If you want to include
+   resources that are only referenced from tests, consider packaging them in a
+   test source set instead.
+
+   You can include test sources in the unused resource check by setting the
+   system property lint.unused-resources.include-tests =true, and to exclude
+   them (usually for performance reasons), use
+   lint.unused-resources.exclude-tests =true.
+   ,
+
+   Available options:
+
+   **skip-libraries** (default is true):
+   Whether the unused resource check should skip reporting unused resources in libraries.
+
+   Many libraries will declare resources that are part of the library surface; other modules depending on the library will also reference the resources. To avoid reporting all these resources as unused (in the context of a library), the unused resource check normally skips reporting unused resources in libraries. Instead, run the unused resource check on the consuming app module (along with `checkDependencies=true`).
+
+   However, there are cases where you want to check that all the resources declared in a library are used; in that case, you can disable the skip option.
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UnusedResources">
+           <option name="skip-libraries" value="true" />
+       </issue>
+   </lint>
+   ```
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:130: Warning: This LinearLayout layout or its FrameLayout parent is unnecessary; transfer the background attribute to the other view [UselessParent]
+            <LinearLayout
+             ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:180: Warning: This LinearLayout layout or its FrameLayout parent is unnecessary; transfer the background attribute to the other view [UselessParent]
+            <LinearLayout
+             ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:230: Warning: This LinearLayout layout or its FrameLayout parent is unnecessary; transfer the background attribute to the other view [UselessParent]
+            <LinearLayout
+             ~~~~~~~~~~~~
+
+   Explanation for issues of type "UselessParent":
+   A layout with children that has no siblings, is not a scrollview or a root
+   layout, and does not have a background, can be removed and have its
+   children moved directly into the parent for a flatter and more efficient
+   layout hierarchy.
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:17: Warning: Should explicitly set android:icon, there is no default [MissingApplicationIcon]
+    <application
+     ~~~~~~~~~~~
+
+   Explanation for issues of type "MissingApplicationIcon":
+   You should set an icon for the application as whole because there is no
+   default. This attribute must be set as a reference to a drawable resource
+   containing the image (for example @drawable/icon).
+
+   https://developer.android.com/studio/publish/preparing#publishing-configure
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:80: Warning: Missing autofillHints attribute [Autofill]
+            <EditText
+             ~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:93: Warning: Missing autofillHints attribute [Autofill]
+            <EditText
+             ~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:109: Warning: Missing autofillHints attribute [Autofill]
+            <EditText
+             ~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:169: Warning: Missing autofillHints attribute [Autofill]
+            <EditText
+             ~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:185: Warning: Missing autofillHints attribute [Autofill]
+            <EditText
+             ~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_name.xml:64: Warning: Missing autofillHints attribute [Autofill]
+    <EditText
+     ~~~~~~~~
+
+   Explanation for issues of type "Autofill":
+   Specify an autofillHints attribute when targeting SDK version 26 or higher
+   or explicitly specify that the view is not important for autofill. Your app
+   can help an autofill service classify the data correctly by providing the
+   meaning of each view that could be autofillable, such as views representing
+   usernames, passwords, credit card fields, email addresses, etc.
+
+   The hints can have any value, but it is recommended to use predefined
+   values like 'username' for a username or 'creditCardNumber' for a credit
+   card number. For a list of all predefined autofill hint constants, see the
+   AUTOFILL_HINT_ constants in the View reference at
+   https://developer.android.com/reference/android/view/View.html.
+
+   You can mark a view unimportant for autofill by specifying an
+   importantForAutofill attribute on that view or a parent view. See
+   https://developer.android.com/reference/android/view/View.html#setImportant
+   ForAutofill(int).
+
+   https://developer.android.com/guide/topics/text/autofill.html
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:18: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:31: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:50: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:63: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:87: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:110: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:120: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putBoolean(KEY_ONBOARDING_DONE, true).apply()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:126: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putString(KEY_LANGUAGE, code).apply()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:130: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+    fun setUserName(name: String) { prefs.edit().putString(KEY_USER_NAME, name.trim()).apply() }
+                                    ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:140: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:147: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+    fun setUserGender(gender: String) { prefs.edit().putString(KEY_USER_GENDER, gender).apply() }
+                                        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:151: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:160: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:167: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+    fun setAlertHeatRisk(on: Boolean) { prefs.edit().putBoolean(KEY_ALERT_HEAT_RISK, on).apply() }
+                                        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:169: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+    fun setAlertHydration(on: Boolean) { prefs.edit().putBoolean(KEY_ALERT_HYDRATION, on).apply() }
+                                         ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:171: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+    fun setAlertEmergency(on: Boolean) { prefs.edit().putBoolean(KEY_ALERT_EMERGENCY, on).apply() }
+                                         ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:173: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+    fun setTempUnit(unit: String) { prefs.edit().putString(KEY_TEMP_UNIT, unit).apply() }
+                                    ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:178: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putBoolean(key, value).apply()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\data\AppRepository.kt:182: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().clear().apply()
+        ~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\ContactsFragment.kt:65: Warning: Use the KTX extension function String.toUri instead? [UseKtx]
+        startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone")))
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\DashboardFragment.kt:109: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                heroCard.setCardBackgroundColor(Color.parseColor("#1A19E661"))
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\DashboardFragment.kt:110: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                heroCard.strokeColor = Color.parseColor("#3319E661")
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\DashboardFragment.kt:110: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                heroCard.strokeColor = Color.parseColor("#3319E661")
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\DashboardFragment.kt:118: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                heroCard.strokeColor = Color.parseColor("#4DF4A261")
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\DashboardFragment.kt:118: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                heroCard.strokeColor = Color.parseColor("#4DF4A261")
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\DashboardFragment.kt:126: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                heroCard.strokeColor = Color.parseColor("#4DE07A5F")
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\DashboardFragment.kt:126: Warning: Use the KTX extension function String.toColorInt instead? [UseKtx]
+                heroCard.strokeColor = Color.parseColor("#4DE07A5F")
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\onboarding\EmergencyContactFragment.kt:51: Warning: Use the KTX extension property View.isVisible instead? [UseKtx]
+            val name2 = if (contact2Section.visibility == View.VISIBLE)
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\ui\onboarding\EmergencyContactFragment.kt:53: Warning: Use the KTX extension property View.isVisible instead? [UseKtx]
+            val phone2 = if (contact2Section.visibility == View.VISIBLE)
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\java\org\kashmir\heatguard\alerts\EscalationManager.kt:48: Warning: Use the KTX extension function String.toUri instead? [UseKtx]
+        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${Uri.encode(phone)}"))
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UseKtx":
+   The Android KTX libraries decorates the Android platform SDK as well as
+   various libraries with more convenient extension functions available from
+   Kotlin, allowing you to use default parameters, named parameters, and
+   more.
+
+   Available options:
+
+   **remove-defaults** (default is true):
+   Whether to skip arguments that match the defaults provided by the extension.
+
+   Extensions often provide default values for some of the parameters. For example:
+   ```kotlin
+   fun Path.readLines(charset: Charset = Charsets.UTF_8): List<String> { return Files.readAllLines(this, charset) }
+   ```
+   This lint check will by default automatically omit parameters that match the default, so if your code was calling
+
+   ```kotlin
+   Files.readAllLines(file, Charset.UTF_8)
+   ```
+   lint would replace this with
+   ```kotlin
+   file.readLines()
+   ```
+   rather than
+
+   ```kotlin
+   file.readLines(Charset.UTF_8
+   ```
+   You can turn this behavior off using this option.
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="remove-defaults" value="true" />
+       </issue>
+   </lint>
+   ```
+
+   **require-present** (default is true):
+   Whether to only offer extensions already available.
+
+   This option lets you only have lint suggest extension replacements if those extensions are already available on the class path (in other words, you're already depending on the library containing the extension method.)
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="require-present" value="true" />
+       </issue>
+   </lint>
+   ```
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:141: Warning: Missing contentDescription attribute on image [ContentDescription]
+                    <ImageView
+                     ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:160: Warning: Missing contentDescription attribute on image [ContentDescription]
+                <ImageView
+                 ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:191: Warning: Missing contentDescription attribute on image [ContentDescription]
+                    <ImageView
+                     ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:210: Warning: Missing contentDescription attribute on image [ContentDescription]
+                <ImageView
+                 ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:241: Warning: Missing contentDescription attribute on image [ContentDescription]
+                    <ImageView
+                     ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:260: Warning: Missing contentDescription attribute on image [ContentDescription]
+                <ImageView
+                 ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_connect_device.xml:52: Warning: Missing contentDescription attribute on image [ContentDescription]
+            <ImageView
+             ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_connect_device.xml:121: Warning: Missing contentDescription attribute on image [ContentDescription]
+            <ImageView
+             ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_connect_device.xml:155: Warning: Missing contentDescription attribute on image [ContentDescription]
+        <ImageView
+         ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_contacts.xml:43: Warning: Missing contentDescription attribute on image [ContentDescription]
+                    <ImageView
+                     ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_contacts.xml:108: Warning: Missing contentDescription attribute on image [ContentDescription]
+                    <ImageView
+                     ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_contacts.xml:171: Warning: Missing contentDescription attribute on image [ContentDescription]
+                    <ImageView
+                     ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_dashboard.xml:72: Warning: Missing contentDescription attribute on image [ContentDescription]
+                    <ImageView
+                     ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_dashboard.xml:125: Warning: Missing contentDescription attribute on image [ContentDescription]
+                    <ImageView
+                     ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_dashboard.xml:192: Warning: Missing contentDescription attribute on image [ContentDescription]
+                        <ImageView
+                         ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_dashboard.xml:256: Warning: Missing contentDescription attribute on image [ContentDescription]
+                        <ImageView
+                         ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_dashboard.xml:319: Warning: Missing contentDescription attribute on image [ContentDescription]
+                        <ImageView
+                         ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_dashboard.xml:382: Warning: Missing contentDescription attribute on image [ContentDescription]
+                        <ImageView
+                         ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:75: Warning: Missing contentDescription attribute on image [ContentDescription]
+                <ImageView
+                 ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:141: Warning: Missing contentDescription attribute on image [ContentDescription]
+                <ImageView
+                 ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:215: Warning: Missing contentDescription attribute on image [ContentDescription]
+            <ImageView
+             ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:268: Warning: Missing contentDescription attribute on image [ContentDescription]
+            <ImageView
+             ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_location_permission.xml:50: Warning: Missing contentDescription attribute on image [ContentDescription]
+            <ImageView
+             ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_location_permission.xml:112: Warning: Missing contentDescription attribute on image [ContentDescription]
+            <ImageView
+             ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_location_permission.xml:138: Warning: Missing contentDescription attribute on image [ContentDescription]
+            <ImageView
+             ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_name.xml:88: Warning: Missing contentDescription attribute on image [ContentDescription]
+        <ImageView
+         ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_notification_permission.xml:51: Warning: Missing contentDescription attribute on image [ContentDescription]
+        <ImageView
+         ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_notification_permission.xml:100: Warning: Missing contentDescription attribute on image [ContentDescription]
+            <ImageView
+             ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_settings.xml:38: Warning: Missing contentDescription attribute on image [ContentDescription]
+                <ImageView
+                 ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_settings.xml:67: Warning: Missing contentDescription attribute on image [ContentDescription]
+                    <ImageView
+                     ~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_settings.xml:519: Warning: Missing contentDescription attribute on image [ContentDescription]
+                    <ImageView
+                     ~~~~~~~~~
+
+   Explanation for issues of type "ContentDescription":
+   Non-textual widgets like ImageViews and ImageButtons should use the
+   contentDescription attribute to specify a textual description of the widget
+   such that screen readers and other accessibility tools can adequately
+   describe the user interface.
+
+   Note that elements in application screens that are purely decorative and do
+   not provide any content or enable a user action should not have
+   accessibility content descriptions. In this case, set their descriptions to
+   @null. If your app's minSdkVersion is 16 or higher, you can instead set
+   these graphical elements' android:importantForAccessibility attributes to
+   no.
+
+   Note that for text fields, you should not set both the hint and the
+   contentDescription attributes since the hint will never be shown. Just set
+   the hint.
+
+   https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:23: Warning: Hardcoded string "Go back", should use @string resource [HardcodedText]
+            android:contentDescription="Go back"
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:86: Warning: Hardcoded string "00", should use @string resource [HardcodedText]
+                android:hint="00"
+                ~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_connect_device.xml:17: Warning: Hardcoded string "Go back", should use @string resource [HardcodedText]
+        android:contentDescription="Go back"
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_contacts.xml:203: Warning: Hardcoded string "Add contact", should use @string resource [HardcodedText]
+        android:contentDescription="Add contact"
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_dashboard.xml:42: Warning: Hardcoded string "Notifications", should use @string resource [HardcodedText]
+                android:contentDescription="Notifications"
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:23: Warning: Hardcoded string "Go back", should use @string resource [HardcodedText]
+            android:contentDescription="Go back"
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_emergency_contact.xml:165: Warning: Hardcoded string "Remove contact", should use @string resource [HardcodedText]
+                    android:contentDescription="Remove contact"
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_location_permission.xml:17: Warning: Hardcoded string "Go back", should use @string resource [HardcodedText]
+        android:contentDescription="Go back"
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_name.xml:17: Warning: Hardcoded string "Go back", should use @string resource [HardcodedText]
+        android:contentDescription="Go back"
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_notification_permission.xml:23: Warning: Hardcoded string "Go back", should use @string resource [HardcodedText]
+            android:contentDescription="Go back"
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_settings.xml:96: Warning: Hardcoded string "85% Battery", should use @string resource [HardcodedText]
+                        android:text="85% Battery"
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_settings.xml:473: Warning: Hardcoded string "°C", should use @string resource [HardcodedText]
+                            android:text="°C"
+                            ~~~~~~~~~~~~~~~~~
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_settings.xml:486: Warning: Hardcoded string "°F", should use @string resource [HardcodedText]
+                            android:text="°F"
+                            ~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "HardcodedText":
+   Hardcoding text attributes directly in layout files is bad for several
+   reasons:
+
+   * When creating configuration variations (for example for landscape or
+   portrait) you have to repeat the actual text (and keep it up to date when
+   making changes)
+
+   * The application cannot be translated to other languages by just adding
+   new translations for existing string resources.
+
+   There are quickfixes to automatically extract this hardcoded string into a
+   resource lookup.
+
+C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\res\layout\fragment_about_you.xml:93: Warning: When you define paddingEnd you should probably also define paddingStart for right-to-left symmetry [RtlSymmetry]
+                android:paddingEnd="64dp"
+                ~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "RtlSymmetry":
+   If you specify padding or margin on the left side of a layout, you should
+   probably also specify padding on the right side (and vice versa) for
+   right-to-left layout symmetry.
+
+115 errors, 153 warnings

@@ -1,162 +1,254 @@
 [
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_bg_notification_card.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/bg_notification_card.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_check_circle.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_check_circle.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_transgender.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_transgender.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_lock.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_lock.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_water_drop.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_water_drop.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_location_on.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_location_on.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_check_circle.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_check_circle.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_add_circle.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_add_circle.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_arrow_back.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_arrow_back.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_chevron_right.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_chevron_right.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/layout_activity_onboarding.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/layout/activity_onboarding.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_fragment_settings.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\fragment_settings.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/layout_fragment_connect_device.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/layout/fragment_connect_device.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\anim_slide_in_right.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\anim\\slide_in_right.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/layout_fragment_emergency_contact.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/layout/fragment_emergency_contact.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_icon_square.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_icon_square.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/layout_fragment_notification_permission.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/layout/fragment_notification_permission.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_arrow_back.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_arrow_back.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_lock.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_lock.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_fragment_about_you.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\fragment_about_you.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_add_circle.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_add_circle.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_fragment_name.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\fragment_name.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_arrow_forward.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_arrow_forward.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_fragment_notification_permission.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\fragment_notification_permission.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_bg_input_field.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/bg_input_field.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_fragment_location_permission.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\fragment_location_permission.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_bg_gender_card_default.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/bg_gender_card_default.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\color_btn_primary_tint.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\color\\btn_primary_tint.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/color_btn_primary_tint.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/color/btn_primary_tint.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_temp_toggle_active.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_temp_toggle_active.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_male.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_male.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\anim_slide_in_left.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\anim\\slide_in_left.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_bg_scan_dot.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/bg_scan_dot.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_group.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_group.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_watch.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_watch.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_favorite.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_favorite.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_person_avatar.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_person_avatar.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_fragment_contacts.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\fragment_contacts.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_cloud.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_cloud.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_initials_avatar.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_initials_avatar.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_bg_feature_card.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/bg_feature_card.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_gender_card_selected.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_gender_card_selected.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_privacy_tip.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_privacy_tip.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_gender_card_default.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_gender_card_default.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_notifications.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_notifications.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_scan_dot.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_scan_dot.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/anim_slide_out_left.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/anim/slide_out_left.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_cell_tower.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_cell_tower.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_cell_tower.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_cell_tower.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_sunny.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_sunny.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/layout_fragment_location_permission.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/layout/fragment_location_permission.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_fragment_dashboard.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\fragment_dashboard.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/anim_slide_out_right.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/anim/slide_out_right.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_pulse_ring.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_pulse_ring.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_female.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_female.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_home.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_home.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_bg_white_circle.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/bg_white_circle.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_settings_gear.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_settings_gear.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_person.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_person.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_fragment_emergency_contact.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\fragment_emergency_contact.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/anim_slide_in_left.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/anim/slide_in_left.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_notifications.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_notifications.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/anim_slide_in_right.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/anim/slide_in_right.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_female.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_female.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/layout_fragment_language_selection.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/layout/fragment_language_selection.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_permission_chip_disabled.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_permission_chip_disabled.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_bg_pulse_ring.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/bg_pulse_ring.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\anim_slide_out_right.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\anim\\slide_out_right.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_location_on.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_location_on.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_warning_filled.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_warning_filled.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_bg_avatar_circle.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/bg_avatar_circle.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_ecg_heart.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_ecg_heart.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_bg_gender_card_selected.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/bg_gender_card_selected.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_notification_card.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_notification_card.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/drawable_ic_delete.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/drawable/ic_delete.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_thermostat_dash.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_thermostat_dash.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/layout_fragment_about_you.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/layout/fragment_about_you.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\activity_main.xml"
     },
     {
-        "merged": "org.kashmir.heatguard.app-debug-37:/layout_fragment_name.xml.flat",
-        "source": "org.kashmir.heatguard.app-main-39:/layout/fragment_name.xml"
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_section_card.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_section_card.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_watch.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_watch.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_arrow_forward.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_arrow_forward.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_person_avatar.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_person_avatar.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_transgender.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_transgender.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\color_bottom_nav_color.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\color\\bottom_nav_color.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_male.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_male.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_delete.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_delete.xml"
+    },
+    {
+        "merged": "org.kashmir.heatguard.app-debug-37:/layout_fragment_dashboard.xml.flat",
+        "source": "org.kashmir.heatguard.app-main-39:/layout/fragment_dashboard.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_white_circle.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_white_circle.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\menu_bottom_nav_menu.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\menu\\bottom_nav_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_permission_chip_enabled.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_permission_chip_enabled.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_feature_card.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_feature_card.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_input_field.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_input_field.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_notif_btn.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_notif_btn.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_person.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_person.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\anim_slide_out_left.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\anim\\slide_out_left.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_fragment_language_selection.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\fragment_language_selection.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_fragment_connect_device.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\fragment_connect_device.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_privacy_tip.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_privacy_tip.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_water_drop.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_water_drop.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_ic_cloud.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\ic_cloud.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\drawable_bg_avatar_circle.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\drawable\\bg_avatar_circle.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-debug-37:\\layout_activity_onboarding.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\9.0.0\\org.kashmir.heatguard.app-main-39:\\layout\\activity_onboarding.xml"
     }
 ]

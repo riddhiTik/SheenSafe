@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.kashmir.heatguard.core.integration.HeatCrisisScenarioTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-05-31T01:25:39.654Z" hostname="DESKTOP-4OLVILP" time="0.004">
+  <properties/>
+  <testcase name="scenario4_staleRingHotWeatherNotSilentlySafe" classname="org.kashmir.heatguard.core.integration.HeatCrisisScenarioTest" time="0.002"/>
+  <testcase name="scenario5_manualEmergencyOverridesEverything" classname="org.kashmir.heatguard.core.integration.HeatCrisisScenarioTest" time="0.0"/>
+  <testcase name="scenario1_safeConditions" classname="org.kashmir.heatguard.core.integration.HeatCrisisScenarioTest" time="0.0"/>
+  <testcase name="scenario2_risingPhysiologyIsCheck" classname="org.kashmir.heatguard.core.integration.HeatCrisisScenarioTest" time="0.0"/>
+  <testcase name="scenario3_noResponseWithHotEnvIsEmergency" classname="org.kashmir.heatguard.core.integration.HeatCrisisScenarioTest" time="0.0"/>
+  <testcase name="scenario6_antiSpamSuppressesRepeatNotification" classname="org.kashmir.heatguard.core.integration.HeatCrisisScenarioTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

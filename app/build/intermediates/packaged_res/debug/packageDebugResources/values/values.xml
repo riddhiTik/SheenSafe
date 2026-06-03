@@ -1,32 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="background_dark">#112117</color>
     <color name="background_light">#FDFBF7</color>
+    <color name="background_surface">#F6F8F6</color>
     <color name="card_selected_bg">#0D19E661</color>
     <color name="card_stroke_default">#4DE7C6A3</color>
+    <color name="critical_color">#E07A5F</color>
     <color name="error_color">#BA1A1A</color>
     <color name="muted">#A3B1A8</color>
+    <color name="nav_border">#E7F3EB</color>
     <color name="on_primary">#FFFFFF</color>
     <color name="on_surface_variant">#3C4B3B</color>
     <color name="outline">#6B7B6A</color>
     <color name="outline_variant">#BACBB7</color>
     <color name="primary">#19E661</color>
     <color name="primary_dark">#006E29</color>
+    <color name="risk_action_bg">#FFF3E0</color>
+    <color name="risk_check_bg">#FFF8E1</color>
+    <color name="risk_emergency_bg">#FFEBEE</color>
+    <color name="sage">#7B9E87</color>
     <color name="surface">#E7C6A3</color>
     <color name="surface_container">#CFF7DE</color>
     <color name="surface_container_lowest">#FFFFFF</color>
     <color name="text_main">#2A4D3B</color>
     <color name="text_on_primary">#0E1B12</color>
+    <color name="warning_color">#F4A261</color>
     <color name="white">#FFFFFF</color>
     <string name="age_band_label">Age group</string>
     <string name="app_name">HeatGuard Kashmir</string>
     <string name="call_contact">Call emergency contact</string>
     <string name="cancel">Cancel</string>
+    <string name="care_message_title">Heat Safety Tip</string>
     <string name="chronic_illness_label">Chronic illness</string>
     <string name="confidence_label">Confidence: %1$s</string>
     <string name="contact_label">Contact</string>
     <string name="contact_name">Contact name</string>
     <string name="contact_phone">Contact phone</string>
+    <string name="contacts_call_label">Call</string>
+    <string name="contacts_empty">No emergency contacts set yet.\nAdd contacts during setup or edit in Settings.</string>
+    <string name="contacts_title">Contacts</string>
     <string name="cooling_instructions_header">Cooling instructions</string>
+    <string name="dashboard_title">SheenSafe</string>
     <string name="data_freshness_label">Weather: %1$s min ago | Ring: %2$s min ago</string>
     <string name="data_stale_warning">Some data is stale</string>
     <string name="days_acclimatized_label">Days acclimatized: %1$d</string>
@@ -46,6 +60,14 @@
     <string name="lang_urdu_name">اردو</string>
     <string name="limited_cooling_label">Limited cooling access</string>
     <string name="manual_emergency">Emergency now</string>
+    <string name="metric_body_temp">Body Temp</string>
+    <string name="metric_heart_rate">Heart Rate</string>
+    <string name="metric_humidity">Humidity</string>
+    <string name="metric_no_data">--</string>
+    <string name="metric_outside_temp">Outside Temp</string>
+    <string name="nav_contacts">Contacts</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_settings">Settings</string>
     <string name="onboarding_about_subtitle">Age and gender help our risk model better assess your specific heat-stress risks.</string>
     <string name="onboarding_about_title">Tell us a bit about yourself.</string>
     <string name="onboarding_add_contact">Add Another Contact</string>
@@ -104,6 +126,28 @@
     <string name="save">Save</string>
     <string name="set_contact">Set emergency contact</string>
     <string name="set_weather">Set local weather</string>
+    <string name="settings_about">About SheenSafe</string>
+    <string name="settings_age_label">Age</string>
+    <string name="settings_alert_emergency">Emergency Alerts</string>
+    <string name="settings_alert_heat">Heat Risk Alerts</string>
+    <string name="settings_alert_hydration">Hydration Reminders</string>
+    <string name="settings_edit_profile">Edit Profile</string>
+    <string name="settings_gender_label">Gender</string>
+    <string name="settings_location">Location</string>
+    <string name="settings_name_label">Name</string>
+    <string name="settings_notifications_label">Notifications</string>
+    <string name="settings_permission_disabled">Disabled</string>
+    <string name="settings_permission_enabled">Enabled</string>
+    <string name="settings_reconnect">Reconnect Watch</string>
+    <string name="settings_reconnect_toast">Watch reconnected.</string>
+    <string name="settings_section_alerts">ALERTS</string>
+    <string name="settings_section_app">APP SETTINGS</string>
+    <string name="settings_section_permissions">PERMISSIONS</string>
+    <string name="settings_section_profile">PROFILE</string>
+    <string name="settings_temp_units">Temperature Units</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_watch_battery">%1$d%% Battery</string>
+    <string name="settings_watch_connected">Sheen Watch Connected</string>
     <string name="share_alert">Share alert</string>
     <string name="share_emergency_prefix">HeatGuard alert. The user may need help.</string>
     <string name="simulated_mode_label">Simulated ring mode</string>
@@ -111,7 +155,15 @@
     <string name="state_check">CHECK</string>
     <string name="state_emergency">EMERGENCY</string>
     <string name="state_safe">SAFE</string>
+    <string name="status_action_heading">Take action now.</string>
+    <string name="status_action_sub">Move to a cool area immediately.</string>
+    <string name="status_check_heading">Check in needed.</string>
+    <string name="status_check_sub">Monitor your symptoms carefully.</string>
+    <string name="status_emergency_heading">Emergency detected.</string>
+    <string name="status_emergency_sub">Seek help immediately.</string>
     <string name="status_label">Status</string>
+    <string name="status_safe_heading">You\'re safe.</string>
+    <string name="status_safe_sub">Body temperature is stable.</string>
     <string name="symptom_cannot_stand">Cannot stand</string>
     <string name="symptom_confusion">Confusion</string>
     <string name="symptom_dizziness">Dizziness</string>
@@ -124,6 +176,9 @@
     <string name="symptom_thirst">Thirst</string>
     <string name="symptom_weakness">Weakness</string>
     <string name="temperature_c">Temperature °C</string>
+    <string name="unit_bpm"> bpm</string>
+    <string name="unit_celsius">°C</string>
+    <string name="unit_percent">%</string>
     <string name="unknown">unknown</string>
     <string name="volunteer_stub">Prototype assigned-user queue. Replace demo rows with backend or local family-mode records.</string>
     <string name="volunteer_view">Volunteer view</string>
@@ -134,5 +189,10 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/text_main</item>
         <item name="colorAccent">@color/primary</item>
+    </style>
+    <style name="SwitchGreen" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary</item>
+        <item name="colorControlActivated">@color/primary</item>
     </style>
 </resources>

@@ -7,4 +7,10 @@
         <item name="colorPrimaryDark">@color/text_main</item>
         <item name="colorAccent">@color/primary</item>
     </style>
+
+    <style name="SwitchGreen" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary</item>
+        <item name="colorControlActivated">@color/primary</item>
+    </style>
 </resources>

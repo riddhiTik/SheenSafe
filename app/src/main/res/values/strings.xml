@@ -127,4 +127,56 @@
     <string name="onboarding_add_contact">Add Another Contact</string>
     <string name="onboarding_privacy_title">PRIVACY FIRST</string>
     <string name="onboarding_privacy_body">Your contact data is only used for safety protocols. We never share this information with third parties.</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">SheenSafe</string>
+    <string name="status_safe_heading">You\'re safe.</string>
+    <string name="status_safe_sub">Body temperature is stable.</string>
+    <string name="status_check_heading">Check in needed.</string>
+    <string name="status_check_sub">Monitor your symptoms carefully.</string>
+    <string name="status_action_heading">Take action now.</string>
+    <string name="status_action_sub">Move to a cool area immediately.</string>
+    <string name="status_emergency_heading">Emergency detected.</string>
+    <string name="status_emergency_sub">Seek help immediately.</string>
+    <string name="care_message_title">Heat Safety Tip</string>
+    <string name="metric_body_temp">Body Temp</string>
+    <string name="metric_heart_rate">Heart Rate</string>
+    <string name="metric_humidity">Humidity</string>
+    <string name="metric_outside_temp">Outside Temp</string>
+    <string name="metric_no_data">--</string>
+    <string name="unit_celsius">°C</string>
+    <string name="unit_bpm"> bpm</string>
+    <string name="unit_percent">%</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_contacts">Contacts</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Contacts tab -->
+    <string name="contacts_title">Contacts</string>
+    <string name="contacts_empty">No emergency contacts set yet.\nAdd contacts during setup or edit in Settings.</string>
+    <string name="contacts_call_label">Call</string>
+
+    <!-- Settings tab -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_watch_connected">Sheen Watch Connected</string>
+    <string name="settings_watch_battery">%1$d%% Battery</string>
+    <string name="settings_reconnect">Reconnect Watch</string>
+    <string name="settings_section_alerts">ALERTS</string>
+    <string name="settings_alert_heat">Heat Risk Alerts</string>
+    <string name="settings_alert_hydration">Hydration Reminders</string>
+    <string name="settings_alert_emergency">Emergency Alerts</string>
+    <string name="settings_section_profile">PROFILE</string>
+    <string name="settings_edit_profile">Edit Profile</string>
+    <string name="settings_name_label">Name</string>
+    <string name="settings_age_label">Age</string>
+    <string name="settings_gender_label">Gender</string>
+    <string name="settings_section_permissions">PERMISSIONS</string>
+    <string name="settings_location">Location</string>
+    <string name="settings_notifications_label">Notifications</string>
+    <string name="settings_permission_enabled">Enabled</string>
+    <string name="settings_permission_disabled">Disabled</string>
+    <string name="settings_section_app">APP SETTINGS</string>
+    <string name="settings_temp_units">Temperature Units</string>
+    <string name="settings_about">About SheenSafe</string>
+    <string name="settings_reconnect_toast">Watch reconnected.</string>
 </resources>

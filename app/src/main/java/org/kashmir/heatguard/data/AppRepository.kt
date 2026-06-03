@@ -163,6 +163,15 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
             .apply()
     }
 
+    fun getAlertHeatRisk(): Boolean = prefs.getBoolean(KEY_ALERT_HEAT_RISK, true)
+    fun setAlertHeatRisk(on: Boolean) { prefs.edit().putBoolean(KEY_ALERT_HEAT_RISK, on).apply() }
+    fun getAlertHydration(): Boolean = prefs.getBoolean(KEY_ALERT_HYDRATION, true)
+    fun setAlertHydration(on: Boolean) { prefs.edit().putBoolean(KEY_ALERT_HYDRATION, on).apply() }
+    fun getAlertEmergency(): Boolean = prefs.getBoolean(KEY_ALERT_EMERGENCY, true)
+    fun setAlertEmergency(on: Boolean) { prefs.edit().putBoolean(KEY_ALERT_EMERGENCY, on).apply() }
+    fun getTempUnit(): String = prefs.getString(KEY_TEMP_UNIT, "C") ?: "C"
+    fun setTempUnit(unit: String) { prefs.edit().putString(KEY_TEMP_UNIT, unit).apply() }
+
     fun getBoolean(key: String, default: Boolean): Boolean = prefs.getBoolean(key, default)
 
     fun setBoolean(key: String, value: Boolean) {
@@ -220,5 +229,9 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         private const val KEY_DEVICE_CONNECTED = "device_connected"
         private const val KEY_CONTACT_2_NAME = "contact_2_name"
         private const val KEY_CONTACT_2_PHONE = "contact_2_phone"
+        private const val KEY_ALERT_HEAT_RISK = "alert_heat_risk"
+        private const val KEY_ALERT_HYDRATION = "alert_hydration"
+        private const val KEY_ALERT_EMERGENCY = "alert_emergency"
+        private const val KEY_TEMP_UNIT = "temp_unit"
     }
 }

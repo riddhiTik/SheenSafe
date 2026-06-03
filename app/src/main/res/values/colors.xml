@@ -19,4 +19,15 @@
     <color name="on_primary">#FFFFFF</color>
     <color name="outline">#6B7B6A</color>
     <color name="error_color">#BA1A1A</color>
+
+    <!-- Dashboard design system -->
+    <color name="background_dark">#112117</color>
+    <color name="background_surface">#F6F8F6</color>
+    <color name="warning_color">#F4A261</color>
+    <color name="critical_color">#E07A5F</color>
+    <color name="sage">#7B9E87</color>
+    <color name="risk_check_bg">#FFF8E1</color>
+    <color name="risk_action_bg">#FFF3E0</color>
+    <color name="risk_emergency_bg">#FFEBEE</color>
+    <color name="nav_border">#E7F3EB</color>
 </resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.kashmir.heatguard.core.integration.WeatherFallbackScenarioTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-05-31T01:25:39.663Z" hostname="DESKTOP-4OLVILP" time="0.013">
+  <properties/>
+  <testcase name="apiThrowsReturnsCachedSample" classname="org.kashmir.heatguard.core.integration.WeatherFallbackScenarioTest" time="0.002"/>
+  <testcase name="allFailReturnsNull" classname="org.kashmir.heatguard.core.integration.WeatherFallbackScenarioTest" time="0.001"/>
+  <testcase name="emptyProviderListReturnsNull" classname="org.kashmir.heatguard.core.integration.WeatherFallbackScenarioTest" time="0.008"/>
+  <testcase name="apiAvailableReturnsApiSample" classname="org.kashmir.heatguard.core.integration.WeatherFallbackScenarioTest" time="0.001"/>
+  <testcase name="apiAndCacheUnavailableReturnManual" classname="org.kashmir.heatguard.core.integration.WeatherFallbackScenarioTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

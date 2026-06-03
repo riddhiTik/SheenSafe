@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.kashmir.heatguard.core.MonitoringPipelineTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-05-31T01:25:39.566Z" hostname="DESKTOP-4OLVILP" time="0.008">
+  <properties/>
+  <testcase name="clockTimePassedToResult" classname="org.kashmir.heatguard.core.MonitoringPipelineTest" time="0.004"/>
+  <testcase name="noWeatherProducesLowConfidence" classname="org.kashmir.heatguard.core.MonitoringPipelineTest" time="0.001"/>
+  <testcase name="allProvidersAreCalled" classname="org.kashmir.heatguard.core.MonitoringPipelineTest" time="0.001"/>
+  <testcase name="ringDisconnectReflectedInDecision" classname="org.kashmir.heatguard.core.MonitoringPipelineTest" time="0.0"/>
+  <testcase name="checkNowReturnsDecisionAndPlan" classname="org.kashmir.heatguard.core.MonitoringPipelineTest" time="0.0"/>
+  <testcase name="severeSymptomProducesEmergencyPlan" classname="org.kashmir.heatguard.core.MonitoringPipelineTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

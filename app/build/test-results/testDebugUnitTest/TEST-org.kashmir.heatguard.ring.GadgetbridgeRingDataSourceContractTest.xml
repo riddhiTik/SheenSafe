@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.kashmir.heatguard.ring.GadgetbridgeRingDataSourceContractTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-05-31T01:26:45.638Z" hostname="DESKTOP-4OLVILP" time="0.746">
+  <properties/>
+  <testcase name="outlierFilterRejectsHrSpike" classname="org.kashmir.heatguard.ring.GadgetbridgeRingDataSourceContractTest" time="0.671"/>
+  <testcase name="latestSampleUpdatesAfterInject" classname="org.kashmir.heatguard.ring.GadgetbridgeRingDataSourceContractTest" time="0.005"/>
+  <testcase name="latestSampleIsNullBeforeStart" classname="org.kashmir.heatguard.ring.GadgetbridgeRingDataSourceContractTest" time="0.0"/>
+  <testcase name="outlierFilterAcceptsNormalHrChange" classname="org.kashmir.heatguard.ring.GadgetbridgeRingDataSourceContractTest" time="0.05"/>
+  <testcase name="startCallsListenerWhenSampleInjected" classname="org.kashmir.heatguard.ring.GadgetbridgeRingDataSourceContractTest" time="0.008"/>
+  <testcase name="stopPreventsNewSamples" classname="org.kashmir.heatguard.ring.GadgetbridgeRingDataSourceContractTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
