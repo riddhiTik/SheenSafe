@@ -53,24 +53,24 @@
 28-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:15:64-87
 29
 30    <permission
-30-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+30-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1e821e7b40a9171e9743ac55cae0ccea\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
 31        android:name="org.kashmir.heatguard.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-31-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+31-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1e821e7b40a9171e9743ac55cae0ccea\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
 32        android:protectionLevel="signature" />
-32-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+32-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1e821e7b40a9171e9743ac55cae0ccea\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
 33
 34    <uses-permission android:name="org.kashmir.heatguard.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-34-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
-34-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+34-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1e821e7b40a9171e9743ac55cae0ccea\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+34-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1e821e7b40a9171e9743ac55cae0ccea\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
 35
 36    <application
-36-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:17:5-50:19
+36-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:17:5-58:19
 37        android:name="org.kashmir.heatguard.HeatGuardApplication"
 37-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:18:9-45
 38        android:allowBackup="false"
 38-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:19:9-36
 39        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-39-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\abfd3e79faf34d52a8ce05dc54bb9cc8\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+39-->[androidx.core:core:1.13.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1e821e7b40a9171e9743ac55cae0ccea\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 40        android:debuggable="true"
 41        android:extractNativeLibs="false"
 42        android:label="@string/app_name"
@@ -115,81 +115,105 @@
 62-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:42:13-51
 63            android:exported="false" />
 63-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:43:13-37
-64
-65        <service
-65-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:45:9-48:63
-66            android:name="org.kashmir.heatguard.service.HeatMonitoringService"
-66-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:46:13-58
-67            android:exported="false"
-67-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:47:13-37
-68            android:foregroundServiceType="connectedDevice" />
-68-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:48:13-60
-69
-70        <provider
-70-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
-71            android:name="androidx.startup.InitializationProvider"
-71-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
-72            android:authorities="org.kashmir.heatguard.androidx-startup"
-72-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
-73            android:exported="false" >
-73-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
-74            <meta-data
-74-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
-75                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-75-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
-76                android:value="androidx.startup" />
-76-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\27f4470bbdfe3200f7700cfa42768a0c\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
-77            <meta-data
-77-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1d202b16606c80ba0093e82ba9241039\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
-78                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-78-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1d202b16606c80ba0093e82ba9241039\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
-79                android:value="androidx.startup" />
-79-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\riddh\.gradle\caches\9.0.0\transforms\1d202b16606c80ba0093e82ba9241039\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+64        <activity
+64-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:45:9-47:40
+65            android:name="org.kashmir.heatguard.ui.AdminActivity"
+65-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:46:13-45
+66            android:exported="false" />
+66-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:47:13-37
+67        <activity
+67-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:49:9-51:40
+68            android:name="org.kashmir.heatguard.ui.AdminLoginActivity"
+68-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:50:13-50
+69            android:exported="false" />
+69-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:51:13-37
+70
+71        <service
+71-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:53:9-56:63
+72            android:name="org.kashmir.heatguard.service.HeatMonitoringService"
+72-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:54:13-58
+73            android:exported="false"
+73-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:55:13-37
+74            android:foregroundServiceType="connectedDevice" />
+74-->C:\Users\riddh\AndroidStudioProjects\Heatstroke-Help\app\src\main\AndroidManifest.xml:56:13-60
+75
+76        <provider
+76-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\3571c3c83dbb67ea06c0d8e4d577906c\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+77            android:name="androidx.startup.InitializationProvider"
+77-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\3571c3c83dbb67ea06c0d8e4d577906c\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+78            android:authorities="org.kashmir.heatguard.androidx-startup"
+78-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\3571c3c83dbb67ea06c0d8e4d577906c\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+79            android:exported="false" >
+79-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\3571c3c83dbb67ea06c0d8e4d577906c\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
 80            <meta-data
-80-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
-81                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-81-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+80-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\3571c3c83dbb67ea06c0d8e4d577906c\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+81                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+81-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\3571c3c83dbb67ea06c0d8e4d577906c\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
 82                android:value="androidx.startup" />
-82-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
-83        </provider>
-84
-85        <receiver
-85-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
-86            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-86-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
-87            android:directBootAware="false"
-87-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
-88            android:enabled="true"
-88-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
-89            android:exported="true"
-89-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
-90            android:permission="android.permission.DUMP" >
-90-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
-91            <intent-filter>
-91-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
-92                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-92-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
-92-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
-93            </intent-filter>
-94            <intent-filter>
-94-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
-95                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-95-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
-95-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
-96            </intent-filter>
-97            <intent-filter>
-97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
-98                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-98-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
-98-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
-99            </intent-filter>
-100            <intent-filter>
-100-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
-101                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-101-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
-101-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\2c7b10da924c0f9921f52271dbb49827\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
-102            </intent-filter>
-103        </receiver>
-104    </application>
-105
-106</manifest>
+82-->[androidx.emoji2:emoji2:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\3571c3c83dbb67ea06c0d8e4d577906c\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+83            <meta-data
+83-->[io.github.jan-tennert.supabase:auth-kt-android-debug:3.1.4] C:\Users\riddh\.gradle\caches\9.0.0\transforms\89d7944b56699703cfeed83b879fe133\transformed\auth-kt-debug\AndroidManifest.xml:14:13-16:52
+84                android:name="io.github.jan.supabase.auth.SupabaseInitializer"
+84-->[io.github.jan-tennert.supabase:auth-kt-android-debug:3.1.4] C:\Users\riddh\.gradle\caches\9.0.0\transforms\89d7944b56699703cfeed83b879fe133\transformed\auth-kt-debug\AndroidManifest.xml:15:17-79
+85                android:value="androidx.startup" />
+85-->[io.github.jan-tennert.supabase:auth-kt-android-debug:3.1.4] C:\Users\riddh\.gradle\caches\9.0.0\transforms\89d7944b56699703cfeed83b879fe133\transformed\auth-kt-debug\AndroidManifest.xml:16:17-49
+86            <meta-data
+86-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\riddh\.gradle\caches\9.0.0\transforms\94a2c79546cf6cd493186c600ac5f870\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:29:13-31:52
+87                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+87-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\riddh\.gradle\caches\9.0.0\transforms\94a2c79546cf6cd493186c600ac5f870\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:30:17-78
+88                android:value="androidx.startup" />
+88-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\riddh\.gradle\caches\9.0.0\transforms\94a2c79546cf6cd493186c600ac5f870\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:31:17-49
+89            <meta-data
+89-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\87ef4f41576646768b9ae6d25bd179f7\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:29:13-31:52
+90                android:name="com.russhwolf.settings.SettingsInitializer"
+90-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\87ef4f41576646768b9ae6d25bd179f7\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:30:17-74
+91                android:value="androidx.startup" />
+91-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.3.0] C:\Users\riddh\.gradle\caches\9.0.0\transforms\87ef4f41576646768b9ae6d25bd179f7\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:31:17-49
+92            <meta-data
+92-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+93                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+93-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+94                android:value="androidx.startup" />
+94-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+95        </provider>
+96
+97        <receiver
+97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+98            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+98-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+99            android:directBootAware="false"
+99-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+100            android:enabled="true"
+100-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+101            android:exported="true"
+101-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+102            android:permission="android.permission.DUMP" >
+102-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+103            <intent-filter>
+103-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+104                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+104-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+104-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+105            </intent-filter>
+106            <intent-filter>
+106-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+107                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+108            </intent-filter>
+109            <intent-filter>
+109-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+110                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+111            </intent-filter>
+112            <intent-filter>
+112-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+113                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\riddh\.gradle\caches\9.0.0\transforms\08fe7701d7447ec9927c4371c2ab6f6e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+114            </intent-filter>
+115        </receiver>
+116    </application>
+117
+118</manifest>

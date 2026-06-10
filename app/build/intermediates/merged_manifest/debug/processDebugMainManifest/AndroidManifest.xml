@@ -61,6 +61,12 @@
         <activity
             android:name="org.kashmir.heatguard.ui.RiskProfileActivity"
             android:exported="false" />
+        <activity
+            android:name="org.kashmir.heatguard.ui.AdminActivity"
+            android:exported="false" />
+        <activity
+            android:name="org.kashmir.heatguard.ui.AdminLoginActivity"
+            android:exported="false" />
 
         <service
             android:name="org.kashmir.heatguard.service.HeatMonitoringService"
@@ -75,7 +81,13 @@
                 android:name="androidx.emoji2.text.EmojiCompatInitializer"
                 android:value="androidx.startup" />
             <meta-data
+                android:name="io.github.jan.supabase.auth.SupabaseInitializer"
+                android:value="androidx.startup" />
+            <meta-data
                 android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="com.russhwolf.settings.SettingsInitializer"
                 android:value="androidx.startup" />
             <meta-data
                 android:name="androidx.profileinstaller.ProfileInstallerInitializer"

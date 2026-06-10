@@ -25,8 +25,8 @@
       classOutputs="build\intermediates\javac\debug\compileDebugJavaWithJavac\classes;build\tmp\kotlin-classes\debug;build\intermediates\compile_and_runtime_not_namespaced_r_class_jar\debug\processDebugResources\R.jar"
       type="MAIN"
       applicationId="org.kashmir.heatguard"
-      generatedSourceFolders="build\generated\ap_generated_sources\debug\out"
+      generatedSourceFolders="build\generated\ap_generated_sources\debug\out;build\generated\source\buildConfig\debug"
       generatedResourceFolders="build\generated\res\resValues\debug"
-      desugaredMethodsFiles="C:\Users\riddh\.gradle\caches\9.0.0\transforms\a71d833584e4e178de2eb22c1d7a730e\transformed\D8BackportedDesugaredMethods.txt">
+      desugaredMethodsFiles="C:\Users\riddh\.gradle\caches\9.0.0\transforms\462b254f6eeab6d64e00967d5c6397ea\transformed\D8BackportedDesugaredMethods.txt">
   </artifact>
 </variant>
