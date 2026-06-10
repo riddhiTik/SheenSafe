@@ -1,0 +1,18 @@
+# Local configuration — never commit
+local.properties
+
+# Gradle build output
+.gradle/
+build/
+app/build/
+core/build/
+
+# Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# OS
+.DS_Store
+Thumbs.db
