@@ -32,7 +32,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private lateinit var ringDataSource: RingDataSource
     private val engine = HeatRiskEngine()
     private val escalationEngine = EscalationEngine(SystemClock)
-    private var latestSymptoms: SymptomReport? = null
 
     private lateinit var heroCard: MaterialCardView
     private lateinit var ivHeroIcon: android.widget.ImageView
@@ -87,7 +86,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 nowMillis = now,
                 sensorSample = ringDataSource.latestSample(),
                 weatherSample = ManualWeatherProvider(repository).latestWeather(now),
-                symptomReport = latestSymptoms,
                 baseline = repository.getBaseline(),
                 riskProfile = repository.getRiskProfile()
             )

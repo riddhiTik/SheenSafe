@@ -12,20 +12,6 @@ class HeatRiskEngineTest {
     private val engine = HeatRiskEngine()
 
     @Test
-    fun severeSymptomsAreEmergency() {
-        val decision = engine.assess(
-            RiskInput(
-                nowMillis = now,
-                symptomReport = SymptomReport(timestampMillis = now, confusion = true),
-                weatherSample = WeatherSample(now, airTemperatureC = 32.0, relativeHumidityPercent = 40.0),
-                sensorSample = SensorSample(now, heartRateBpm = 80, skinTemperatureC = 34.0)
-            )
-        )
-        assertEquals(RiskLevel.EMERGENCY, decision.level)
-        assertTrue(decision.reasonCodes.contains(ReasonCode.SEVERE_SYMPTOMS))
-    }
-
-    @Test
     fun highHeatWithPhysiologyStrainIsAction() {
         val decision = engine.assess(
             RiskInput(

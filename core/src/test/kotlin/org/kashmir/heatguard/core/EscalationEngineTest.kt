@@ -20,11 +20,10 @@ class EscalationEngineTest {
     )
 
     @Test
-    fun checkLevelProducesNotifyAndPrompt() {
+    fun checkLevelProducesNotify() {
         val engine = EscalationEngine(clock)
         val plan = engine.plan(makeDecision(RiskLevel.CHECK))
         assertTrue(plan.actions.contains(EscalationAction.NOTIFY_USER))
-        assertTrue(plan.actions.contains(EscalationAction.PROMPT_SYMPTOM_CHECK))
         assertFalse(plan.actions.contains(EscalationAction.ALERT_VOLUNTEER))
     }
 
@@ -37,10 +36,10 @@ class EscalationEngineTest {
     }
 
     @Test
-    fun emergencyHasAllFiveActions() {
+    fun emergencyHasAllFourActions() {
         val engine = EscalationEngine(clock)
         val plan = engine.plan(makeDecision(RiskLevel.EMERGENCY))
-        assertEquals(5, plan.actions.size)
+        assertEquals(4, plan.actions.size)
         assertTrue(plan.actions.contains(EscalationAction.SUGGEST_DIAL_CONTACT))
         assertTrue(plan.actions.contains(EscalationAction.LOG_EMERGENCY_EVENT))
     }

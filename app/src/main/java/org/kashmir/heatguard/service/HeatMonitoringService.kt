@@ -3,9 +3,15 @@ package org.kashmir.heatguard.service
 import android.app.Notification
 import android.app.Service
 import android.content.Intent
+import android.location.LocationManager
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import org.kashmir.heatguard.alerts.EscalationManager
 import org.kashmir.heatguard.alerts.NotificationHelper
 import org.kashmir.heatguard.core.SystemClock
@@ -15,7 +21,9 @@ import org.kashmir.heatguard.core.pipeline.MonitoringPipeline
 import org.kashmir.heatguard.core.ring.RingDataSource
 import org.kashmir.heatguard.core.risk.HeatRiskEngine
 import org.kashmir.heatguard.data.AppRepository
-import org.kashmir.heatguard.ring.GadgetbridgeRingDataSource
+import org.kashmir.heatguard.data.SupabaseClientProvider
+import org.kashmir.heatguard.data.SupabaseRepository
+import org.kashmir.heatguard.ring.S5RingDataSource
 import org.kashmir.heatguard.ring.SimulatedRingDataSource
 import org.kashmir.heatguard.weather.ApiWeatherProvider
 import org.kashmir.heatguard.weather.CachedWeatherProvider
@@ -27,8 +35,10 @@ import java.util.concurrent.TimeUnit
 
 class HeatMonitoringService : Service() {
     private val mainHandler = Handler(Looper.getMainLooper())
+    private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private lateinit var executor: ScheduledExecutorService
     private lateinit var repository: AppRepository
+    private lateinit var supabaseRepo: SupabaseRepository
     private lateinit var ringDataSource: RingDataSource
     private lateinit var escalationManager: EscalationManager
     private lateinit var pipeline: MonitoringPipeline
@@ -38,6 +48,7 @@ class HeatMonitoringService : Service() {
     override fun onCreate() {
         super.onCreate()
         repository = AppRepository(this)
+        supabaseRepo = SupabaseRepository(SupabaseClientProvider.client)
         escalationManager = EscalationManager(this, repository)
         ringDataSource = buildRingDataSource()
         ringDataSource.start { /* latest sample retained by source */ }
@@ -46,11 +57,13 @@ class HeatMonitoringService : Service() {
         executor = Executors.newSingleThreadScheduledExecutor()
         executor.scheduleAtFixedRate({ assessOnce() }, 0L, 5L, TimeUnit.MINUTES)
         promptForProfileIfNeeded()
+        syncUserToCloud()
     }
 
     override fun onDestroy() {
         executor.shutdownNow()
         ringDataSource.stop()
+        serviceScope.cancel()
         super.onDestroy()
     }
 
@@ -61,23 +74,47 @@ class HeatMonitoringService : Service() {
             val result = pipeline.checkNow()
             repository.saveLastDecision(result.decision)
             mainHandler.post { escalationManager.execute(result.plan, result.decision) }
+
+            val uid = repository.getSupabaseUserId().ifBlank { repository.getOrCreateDeviceId() }
+            serviceScope.launch {
+                supabaseRepo.logDecision(uid, result.decision)
+                ringDataSource.latestSample()?.let { supabaseRepo.logSample(uid, it) }
+            }
         } catch (_: Exception) {
             // Do not crash the service on individual assessment failures
         }
     }
 
+    private fun syncUserToCloud() {
+        serviceScope.launch {
+            val uid = repository.getSupabaseUserId().ifBlank { repository.getOrCreateDeviceId() }
+            supabaseRepo.syncUser(
+                deviceId = uid,
+                name = repository.getUserName().ifBlank { null },
+                age = repository.getUserAge().takeIf { it > 0 },
+                gender = repository.getUserGender().ifBlank { null },
+                language = repository.getLanguage(),
+                contact1Name = repository.getEmergencyContactName().ifBlank { null },
+                contact1Phone = repository.getEmergencyContactPhone().ifBlank { null },
+                contact2Name = repository.getSecondContactName().ifBlank { null },
+                contact2Phone = repository.getSecondContactPhone().ifBlank { null }
+            )
+            supabaseRepo.syncRiskProfile(uid, repository.getRiskProfile())
+        }
+    }
+
     private fun buildRingDataSource(): RingDataSource {
-        return if (repository.getBoolean("use_simulated_ring", true)) {
-            SimulatedRingDataSource()
+        val mac = repository.getRingDeviceMac()
+        return if (mac != null) {
+            S5RingDataSource(this, mac)
         } else {
-            GadgetbridgeRingDataSource(this)
+            SimulatedRingDataSource()
         }
     }
 
     private fun buildPipeline(): MonitoringPipeline {
-        // Default coordinates: Srinagar, Kashmir
-        // TODO: make configurable via location settings
-        val apiProvider = ApiWeatherProvider(latitude = 34.0837, longitude = 74.7973)
+        val (lat, lon) = getCoordinates()
+        val apiProvider = ApiWeatherProvider(latitude = lat, longitude = lon)
         val weatherProvider = FallbackWeatherProvider(
             listOf(
                 CachedWeatherProvider(apiProvider, repository),
@@ -91,9 +128,25 @@ class HeatMonitoringService : Service() {
             engine = engine,
             escalationEngine = escalationEngine,
             baselineProvider = { repository.getBaseline() },
-            riskProfileProvider = { repository.getRiskProfile() },
-            symptomProvider = { null } // symptoms managed by MainActivity
+            riskProfileProvider = { repository.getRiskProfile() }
         )
+    }
+
+    @Suppress("MissingPermission")
+    private fun getCoordinates(): Pair<Double, Double> {
+        val lm = getSystemService(LOCATION_SERVICE) as LocationManager
+        val location = try {
+            lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                ?: lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        } catch (_: SecurityException) { null }
+        return if (location != null) {
+            repository.setLastKnownCoords(location.latitude, location.longitude)
+            Pair(location.latitude, location.longitude)
+        } else {
+            val lat = repository.getLastLatitude() ?: 34.0837
+            val lon = repository.getLastLongitude() ?: 74.7973
+            Pair(lat, lon)
+        }
     }
 
     private fun promptForProfileIfNeeded() {

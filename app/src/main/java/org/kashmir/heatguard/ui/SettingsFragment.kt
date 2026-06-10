@@ -11,9 +11,14 @@ import android.widget.Toast
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.switchmaterial.SwitchMaterial
+import kotlinx.coroutines.launch
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.data.AppRepository
+import org.kashmir.heatguard.data.SupabaseClientProvider
+import org.kashmir.heatguard.data.SupabaseRepository
+import org.kashmir.heatguard.ui.onboarding.OnboardingActivity
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
@@ -31,8 +36,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun bindProfile(view: View) {
-        view.findViewById<TextView>(R.id.tvProfileName).text =
-            repository.getUserName().ifBlank { "—" }
+        val tvProfileName = view.findViewById<TextView>(R.id.tvProfileName)
+        tvProfileName.text = repository.getUserName().ifBlank { "—" }
+        // Long-press launches the admin dashboard (developer/clinician access)
+        tvProfileName.setOnLongClickListener {
+            startActivity(Intent(requireContext(), AdminLoginActivity::class.java))
+            true
+        }
 
         view.findViewById<TextView>(R.id.tvProfileAge).text =
             repository.getUserAge().takeIf { it > 0 }?.toString() ?: "—"
@@ -111,6 +121,22 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         view.findViewById<TextView>(R.id.btnReconnectWatch).setOnClickListener {
             repository.setDeviceConnected(true)
             Toast.makeText(requireContext(), getString(R.string.settings_reconnect_toast), Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<TextView>(R.id.btnSignOut).setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                SupabaseClientProvider.client?.let { client ->
+                    SupabaseRepository(client).signOut()
+                }
+                // Wipe all local user data so the next person to log in on this device
+                // starts completely fresh and does not see the previous user's profile.
+                repository.deleteAllData()
+                startActivity(
+                    Intent(requireContext(), OnboardingActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                )
+            }
         }
     }
 }

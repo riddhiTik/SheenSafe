@@ -415,6 +415,30 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Sign out card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/white">
+
+            <TextView
+                android:id="@+id/btnSignOut"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center"
+                android:text="@string/settings_sign_out"
+                android:textColor="@color/error_color"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true" />
+        </com.google.android.material.card.MaterialCardView>
+
         <!-- App Settings card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"

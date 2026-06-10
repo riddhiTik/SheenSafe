@@ -2,6 +2,7 @@ package org.kashmir.heatguard.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import java.util.UUID
 import org.kashmir.heatguard.core.model.*
 
 // TODO: [PRIVACY-HARDENING] Replace SharedPreferences with EncryptedSharedPreferences once
@@ -116,8 +117,8 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
 
     fun isOnboardingComplete(): Boolean = prefs.getBoolean(KEY_ONBOARDING_DONE, false)
 
-    fun setOnboardingComplete() {
-        prefs.edit().putBoolean(KEY_ONBOARDING_DONE, true).apply()
+    fun setOnboardingComplete(done: Boolean = true) {
+        prefs.edit().putBoolean(KEY_ONBOARDING_DONE, done).apply()
     }
 
     fun getLanguage(): String = prefs.getString(KEY_LANGUAGE, "en") ?: "en"
@@ -178,6 +179,35 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         prefs.edit().putBoolean(key, value).apply()
     }
 
+    fun getOrCreateDeviceId(): String {
+        val existing = prefs.getString(KEY_DEVICE_ID, null)
+        if (existing != null) return existing
+        val newId = UUID.randomUUID().toString()
+        prefs.edit().putString(KEY_DEVICE_ID, newId).apply()
+        return newId
+    }
+
+    fun getRingDeviceMac(): String? = prefs.getString(KEY_RING_MAC, null)
+
+    fun setRingDeviceMac(mac: String) {
+        prefs.edit().putString(KEY_RING_MAC, mac).apply()
+    }
+
+    fun getSupabaseUserId(): String = prefs.getString(KEY_SUPABASE_USER_ID, "") ?: ""
+
+    fun setSupabaseUserId(id: String) {
+        prefs.edit().putString(KEY_SUPABASE_USER_ID, id).apply()
+    }
+
+    fun getLastLatitude(): Double? = prefs.getDoubleOrNull(KEY_LAST_LAT)
+    fun getLastLongitude(): Double? = prefs.getDoubleOrNull(KEY_LAST_LON)
+    fun setLastKnownCoords(lat: Double, lon: Double) {
+        prefs.edit()
+            .putDouble(KEY_LAST_LAT, lat)
+            .putDouble(KEY_LAST_LON, lon)
+            .apply()
+    }
+
     fun deleteAllData() {
         prefs.edit().clear().apply()
     }
@@ -233,5 +263,10 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         private const val KEY_ALERT_HYDRATION = "alert_hydration"
         private const val KEY_ALERT_EMERGENCY = "alert_emergency"
         private const val KEY_TEMP_UNIT = "temp_unit"
+        private const val KEY_DEVICE_ID = "device_id"
+        private const val KEY_RING_MAC = "ring_device_mac"
+        private const val KEY_SUPABASE_USER_ID = "supabase_user_id"
+        private const val KEY_LAST_LAT = "last_lat"
+        private const val KEY_LAST_LON = "last_lon"
     }
 }

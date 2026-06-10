@@ -4,8 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import io.github.jan.supabase.auth.auth
+import kotlinx.coroutines.launch
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.data.AppRepository
+import org.kashmir.heatguard.data.SupabaseClientProvider
+import org.kashmir.heatguard.data.SupabaseRepository
 import org.kashmir.heatguard.ui.MainActivity
 
 class OnboardingActivity : AppCompatActivity() {
@@ -16,7 +21,10 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         repository = AppRepository(this)
 
-        if (repository.isOnboardingComplete()) {
+        // currentSessionOrNull() reads from the SDK's in-memory cache — safe to call on main thread.
+        val hasSession = SupabaseClientProvider.client?.auth?.currentSessionOrNull() != null
+
+        if (hasSession && repository.isOnboardingComplete()) {
             launchMain()
             return
         }
@@ -24,9 +32,19 @@ class OnboardingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_onboarding)
 
         if (savedInstanceState == null) {
+            // LoginFragment handles its own session check and routes accordingly.
             supportFragmentManager.beginTransaction()
-                .replace(R.id.onboardingContainer, LanguageSelectionFragment())
+                .replace(R.id.onboardingContainer, LoginFragment())
                 .commit()
+        }
+    }
+
+    /** Called by LoginFragment after successful sign-in or sign-up. */
+    fun onAuthCompleted() {
+        if (repository.isOnboardingComplete()) {
+            launchMain()
+        } else {
+            navigateTo(LanguageSelectionFragment(), addToBackStack = false)
         }
     }
 
@@ -63,7 +81,28 @@ class OnboardingActivity : AppCompatActivity() {
         if (!name.isNullOrBlank()) repository.setEmergencyContact(name, phone ?: "")
         if (!name2.isNullOrBlank()) repository.setSecondContact(name2, phone2 ?: "")
         repository.setOnboardingComplete()
+        syncUserToSupabase()
         launchMain()
+    }
+
+    private fun syncUserToSupabase() {
+        val client = SupabaseClientProvider.client ?: return
+        val deviceId = repository.getSupabaseUserId().ifBlank { repository.getOrCreateDeviceId() }
+        val repo = SupabaseRepository(client)
+        lifecycleScope.launch {
+            repo.syncUser(
+                deviceId = deviceId,
+                name = repository.getUserName().ifBlank { null },
+                age = repository.getUserAge().takeIf { it > 0 },
+                gender = repository.getUserGender().ifBlank { null },
+                language = repository.getLanguage(),
+                contact1Name = repository.getEmergencyContactName().ifBlank { null },
+                contact1Phone = repository.getEmergencyContactPhone().ifBlank { null },
+                contact2Name = repository.getSecondContactName().ifBlank { null },
+                contact2Phone = repository.getSecondContactPhone().ifBlank { null }
+            )
+            repo.syncRiskProfile(deviceId, repository.getRiskProfile())
+        }
     }
 
     private fun navigateTo(fragment: Fragment, addToBackStack: Boolean = true) {

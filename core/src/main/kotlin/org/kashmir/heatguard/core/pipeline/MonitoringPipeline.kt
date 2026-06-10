@@ -7,7 +7,6 @@ import org.kashmir.heatguard.core.model.Baseline
 import org.kashmir.heatguard.core.model.RiskDecision
 import org.kashmir.heatguard.core.model.RiskInput
 import org.kashmir.heatguard.core.model.RiskProfile
-import org.kashmir.heatguard.core.model.SymptomReport
 import org.kashmir.heatguard.core.ring.RingDataSource
 import org.kashmir.heatguard.core.risk.HeatRiskEngine
 import org.kashmir.heatguard.core.weather.WeatherProvider
@@ -19,8 +18,7 @@ class MonitoringPipeline(
     private val engine: HeatRiskEngine,
     private val escalationEngine: EscalationEngine,
     private val baselineProvider: () -> Baseline,
-    private val riskProfileProvider: () -> RiskProfile,
-    private val symptomProvider: () -> SymptomReport?
+    private val riskProfileProvider: () -> RiskProfile
 ) {
     fun checkNow(): PipelineResult {
         val now = clock.nowMillis()
@@ -28,7 +26,6 @@ class MonitoringPipeline(
             nowMillis = now,
             sensorSample = ringDataSource.latestSample(),
             weatherSample = weatherProvider.latestWeather(now),
-            symptomReport = symptomProvider(),
             baseline = baselineProvider(),
             riskProfile = riskProfileProvider()
         )

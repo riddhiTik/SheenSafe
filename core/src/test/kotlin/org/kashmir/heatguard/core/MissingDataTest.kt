@@ -4,6 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+
 import org.kashmir.heatguard.core.model.*
 import org.kashmir.heatguard.core.risk.HeatRiskEngine
 
@@ -28,19 +29,6 @@ class MissingDataTest {
     fun nullRingAddsMissingCode() {
         val d = engine.assess(RiskInput(nowMillis = now, sensorSample = null))
         assertTrue(d.reasonCodes.contains(ReasonCode.RING_DATA_MISSING))
-    }
-
-    @Test
-    fun nullSymptomNotPenalized() {
-        val d = engine.assess(
-            RiskInput(
-                nowMillis = now,
-                weatherSample = WeatherSample(now, airTemperatureC = 22.0, relativeHumidityPercent = 40.0),
-                symptomReport = null
-            )
-        )
-        assertFalse(d.reasonCodes.contains(ReasonCode.SEVERE_SYMPTOMS))
-        assertFalse(d.reasonCodes.contains(ReasonCode.MODERATE_SYMPTOMS))
     }
 
     @Test

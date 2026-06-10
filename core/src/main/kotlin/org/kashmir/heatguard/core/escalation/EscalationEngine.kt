@@ -6,8 +6,7 @@ import org.kashmir.heatguard.core.model.RiskLevel
 
 class EscalationEngine(
     private val clock: Clock,
-    private val notifyAgainAfterMinutes: Long = 30,
-    private val promptAgainAfterMinutes: Long = 60
+    private val notifyAgainAfterMinutes: Long = 30
 ) {
     private val lastFiredAt: MutableMap<EscalationAction, Long> = mutableMapOf()
 
@@ -28,16 +27,13 @@ class EscalationEngine(
             RiskLevel.SAFE -> { /* no actions */ }
             RiskLevel.CHECK -> {
                 maybeAdd(EscalationAction.NOTIFY_USER, notifyAgainAfterMinutes)
-                maybeAdd(EscalationAction.PROMPT_SYMPTOM_CHECK, promptAgainAfterMinutes)
             }
             RiskLevel.ACTION -> {
                 maybeAdd(EscalationAction.NOTIFY_USER, notifyAgainAfterMinutes)
-                maybeAdd(EscalationAction.PROMPT_SYMPTOM_CHECK, promptAgainAfterMinutes)
                 actions += EscalationAction.ALERT_VOLUNTEER
             }
             RiskLevel.EMERGENCY -> {
                 actions += EscalationAction.NOTIFY_USER
-                actions += EscalationAction.PROMPT_SYMPTOM_CHECK
                 actions += EscalationAction.ALERT_VOLUNTEER
                 actions += EscalationAction.SUGGEST_DIAL_CONTACT
                 actions += EscalationAction.LOG_EMERGENCY_EVENT
@@ -70,8 +66,7 @@ class EscalationEngine(
             RiskLevel.SAFE to listOf("Keep water nearby"),
             RiskLevel.CHECK to listOf(
                 "Drink water",
-                "Find shade or a cooler area",
-                "Answer the symptom check"
+                "Find shade or a cooler area"
             ),
             RiskLevel.ACTION to listOf(
                 "Move to shade or a cooler area",

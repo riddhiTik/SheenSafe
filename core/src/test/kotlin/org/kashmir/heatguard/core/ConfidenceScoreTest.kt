@@ -10,42 +10,6 @@ class ConfidenceScoreTest {
     private val engine = HeatRiskEngine()
 
     @Test
-    fun severeSymptomsAlwaysHighConfidence() {
-        val d = engine.assess(
-            RiskInput(
-                nowMillis = now,
-                symptomReport = SymptomReport(now, confusion = true),
-                weatherSample = null,
-                sensorSample = null
-            )
-        )
-        assertEquals(Confidence.HIGH, d.confidence)
-    }
-
-    @Test
-    fun manualEmergencyAlwaysHighConfidence() {
-        val d = engine.assess(
-            RiskInput(
-                nowMillis = now,
-                symptomReport = SymptomReport(now, responseState = ResponseState.MANUAL_EMERGENCY)
-            )
-        )
-        assertEquals(Confidence.HIGH, d.confidence)
-    }
-
-    @Test
-    fun noResponseEmergencyIsMediumConfidence() {
-        val d = engine.assess(
-            RiskInput(
-                nowMillis = now,
-                symptomReport = SymptomReport(now, responseState = ResponseState.NO_RESPONSE),
-                weatherSample = WeatherSample(now, airTemperatureC = 42.0, relativeHumidityPercent = 55.0)
-            )
-        )
-        assertEquals(Confidence.MEDIUM, d.confidence)
-    }
-
-    @Test
     fun bothFreshIsHighConfidence() {
         val d = engine.assess(
             RiskInput(

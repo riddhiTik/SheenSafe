@@ -21,8 +21,7 @@ class MonitoringPipelineTest {
 
     private fun makePipeline(
         baseline: Baseline = Baseline(),
-        profile: RiskProfile = RiskProfile(ageBand = AgeBand.ADULT, daysAcclimatized = 10),
-        symptom: SymptomReport? = null
+        profile: RiskProfile = RiskProfile(ageBand = AgeBand.ADULT, daysAcclimatized = 10)
     ) = MonitoringPipeline(
         clock = clock,
         ringDataSource = ring,
@@ -30,8 +29,7 @@ class MonitoringPipelineTest {
         engine = engine,
         escalationEngine = escalation,
         baselineProvider = { baseline },
-        riskProfileProvider = { profile },
-        symptomProvider = { symptom }
+        riskProfileProvider = { profile }
     )
 
     @Test
@@ -72,11 +70,4 @@ class MonitoringPipelineTest {
         assertTrue(result.decision.reasonCodes.contains(ReasonCode.WEATHER_DATA_MISSING))
     }
 
-    @Test
-    fun severeSymptomProducesEmergencyPlan() {
-        weather.set(WeatherSample(clock.nowMillis(), airTemperatureC = 22.0, relativeHumidityPercent = 40.0))
-        val result = makePipeline(symptom = SymptomReport(clock.nowMillis(), confusion = true)).checkNow()
-        assertEquals(RiskLevel.EMERGENCY, result.decision.level)
-        assertTrue(result.plan.actions.isNotEmpty())
-    }
 }

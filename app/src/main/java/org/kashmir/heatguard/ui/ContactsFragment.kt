@@ -9,10 +9,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.data.AppRepository
+import org.kashmir.heatguard.data.SupabaseClientProvider
+import org.kashmir.heatguard.data.SupabaseRepository
 
 class ContactsFragment : Fragment(R.layout.fragment_contacts) {
 
@@ -60,6 +64,24 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
         }
     }
 
+    private fun syncContactsToSupabase() {
+        val client = SupabaseClientProvider.client ?: return
+        val uid = repository.getSupabaseUserId().ifBlank { return }
+        viewLifecycleOwner.lifecycleScope.launch {
+            SupabaseRepository(client).syncUser(
+                deviceId = uid,
+                name = repository.getUserName().ifBlank { null },
+                age = repository.getUserAge().takeIf { it > 0 },
+                gender = repository.getUserGender().ifBlank { null },
+                language = repository.getLanguage(),
+                contact1Name = repository.getEmergencyContactName().ifBlank { null },
+                contact1Phone = repository.getEmergencyContactPhone().ifBlank { null },
+                contact2Name = repository.getSecondContactName().ifBlank { null },
+                contact2Phone = repository.getSecondContactPhone().ifBlank { null }
+            )
+        }
+    }
+
     private fun dialContact(phone: String) {
         if (phone.isBlank()) return
         startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone")))
@@ -92,6 +114,7 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
             .setPositiveButton(R.string.save) { _, _ ->
                 repository.setEmergencyContact(name.text.toString(), phone.text.toString())
                 refreshContacts(view)
+                syncContactsToSupabase()
             }
             .setNegativeButton(R.string.cancel, null)
             .show()

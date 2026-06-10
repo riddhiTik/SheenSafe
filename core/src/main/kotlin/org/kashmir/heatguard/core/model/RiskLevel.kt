@@ -31,9 +31,3 @@ enum class AgeBand {
     UNKNOWN
 }
 
-enum class ResponseState {
-    NOT_ASKED,
-    RESPONDED,
-    NO_RESPONSE,
-    MANUAL_EMERGENCY
-}

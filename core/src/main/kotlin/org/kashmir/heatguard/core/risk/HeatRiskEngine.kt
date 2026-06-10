@@ -25,13 +25,11 @@ class HeatRiskEngine(
         }
 
         val envAssessment = assessEnvironment(input.weatherSample, reasons)
-        val symptomAssessment = assessSymptoms(input.symptomReport, envAssessment.level, reasons)
         val physiologyAssessment = assessPhysiology(input, envAssessment.level, ringStale, reasons)
         val profileAssessment = assessProfile(input.riskProfile, envAssessment.level, reasons)
 
         var level = RiskLevel.maxOf(
             envAssessment.level,
-            symptomAssessment,
             physiologyAssessment,
             profileAssessment
         )
@@ -46,7 +44,6 @@ class HeatRiskEngine(
 
         val confidence = confidenceFor(
             level = level,
-            symptoms = input.symptomReport,
             weatherStale = weatherStale,
             ringStale = ringStale
         )
@@ -122,40 +119,6 @@ class HeatRiskEngine(
         return EnvironmentAssessment(level, effectiveHeatIndexC)
     }
 
-    private fun assessSymptoms(
-        symptoms: SymptomReport?,
-        environmentLevel: RiskLevel,
-        reasons: MutableSet<ReasonCode>
-    ): RiskLevel {
-        if (symptoms == null) return RiskLevel.SAFE
-
-        if (symptoms.responseState == ResponseState.MANUAL_EMERGENCY || symptoms.hasSevereSymptoms) {
-            reasons += if (symptoms.responseState == ResponseState.MANUAL_EMERGENCY) {
-                ReasonCode.MANUAL_EMERGENCY
-            } else {
-                ReasonCode.SEVERE_SYMPTOMS
-            }
-            return RiskLevel.EMERGENCY
-        }
-
-        if (symptoms.responseState == ResponseState.NO_RESPONSE) {
-            reasons += ReasonCode.NO_RESPONSE_TO_CHECKIN
-            return if (environmentLevel.rank >= RiskLevel.ACTION.rank) RiskLevel.EMERGENCY else RiskLevel.ACTION
-        }
-
-        if (symptoms.hasModerateSymptoms) {
-            reasons += ReasonCode.MODERATE_SYMPTOMS
-            return RiskLevel.ACTION
-        }
-
-        if (symptoms.hasMildSymptoms) {
-            reasons += ReasonCode.MILD_SYMPTOMS
-            return RiskLevel.CHECK
-        }
-
-        return RiskLevel.SAFE
-    }
-
     private fun assessPhysiology(
         input: RiskInput,
         environmentLevel: RiskLevel,
@@ -229,16 +192,9 @@ class HeatRiskEngine(
 
     private fun confidenceFor(
         level: RiskLevel,
-        symptoms: SymptomReport?,
         weatherStale: Boolean,
         ringStale: Boolean
     ): Confidence {
-        if (symptoms?.hasSevereSymptoms == true || symptoms?.responseState == ResponseState.MANUAL_EMERGENCY) {
-            return Confidence.HIGH
-        }
-        if (level == RiskLevel.EMERGENCY && symptoms?.responseState == ResponseState.NO_RESPONSE) {
-            return Confidence.MEDIUM
-        }
         if (!weatherStale && !ringStale) return Confidence.HIGH
         if (!weatherStale || !ringStale) return Confidence.MEDIUM
         return Confidence.LOW

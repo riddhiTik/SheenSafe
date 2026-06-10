@@ -56,10 +56,9 @@ class EscalationManager(
             when (action) {
                 EscalationAction.NOTIFY_USER -> showRiskNotification(decision)
                 EscalationAction.SUGGEST_DIAL_CONTACT -> dialEmergencyContact()
-                EscalationAction.PROMPT_SYMPTOM_CHECK,
                 EscalationAction.ALERT_VOLUNTEER,
                 EscalationAction.LOG_EMERGENCY_EVENT -> {
-                    // These are handled by the UI layer; logged here for observability
+                    // Handled by the UI layer or external systems
                 }
             }
         }

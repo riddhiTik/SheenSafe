@@ -10,8 +10,7 @@ fun main() {
             nowMillis = now,
             weatherSample = WeatherSample(now, airTemperatureC = 39.0, relativeHumidityPercent = 55.0, directSun = true),
             sensorSample = SensorSample(now, heartRateBpm = 126, skinTemperatureC = 36.4, stepsSinceLastSample = 0, batteryPercent = 70),
-            baseline = Baseline(typicalRestingHeartRateBpm = 78, typicalSkinTemperatureC = 34.1, skinTemperatureStdDevC = 0.5),
-            symptomReport = SymptomReport(now, dizziness = true)
+            baseline = Baseline(typicalRestingHeartRateBpm = 78, typicalSkinTemperatureC = 34.1, skinTemperatureStdDevC = 0.5)
         )
     )
     println(decision)

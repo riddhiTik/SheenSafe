@@ -42,6 +42,14 @@
             android:name=".ui.RiskProfileActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.AdminActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.AdminLoginActivity"
+            android:exported="false" />
+
         <service
             android:name=".service.HeatMonitoringService"
             android:exported="false"

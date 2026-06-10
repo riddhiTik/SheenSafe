@@ -2,11 +2,11 @@ package org.kashmir.heatguard.weather
 
 import org.kashmir.heatguard.core.model.WeatherSample
 import org.kashmir.heatguard.core.weather.WeatherProvider
-import org.kashmir.heatguard.data.AppRepository
+import org.kashmir.heatguard.data.WeatherRepository
 
 class CachedWeatherProvider(
     private val delegate: WeatherProvider,
-    private val repository: AppRepository,
+    private val repository: WeatherRepository,
     private val maxCacheAgeMs: Long = 2 * 60 * 60 * 1_000L
 ) : WeatherProvider {
 
