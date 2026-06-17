@@ -25,25 +25,33 @@ class WatchCommandService : WearableListenerService() {
     companion object {
         private const val TAG = "WatchCommandService"
         const val PATH_START = "/sheensafe/start"
+        const val PATH_START_SIMULATED = "/sheensafe/start-simulated"
         const val PATH_STOP = "/sheensafe/stop"
     }
 
     override fun onMessageReceived(event: MessageEvent) {
         Log.d(TAG, "Message received: ${event.path}")
         when (event.path) {
-            PATH_START -> handleStart()
-            PATH_STOP  -> handleStop()
+            PATH_START -> handleStart(simulated = false)
+            PATH_START_SIMULATED -> handleStart(simulated = true)
+            PATH_STOP -> handleStop()
         }
     }
 
-    private fun handleStart() {
+    private fun handleStart(simulated: Boolean) {
+        if (simulated && !BuildConfig.DEBUG) {
+            Log.w(TAG, "Ignoring simulated start command in non-debug build")
+            return
+        }
+
         if (hasBodySensorsPermission()) {
-            startSensorService()
+            startSensorService(simulated)
         } else {
             // Launch the one-shot permission activity. After the user grants Body Sensors,
             // PermissionActivity starts WatchSensorService and finishes itself.
             val intent = Intent(this, PermissionActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .putExtra(WatchSensorService.EXTRA_SIMULATED_READINGS, simulated)
             startActivity(intent)
         }
     }
@@ -53,8 +61,11 @@ class WatchCommandService : WearableListenerService() {
         Log.i(TAG, "WatchSensorService stopped by phone command")
     }
 
-    private fun startSensorService() {
-        startForegroundService(Intent(this, WatchSensorService::class.java))
+    private fun startSensorService(simulated: Boolean) {
+        startForegroundService(
+            Intent(this, WatchSensorService::class.java)
+                .putExtra(WatchSensorService.EXTRA_SIMULATED_READINGS, simulated)
+        )
         Log.i(TAG, "WatchSensorService started by phone command")
     }
 

@@ -27,7 +27,13 @@ class PermissionActivity : ComponentActivity() {
     ) { granted ->
         if (granted) {
             Log.i(TAG, "BODY_SENSORS granted — starting sensor service")
-            startForegroundService(Intent(this, WatchSensorService::class.java))
+            startForegroundService(
+                Intent(this, WatchSensorService::class.java)
+                    .putExtra(
+                        WatchSensorService.EXTRA_SIMULATED_READINGS,
+                        intent.getBooleanExtra(WatchSensorService.EXTRA_SIMULATED_READINGS, false)
+                    )
+            )
         } else {
             Log.w(TAG, "BODY_SENSORS denied")
         }
@@ -38,7 +44,13 @@ class PermissionActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         if (checkSelfPermission(Manifest.permission.BODY_SENSORS) == PackageManager.PERMISSION_GRANTED) {
-            startForegroundService(Intent(this, WatchSensorService::class.java))
+            startForegroundService(
+                Intent(this, WatchSensorService::class.java)
+                    .putExtra(
+                        WatchSensorService.EXTRA_SIMULATED_READINGS,
+                        intent.getBooleanExtra(WatchSensorService.EXTRA_SIMULATED_READINGS, false)
+                    )
+            )
             finish()
         } else {
             permissionLauncher.launch(Manifest.permission.BODY_SENSORS)

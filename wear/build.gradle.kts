@@ -8,7 +8,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "org.kashmir.heatguard.wear"
+        applicationId = "org.kashmir.heatguard"
         minSdk = 30   // Wear OS 3; Galaxy Watch4+
         targetSdk = 34
         versionCode = 1
@@ -18,6 +18,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        buildConfig = true
     }
     kotlinOptions { jvmTarget = "17" }
 

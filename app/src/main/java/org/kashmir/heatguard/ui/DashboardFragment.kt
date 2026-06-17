@@ -66,7 +66,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         repository = AppRepository(requireContext())
         escalationManager = EscalationManager(requireContext(), repository)
 
-        val shared = (requireActivity().application as HeatGuardApplication).activeRingDataSource
+        val app = requireActivity().application as HeatGuardApplication
+        val shared = app.activeRingDataSource ?: if (repository.getUseWatch6()) app.wearDataSource else null
         if (shared != null) {
             // Service is running with a real watch — share its data source.
             // We poll instead of calling start() to avoid overwriting the service's listener.

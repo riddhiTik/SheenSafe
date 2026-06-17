@@ -37,4 +37,8 @@ class WearDataRingDataSource : RingDataSource {
         latest = sample
         if (running) listener?.onSample(sample)
     }
+
+    fun clearForTesting() {
+        latest = null
+    }
 }

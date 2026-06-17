@@ -6,7 +6,9 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import com.google.android.gms.wearable.Wearable
 import com.samsung.android.service.health.tracking.ConnectionListener
@@ -41,11 +43,13 @@ class WatchSensorService : Service() {
     companion object {
         private const val TAG = "WatchSensorService"
         const val MSG_PATH = "/sheensafe/watch-reading"
+        const val EXTRA_SIMULATED_READINGS = "org.kashmir.heatguard.wear.EXTRA_SIMULATED_READINGS"
         private const val CHANNEL_ID = "sheensafe_sensor"
         private const val NOTIF_ID = 1
     }
 
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     // Held before connectService() is called; used inside onConnectionSuccess()
     private var healthTrackingService: HealthTrackingService? = null
@@ -54,6 +58,17 @@ class WatchSensorService : Service() {
 
     @Volatile private var latestHr: Int? = null
     @Volatile private var latestTemp: Float? = null
+    @Volatile private var simulatedReadings = false
+
+    private val simulatedTick = object : Runnable {
+        override fun run() {
+            if (!simulatedReadings) return
+            latestHr = 101
+            latestTemp = 36.0f
+            dispatchReading()
+            mainHandler.postDelayed(this, 5_000L)
+        }
+    }
 
     private val connectionListener = object : ConnectionListener {
         override fun onConnectionSuccess() {
@@ -74,14 +89,40 @@ class WatchSensorService : Service() {
     override fun onCreate() {
         super.onCreate()
         startForeground(NOTIF_ID, buildForegroundNotification())
+    }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent?.getBooleanExtra(EXTRA_SIMULATED_READINGS, false) == true) {
+            startSimulatedReadings()
+        } else {
+            startSamsungSensorTracking()
+        }
+        return START_STICKY
+    }
+
+    private fun startSamsungSensorTracking() {
+        if (healthTrackingService != null || simulatedReadings) return
         val service = HealthTrackingService(connectionListener, applicationContext)
         healthTrackingService = service
         service.connectService()
         Log.i(TAG, "WatchSensorService started, connecting to HealthTrackingService")
     }
 
+    private fun startSimulatedReadings() {
+        if (!BuildConfig.DEBUG) {
+            Log.w(TAG, "Ignoring simulated readings in non-debug build")
+            stopSelf()
+            return
+        }
+        if (simulatedReadings) return
+        simulatedReadings = true
+        Log.i(TAG, "WatchSensorService started in simulated watch-reading mode")
+        simulatedTick.run()
+    }
+
     override fun onDestroy() {
+        simulatedReadings = false
+        mainHandler.removeCallbacks(simulatedTick)
         hrTracker?.unsetEventListener()
         skinTempTracker?.unsetEventListener()
         healthTrackingService?.disconnectService()
