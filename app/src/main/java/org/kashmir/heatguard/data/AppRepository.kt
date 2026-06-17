@@ -164,6 +164,19 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
             .apply()
     }
 
+    fun getPrimaryContactIndex(): Int = prefs.getInt(KEY_PRIMARY_CONTACT_INDEX, 1)
+    fun setPrimaryContactIndex(index: Int) {
+        prefs.edit().putInt(KEY_PRIMARY_CONTACT_INDEX, index).apply()
+    }
+
+    fun getPrimaryPhone(): String =
+        if (getPrimaryContactIndex() == 2) getSecondContactPhone() else getEmergencyContactPhone()
+
+    fun getNonPrimaryPhones(): List<String> = buildList {
+        if (getPrimaryContactIndex() != 1 && getEmergencyContactPhone().isNotBlank()) add(getEmergencyContactPhone())
+        if (getPrimaryContactIndex() != 2 && getSecondContactPhone().isNotBlank()) add(getSecondContactPhone())
+    }
+
     fun getAlertHeatRisk(): Boolean = prefs.getBoolean(KEY_ALERT_HEAT_RISK, true)
     fun setAlertHeatRisk(on: Boolean) { prefs.edit().putBoolean(KEY_ALERT_HEAT_RISK, on).apply() }
     fun getAlertHydration(): Boolean = prefs.getBoolean(KEY_ALERT_HYDRATION, true)
@@ -207,6 +220,19 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
             .putDouble(KEY_LAST_LON, lon)
             .apply()
     }
+
+    fun getUseWatch6(): Boolean = prefs.getBoolean(KEY_USE_WATCH6, false)
+
+    fun setUseWatch6(on: Boolean) {
+        prefs.edit().putBoolean(KEY_USE_WATCH6, on).apply()
+    }
+
+    fun setEmergencyAlertSuppressedUntil(millis: Long) {
+        prefs.edit().putLong(KEY_EMERGENCY_ALERT_SUPPRESSED_UNTIL, millis).apply()
+    }
+
+    fun isEmergencyAlertSuppressed(nowMillis: Long): Boolean =
+        nowMillis < prefs.getLong(KEY_EMERGENCY_ALERT_SUPPRESSED_UNTIL, 0L)
 
     fun deleteAllData() {
         prefs.edit().clear().apply()
@@ -268,5 +294,8 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         private const val KEY_SUPABASE_USER_ID = "supabase_user_id"
         private const val KEY_LAST_LAT = "last_lat"
         private const val KEY_LAST_LON = "last_lon"
+        private const val KEY_PRIMARY_CONTACT_INDEX = "primary_contact_index"
+        private const val KEY_EMERGENCY_ALERT_SUPPRESSED_UNTIL = "emergency_alert_suppressed_until"
+        private const val KEY_USE_WATCH6 = "use_watch6"
     }
 }

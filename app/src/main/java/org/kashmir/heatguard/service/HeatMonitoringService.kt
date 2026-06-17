@@ -23,6 +23,8 @@ import org.kashmir.heatguard.core.risk.HeatRiskEngine
 import org.kashmir.heatguard.data.AppRepository
 import org.kashmir.heatguard.data.SupabaseClientProvider
 import org.kashmir.heatguard.data.SupabaseRepository
+import com.google.android.gms.wearable.Wearable
+import org.kashmir.heatguard.HeatGuardApplication
 import org.kashmir.heatguard.ring.S5RingDataSource
 import org.kashmir.heatguard.ring.SimulatedRingDataSource
 import org.kashmir.heatguard.weather.ApiWeatherProvider
@@ -51,11 +53,13 @@ class HeatMonitoringService : Service() {
         supabaseRepo = SupabaseRepository(SupabaseClientProvider.client)
         escalationManager = EscalationManager(this, repository)
         ringDataSource = buildRingDataSource()
+        (application as HeatGuardApplication).activeRingDataSource = ringDataSource
         ringDataSource.start { /* latest sample retained by source */ }
         pipeline = buildPipeline()
         startForeground(1, monitoringNotification())
         executor = Executors.newSingleThreadScheduledExecutor()
         executor.scheduleAtFixedRate({ assessOnce() }, 0L, 5L, TimeUnit.MINUTES)
+        if (repository.getUseWatch6()) startWatchCollection()
         promptForProfileIfNeeded()
         syncUserToCloud()
     }
@@ -63,6 +67,7 @@ class HeatMonitoringService : Service() {
     override fun onDestroy() {
         executor.shutdownNow()
         ringDataSource.stop()
+        (application as HeatGuardApplication).activeRingDataSource = null
         serviceScope.cancel()
         super.onDestroy()
     }
@@ -76,8 +81,9 @@ class HeatMonitoringService : Service() {
             mainHandler.post { escalationManager.execute(result.plan, result.decision) }
 
             val uid = repository.getSupabaseUserId().ifBlank { repository.getOrCreateDeviceId() }
+            val ambientTempC = result.weatherSample?.airTemperatureC?.toFloat()
             serviceScope.launch {
-                supabaseRepo.logDecision(uid, result.decision)
+                supabaseRepo.logDecision(uid, result.decision, ambientTempC)
                 ringDataSource.latestSample()?.let { supabaseRepo.logSample(uid, it) }
             }
         } catch (_: Exception) {
@@ -103,7 +109,27 @@ class HeatMonitoringService : Service() {
         }
     }
 
+    /**
+     * Sends /sheensafe/start to all connected Wear OS nodes. The watch's
+     * WatchCommandService receives this and starts sensor collection (or shows
+     * the one-time BODY_SENSORS permission prompt if not yet granted).
+     * Fires and forgets — failures are silent since the next service restart retries.
+     */
+    private fun startWatchCollection() {
+        Wearable.getNodeClient(this).connectedNodes
+            .addOnSuccessListener { nodes ->
+                val payload = ByteArray(0)
+                nodes.forEach { node ->
+                    Wearable.getMessageClient(this)
+                        .sendMessage(node.id, "/sheensafe/start", payload)
+                }
+            }
+    }
+
     private fun buildRingDataSource(): RingDataSource {
+        if (repository.getUseWatch6()) {
+            return (application as HeatGuardApplication).wearDataSource
+        }
         val mac = repository.getRingDeviceMac()
         return if (mac != null) {
             S5RingDataSource(this, mac)

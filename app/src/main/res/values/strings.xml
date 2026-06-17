@@ -92,16 +92,21 @@
     <string name="onboarding_gender_female">Female</string>
     <string name="onboarding_gender_other">Other</string>
 
-    <!-- Step 3: Connect Device -->
-    <string name="onboarding_device_title">Let\'s find your Guardian device.</string>
-    <string name="onboarding_device_subtitle">Connecting your watch helps us keep a close eye on your safety.</string>
-    <string name="onboarding_device_name">Sheen Watch</string>
-    <string name="onboarding_device_status">Nearby &amp; Pairing Ready</string>
-    <string name="onboarding_device_hint">Make sure your device is charged and nearby.</string>
-    <string name="onboarding_connect_device">Connect Device</string>
-    <string name="onboarding_scan_for_device">Scan for Device</string>
-    <string name="onboarding_stop_scan">Stop Scanning</string>
+    <!-- Step 3: Connect Watch -->
+    <string name="onboarding_device_title">Connect your watch.</string>
+    <string name="onboarding_device_subtitle">Your watch sends live body temperature and heart rate to this app.</string>
+    <string name="onboarding_device_name">Samsung Watch</string>
+    <string name="onboarding_device_status">Ready to connect</string>
+    <string name="onboarding_device_hint">Make sure your watch is paired with this phone via the Galaxy Wearable app. A one-time permission prompt will appear on your watch — tap Allow.</string>
+    <string name="onboarding_connect_device">Connect Watch</string>
+    <string name="onboarding_scan_for_device">Connect Watch</string>
+    <string name="onboarding_stop_scan">Connecting…</string>
     <string name="onboarding_skip_device">Skip for now</string>
+    <string name="onboarding_watch_connected">Watch connected!</string>
+    <string name="onboarding_watch_not_found">Watch not detected. Make sure it\'s paired via Galaxy Wearable and nearby.</string>
+    <string name="onboarding_watch_error">Could not reach watch. Make sure Bluetooth is on.</string>
+    <string name="onboarding_watch_try_again">Try Again</string>
+    <string name="onboarding_watch_continue_anyway">Continue anyway</string>
     <string name="onboarding_scanning">Scanning for devices…</string>
     <string name="onboarding_scan_complete">Found %d device(s) — tap to connect</string>
     <string name="onboarding_unknown_device">Unknown Device</string>
@@ -208,6 +213,15 @@
     <string name="login_error_terms">Please agree to the terms to continue.</string>
     <string name="login_error_failed">Authentication failed. Please check your credentials and try again.</string>
     <string name="login_error_not_configured">App not connected to server. Contact support.</string>
+
+    <!-- Emergency alert screen -->
+    <string name="emergency_alert_title">Critical Heat Stress Detected</string>
+    <string name="emergency_alert_subtitle">Your core temperature has reached a dangerous level. Initiating emergency protocol.</string>
+    <string name="emergency_seconds_label">SECONDS TO AUTO-ESCALATION</string>
+    <string name="emergency_slide_to_cancel">SLIDE TO CANCEL</string>
+    <string name="emergency_call_contacts">CALL CONTACTS NOW</string>
+    <string name="emergency_notification_title">EMERGENCY: Critical Heat Stress</string>
+    <string name="emergency_notification_body">Tap to respond or wait for auto-escalation.</string>
 
     <!-- Admin login -->
     <string name="admin_login_title">Admin Access</string>

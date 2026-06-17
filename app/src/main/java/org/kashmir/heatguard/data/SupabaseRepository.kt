@@ -118,7 +118,11 @@ class SupabaseRepository(private val client: SupabaseClient?) {
         ))
     }
 
-    suspend fun logDecision(deviceId: String, decision: RiskDecision) = runCatching {
+    suspend fun logDecision(
+        deviceId: String,
+        decision: RiskDecision,
+        ambientTempC: Float? = null
+    ) = runCatching {
         val c = client ?: return@runCatching
         c.from("risk_decisions").insert(listOf(
             RiskDecisionRow(
@@ -128,6 +132,7 @@ class SupabaseRepository(private val client: SupabaseClient?) {
                 reason_codes = decision.reasonCodes.map { it.name },
                 recommended_action = decision.recommendedAction,
                 effective_heat_index_c = decision.effectiveHeatIndexC?.toFloat(),
+                ambient_temp_c = ambientTempC,
                 ring_data_age_minutes = decision.ringDataAgeMinutes?.toInt(),
                 weather_data_age_minutes = decision.weatherDataAgeMinutes?.toInt()
             )
@@ -168,6 +173,23 @@ class SupabaseRepository(private val client: SupabaseClient?) {
         }.decodeList<RiskDecisionRow>()
     }.getOrElse { emptyList() }
 
+    suspend fun getRecentSamples(limit: Int = 200): List<SensorSampleRow> = runCatching {
+        val c = client ?: return@runCatching emptyList()
+        c.from("sensor_samples").select {
+            order("sampled_at", order = Order.DESCENDING)
+            limit(limit.toLong())
+        }.decodeList<SensorSampleRow>()
+    }.getOrElse { emptyList() }
+
+    suspend fun getLatestSampleForUser(deviceId: String): SensorSampleRow? = runCatching {
+        val c = client ?: return@runCatching null
+        c.from("sensor_samples").select {
+            filter { eq("device_id", deviceId) }
+            order("sampled_at", order = Order.DESCENDING)
+            limit(1)
+        }.decodeList<SensorSampleRow>().firstOrNull()
+    }.getOrNull()
+
     suspend fun getDecisionsForUser(deviceId: String, limit: Int = 50): List<RiskDecisionRow> = runCatching {
         val c = client ?: return@runCatching emptyList()
         c.from("risk_decisions").select {
@@ -178,6 +200,14 @@ class SupabaseRepository(private val client: SupabaseClient?) {
             limit(limit.toLong())
         }.decodeList<RiskDecisionRow>()
     }.getOrElse { emptyList() }
+
+    suspend fun isAdmin(userId: String): Boolean = runCatching {
+        val c = client ?: return@runCatching false
+        c.from("admin_users").select {
+            filter { eq("user_id", userId) }
+            limit(1)
+        }.decodeList<AdminUserCheckRow>().isNotEmpty()
+    }.getOrDefault(false)
 
     // ------------------------------------------------------------------ DTOs
 
@@ -215,9 +245,14 @@ class SupabaseRepository(private val client: SupabaseClient?) {
         val reason_codes: List<String>,
         val recommended_action: String? = null,
         val effective_heat_index_c: Float? = null,
+        val ambient_temp_c: Float? = null,
         val ring_data_age_minutes: Int? = null,
-        val weather_data_age_minutes: Int? = null
+        val weather_data_age_minutes: Int? = null,
+        val created_at: String? = null
     )
+
+    @Serializable
+    private data class AdminUserCheckRow(val user_id: String)
 
     @Serializable
     data class SensorSampleRow(

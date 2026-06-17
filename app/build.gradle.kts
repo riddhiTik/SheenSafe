@@ -58,6 +58,9 @@ dependencies {
     implementation("io.ktor:ktor-client-android:3.1.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
+    // Wear OS Data Layer (receives watch readings from Galaxy Watch6)
+    implementation("com.google.android.gms:play-services-wearable:18.2.0")
+
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 

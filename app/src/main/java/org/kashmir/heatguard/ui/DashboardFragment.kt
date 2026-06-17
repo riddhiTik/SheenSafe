@@ -9,10 +9,14 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import org.kashmir.heatguard.HeatGuardApplication
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.alerts.EscalationManager
 import org.kashmir.heatguard.core.SystemClock
@@ -32,7 +36,18 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private lateinit var ringDataSource: RingDataSource
     private val engine = HeatRiskEngine()
     private val escalationEngine = EscalationEngine(SystemClock)
+    private var ownsDataSource = false
+    private val refreshHandler = Handler(Looper.getMainLooper())
+    private val refreshRunnable: Runnable = object : Runnable {
+        override fun run() {
+            assessAndRender()
+            refreshHandler.postDelayed(this, 5_000L)
+        }
+    }
 
+    private var pendingTextPhones: List<String> = emptyList()
+
+    private lateinit var btnEmergency: MaterialButton
     private lateinit var heroCard: MaterialCardView
     private lateinit var ivHeroIcon: android.widget.ImageView
     private lateinit var tvHeroHeading: TextView
@@ -50,8 +65,23 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         repository = AppRepository(requireContext())
         escalationManager = EscalationManager(requireContext(), repository)
-        ringDataSource = SimulatedRingDataSource()
 
+        val shared = (requireActivity().application as HeatGuardApplication).activeRingDataSource
+        if (shared != null) {
+            // Service is running with a real watch — share its data source.
+            // We poll instead of calling start() to avoid overwriting the service's listener.
+            ringDataSource = shared
+            ownsDataSource = false
+            refreshHandler.post(refreshRunnable)
+        } else {
+            // No service/watch — use simulated data driven by listener callbacks.
+            ringDataSource = SimulatedRingDataSource()
+            ownsDataSource = true
+            ringDataSource.start { assessAndRender() }
+        }
+
+
+        btnEmergency = view.findViewById(R.id.btnEmergency)
         heroCard = view.findViewById(R.id.heroCard)
         ivHeroIcon = view.findViewById(R.id.ivHeroIcon)
         tvHeroHeading = view.findViewById(R.id.tvHeroHeading)
@@ -68,14 +98,42 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             showWeatherDialog()
         }
 
-        ensureDefaultBaseline()
+        btnEmergency.setOnClickListener {
+            val primaryPhone = repository.getPrimaryPhone()
+            val nonPrimary = repository.getNonPrimaryPhones()
 
-        ringDataSource.start { assessAndRender() }
+            if (primaryPhone.isBlank() && nonPrimary.isEmpty()) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("No Emergency Contacts")
+                    .setMessage("Add emergency contacts in the Contacts tab first.")
+                    .setPositiveButton("OK", null)
+                    .show()
+                return@setOnClickListener
+            }
+
+            pendingTextPhones = nonPrimary
+            if (primaryPhone.isNotBlank()) {
+                escalationManager.dialEmergencyContact()
+            } else {
+                nonPrimary.firstOrNull()?.let { escalationManager.openSmsForContact(it) }
+                pendingTextPhones = nonPrimary.drop(1)
+            }
+        }
+
+        ensureDefaultBaseline()
         assessAndRender()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val phones = pendingTextPhones
+        pendingTextPhones = emptyList()
+        phones.forEach { escalationManager.openSmsForContact(it) }
+    }
+
     override fun onDestroyView() {
-        ringDataSource.stop()
+        refreshHandler.removeCallbacks(refreshRunnable)
+        if (ownsDataSource) ringDataSource.stop()
         super.onDestroyView()
     }
 
@@ -151,10 +209,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         tvHumidity.text = weather.relativeHumidityPercent?.let { "%.0f".format(it) } ?: getString(R.string.metric_no_data)
         tvOutsideTemp.text = weather.airTemperatureC?.let { formatTemp(it, unit) } ?: getString(R.string.metric_no_data)
 
-        // Escalation
-        if (decision.level.rank >= RiskLevel.ACTION.rank && repository.getAlertHeatRisk()) {
-            escalationManager.showRiskNotification(decision)
-        }
+        // Notifications are handled by HeatMonitoringService with proper cooldowns.
+        // Firing them here caused a notification every 5 seconds.
     }
 
     private fun formatTemp(celsius: Double, unit: String): String {

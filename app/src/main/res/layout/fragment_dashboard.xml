@@ -160,6 +160,26 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Emergency call button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEmergency"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="16dp"
+            android:text="EMERGENCY: CALL CONTACTS NOW"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"
+            app:icon="@drawable/ic_phone"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white"
+            app:iconSize="22dp"
+            app:iconPadding="12dp"
+            app:cornerRadius="32dp"
+            app:backgroundTint="@color/emergency_btn"
+            app:elevation="4dp" />
+
         <!-- Vitals grid: 2x2 -->
         <GridLayout
             android:layout_width="match_parent"

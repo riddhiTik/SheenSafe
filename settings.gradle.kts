@@ -20,3 +20,4 @@ dependencyResolutionManagement {
 rootProject.name = "HeatGuardKashmir"
 include(":core")
 include(":app")
+include(":wear")

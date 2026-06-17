@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_emergency_gradient"
+    android:paddingHorizontal="24dp">
+
+    <!-- Top section: icon + title + subtitle -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_horizontal|top"
+        android:paddingTop="56dp">
+
+        <FrameLayout
+            android:id="@+id/warning_icon_bg"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/bg_warning_circle">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_emergency_warning"
+                android:contentDescription="@null" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/emergency_alert_title"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/emergency_alert_subtitle"
+            android:textSize="15sp"
+            android:textColor="#CCFFFFFF"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:lineSpacingMultiplier="1.3" />
+
+    </LinearLayout>
+
+    <!-- Middle section: countdown -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/countdown_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textSize="96sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:fontFamily="monospace" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/emergency_seconds_label"
+            android:textSize="11sp"
+            android:textColor="#B3FFFFFF"
+            android:letterSpacing="0.1"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+
+    <!-- Bottom section: slide to cancel + call button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="48dp">
+
+        <!-- Slide to cancel track -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_slide_cancel"
+            android:clipToOutline="true">
+
+            <!-- Progress fill (width set programmatically) -->
+            <View
+                android:id="@+id/slide_progress"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/error_color"
+                android:layout_gravity="start" />
+
+            <!-- Label (sits behind the seekbar, visible through transparent seekbar) -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/emergency_slide_to_cancel"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:letterSpacing="0.1"
+                android:gravity="center" />
+
+            <!-- SeekBar: transparent track, white oval thumb -->
+            <SeekBar
+                android:id="@+id/slide_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:progressDrawable="@android:color/transparent"
+                android:background="@android:color/transparent"
+                android:thumb="@drawable/ic_slide_thumb"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:max="100"
+                android:progress="0"
+                android:splitTrack="false" />
+
+        </FrameLayout>
+
+        <!-- Call contacts button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/call_contacts_btn"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="@string/emergency_call_contacts"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/error_color"
+            android:layout_marginTop="16dp"
+            app:backgroundTint="@android:color/black"
+            app:cornerRadius="32dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+    </LinearLayout>
+
+</LinearLayout>

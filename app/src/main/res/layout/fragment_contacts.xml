@@ -106,9 +106,22 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_chevron_right"
+                        android:id="@+id/ivContact1Star"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginEnd="4dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_star_filled"
+                        android:contentDescription="Set as primary contact"
+                        app:tint="@color/warning_color" />
+
+                    <ImageView
+                        android:id="@+id/ivContact1Delete"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_delete"
+                        android:contentDescription="Delete contact"
                         app:tint="@color/muted" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -169,9 +182,22 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_chevron_right"
+                        android:id="@+id/ivContact2Star"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginEnd="4dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_star_outline"
+                        android:contentDescription="Set as primary contact"
+                        app:tint="@color/muted" />
+
+                    <ImageView
+                        android:id="@+id/ivContact2Delete"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_delete"
+                        android:contentDescription="Delete contact"
                         app:tint="@color/muted" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

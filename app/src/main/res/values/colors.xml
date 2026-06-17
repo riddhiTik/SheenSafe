@@ -30,4 +30,10 @@
     <color name="risk_action_bg">#FFF3E0</color>
     <color name="risk_emergency_bg">#FFEBEE</color>
     <color name="nav_border">#E7F3EB</color>
+
+    <!-- Admin dashboard design system -->
+    <color name="error_container">#FFDAD6</color>
+    <color name="on_primary_container">#006123</color>
+    <color name="on_error_container">#93000A</color>
+    <color name="emergency_btn">#C62828</color>
 </resources>

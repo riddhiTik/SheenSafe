@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Declares the "sheensafe_watch" capability so the phone can discover this app
+        via Wearable.getCapabilityClient().getCapability("sheensafe_watch", FILTER_REACHABLE).
+        This is the standard Wear OS companion-app discovery mechanism.
+    -->
+    <string-array name="android_wear_capabilities">
+        <item>sheensafe_watch</item>
+    </string-array>
+</resources>

@@ -7,6 +7,7 @@ import org.kashmir.heatguard.core.model.Baseline
 import org.kashmir.heatguard.core.model.RiskDecision
 import org.kashmir.heatguard.core.model.RiskInput
 import org.kashmir.heatguard.core.model.RiskProfile
+import org.kashmir.heatguard.core.model.WeatherSample
 import org.kashmir.heatguard.core.ring.RingDataSource
 import org.kashmir.heatguard.core.risk.HeatRiskEngine
 import org.kashmir.heatguard.core.weather.WeatherProvider
@@ -31,12 +32,13 @@ class MonitoringPipeline(
         )
         val decision = engine.assess(input)
         val plan = escalationEngine.plan(decision)
-        return PipelineResult(decision, plan, now)
+        return PipelineResult(decision, plan, now, input.weatherSample)
     }
 }
 
 data class PipelineResult(
     val decision: RiskDecision,
     val plan: EscalationPlan,
-    val nowMillis: Long
+    val nowMillis: Long,
+    val weatherSample: WeatherSample? = null
 )

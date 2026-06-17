@@ -11,6 +11,7 @@ import org.kashmir.heatguard.R
 import org.kashmir.heatguard.data.AppRepository
 import org.kashmir.heatguard.data.SupabaseClientProvider
 import org.kashmir.heatguard.data.SupabaseRepository
+import org.kashmir.heatguard.ui.AdminActivity
 import org.kashmir.heatguard.ui.MainActivity
 
 class OnboardingActivity : AppCompatActivity() {
@@ -25,7 +26,19 @@ class OnboardingActivity : AppCompatActivity() {
         val hasSession = SupabaseClientProvider.client?.auth?.currentSessionOrNull() != null
 
         if (hasSession && repository.isOnboardingComplete()) {
-            launchMain()
+            val userId = repository.getSupabaseUserId()
+            val client = SupabaseClientProvider.client
+            if (client != null && userId.isNotBlank()) {
+                lifecycleScope.launch {
+                    if (SupabaseRepository(client).isAdmin(userId)) {
+                        launchAdmin()
+                    } else {
+                        launchMain()
+                    }
+                }
+            } else {
+                launchMain()
+            }
             return
         }
 
@@ -41,10 +54,16 @@ class OnboardingActivity : AppCompatActivity() {
 
     /** Called by LoginFragment after successful sign-in or sign-up. */
     fun onAuthCompleted() {
-        if (repository.isOnboardingComplete()) {
-            launchMain()
-        } else {
-            navigateTo(LanguageSelectionFragment(), addToBackStack = false)
+        val userId = repository.getSupabaseUserId()
+        val client = SupabaseClientProvider.client
+        lifecycleScope.launch {
+            val adminCheck = client != null && userId.isNotBlank() &&
+                SupabaseRepository(client).isAdmin(userId)
+            when {
+                adminCheck                        -> launchAdmin()
+                repository.isOnboardingComplete() -> launchMain()
+                else                              -> navigateTo(LanguageSelectionFragment(), addToBackStack = false)
+            }
         }
     }
 
@@ -118,6 +137,11 @@ class OnboardingActivity : AppCompatActivity() {
 
     private fun launchMain() {
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
+    private fun launchAdmin() {
+        startActivity(Intent(this, AdminActivity::class.java))
         finish()
     }
 }
