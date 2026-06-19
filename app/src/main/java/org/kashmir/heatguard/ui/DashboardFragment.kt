@@ -59,6 +59,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private lateinit var tvHumidity: TextView
     private lateinit var tvOutsideTemp: TextView
     private lateinit var tvOutsideTempUnit: TextView
+    private lateinit var tvWatchStatus: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -93,6 +94,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         tvHumidity = view.findViewById(R.id.tvHumidity)
         tvOutsideTemp = view.findViewById(R.id.tvOutsideTemp)
         tvOutsideTempUnit = view.findViewById(R.id.tvOutsideTempUnit)
+        tvWatchStatus = view.findViewById(R.id.tvWatchStatus)
 
         view.findViewById<android.widget.ImageButton>(R.id.btnNotifications).setOnClickListener {
             showWeatherDialog()
@@ -211,6 +213,28 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         // Notifications are handled by HeatMonitoringService with proper cooldowns.
         // Firing them here caused a notification every 5 seconds.
+
+        // Watch connection status
+        val macSaved = repository.getRingDeviceMac() != null
+        val s = ringDataSource.latestSample()
+        val ageSeconds = if (s != null) (System.currentTimeMillis() - s.timestampMillis) / 1000L else null
+
+        tvWatchStatus.text = when {
+            !macSaved -> "Watch: not paired"
+            s == null -> "Watch: connecting…"
+            s.connected == false -> "Watch: disconnected"
+            ageSeconds != null && ageSeconds < 30 -> {
+                val hr = s.heartRateBpm
+                if (hr != null) "Watch: live — HR $hr bpm (${ageSeconds}s ago)"
+                else "Watch: connected — waiting for HR…"
+            }
+            else -> "Watch: connected — no data yet (${ageSeconds}s ago)"
+        }
+        tvWatchStatus.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (s != null && s.connected && ageSeconds != null && ageSeconds < 30) R.color.primary_dark
+            else R.color.muted
+        ))
     }
 
     private fun formatTemp(celsius: Double, unit: String): String {

@@ -44,6 +44,19 @@
                 app:tint="@color/background_dark" />
         </LinearLayout>
 
+        <!-- Watch connection status -->
+        <TextView
+            android:id="@+id/tvWatchStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="12dp"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/muted"
+            android:text="Watch: not paired" />
+
         <!-- Hero status card -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/heroCard"
