@@ -17,15 +17,21 @@ import com.google.android.gms.wearable.WearableListenerService
  * ever opening an app on the watch.
  *
  * Handled paths:
- *   /sheensafe/start  — start sensor collection (grants permission first if needed)
- *   /sheensafe/stop   — stop sensor collection
+ *   /sheensafe-cmd/start  — start sensor collection (grants permission first if needed)
+ *   /sheensafe-cmd/stop   — stop sensor collection
+ *
+ * Uses a distinct path prefix (/sheensafe-cmd) from the watch-reading data path
+ * (/sheensafe-data, see WatchSensorService) so the phone and watch listener
+ * registrations never overlap under the same signing certificate — overlapping
+ * prefixes caused Wearable Data Layer message routing to get stuck pointing at
+ * the wrong app component.
  */
 class WatchCommandService : WearableListenerService() {
 
     companion object {
         private const val TAG = "WatchCommandService"
-        const val PATH_START = "/sheensafe/start"
-        const val PATH_STOP = "/sheensafe/stop"
+        const val PATH_START = "/sheensafe-cmd/start"
+        const val PATH_STOP = "/sheensafe-cmd/stop"
     }
 
     override fun onMessageReceived(event: MessageEvent) {

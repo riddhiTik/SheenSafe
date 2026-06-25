@@ -9,7 +9,7 @@ import org.kashmir.heatguard.core.ring.RingSampleListener
  *
  * This class is a passive sink: it holds the latest sample and notifies the
  * registered listener. Samples are pushed into it by SheenSafeWearListenerService
- * whenever a message arrives on path /sheensafe/watch-reading.
+ * whenever a message arrives on path /sheensafe-data/watch-reading.
  *
  * Thread safety: onWatchReading() is called from the WearableListenerService binder
  * thread. @Volatile on the shared fields keeps reads from HeatMonitoringService

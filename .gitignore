@@ -1,5 +1,6 @@
 # Local configuration — never commit
 local.properties
+*.keystore
 
 # Gradle build output
 .gradle/

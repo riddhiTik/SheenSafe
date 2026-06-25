@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
  * Restarts WatchSensorService after the watch reboots. Only starts the service if
  * BODY_SENSORS was already granted — no permission dialogs are shown here, because
  * BroadcastReceivers can't show UI. If the permission was revoked, the phone will
- * need to send /sheensafe/start again to re-trigger the PermissionActivity.
+ * need to send /sheensafe-cmd/start again to re-trigger the PermissionActivity.
  */
 class WatchBootReceiver : BroadcastReceiver() {
 

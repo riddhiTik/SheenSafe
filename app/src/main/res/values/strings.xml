@@ -172,6 +172,8 @@
     <string name="settings_watch_connected">Sheen Watch Connected</string>
     <string name="settings_watch_battery">%1$d%% Battery</string>
     <string name="settings_reconnect">Reconnect Watch</string>
+    <string name="settings_watch6_label">Use Galaxy Watch 6</string>
+    <string name="settings_watch6_hint">Streams live heart rate via Wear Data Layer</string>
     <string name="settings_section_alerts">ALERTS</string>
     <string name="settings_alert_heat">Heat Risk Alerts</string>
     <string name="settings_alert_hydration">Hydration Reminders</string>

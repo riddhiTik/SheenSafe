@@ -12,17 +12,21 @@ import org.kashmir.heatguard.core.model.SensorSample
 /**
  * Receives watch readings sent by WatchSensorService on the Galaxy Watch6.
  *
- * Expected message path: /sheensafe/watch-reading
+ * Expected message path: /sheensafe-data/watch-reading
  * Expected payload (JSON):
  *   { "heartRateBpm": 95, "skinTempC": 34.8, "timestampMillis": 1710000000000 }
  *
  * Null fields are encoded as JSON null and decoded back to Kotlin null correctly.
+ *
+ * Uses a distinct path prefix (/sheensafe-data) from the watch command path
+ * (/sheensafe-cmd, see WatchCommandService) so the phone and watch listener
+ * registrations never overlap under the same signing certificate.
  */
 class SheenSafeWearListenerService : WearableListenerService() {
 
     companion object {
         private const val TAG = "WearListener"
-        private const val MSG_PATH = "/sheensafe/watch-reading"
+        private const val MSG_PATH = "/sheensafe-data/watch-reading"
     }
 
     override fun onMessageReceived(event: MessageEvent) {

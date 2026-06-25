@@ -77,7 +77,7 @@
                 <data
                     android:scheme="wear"
                     android:host="*"
-                    android:pathPrefix="/sheensafe" />
+                    android:pathPrefix="/sheensafe-data" />
             </intent-filter>
         </service>
 

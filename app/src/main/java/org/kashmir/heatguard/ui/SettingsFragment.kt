@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +19,7 @@ import org.kashmir.heatguard.R
 import org.kashmir.heatguard.data.AppRepository
 import org.kashmir.heatguard.data.SupabaseClientProvider
 import org.kashmir.heatguard.data.SupabaseRepository
+import org.kashmir.heatguard.service.HeatMonitoringService
 import org.kashmir.heatguard.ui.onboarding.OnboardingActivity
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -33,6 +35,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         bindPermissions(view)
         bindTempToggle(view)
         bindActions(view)
+        bindWatch6Toggle(view)
     }
 
     private fun bindProfile(view: View) {
@@ -136,6 +139,25 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
                 )
+            }
+        }
+    }
+
+    private fun bindWatch6Toggle(view: View) {
+        val switch = view.findViewById<SwitchMaterial>(R.id.switchWatch6)
+        switch.isChecked = repository.getUseWatch6()
+        switch.setOnCheckedChangeListener { _, on ->
+            Log.i("SettingsFragment", "Watch6 toggle changed to $on — restarting HeatMonitoringService")
+            repository.setUseWatch6(on)
+            // HeatMonitoringService reads getUseWatch6() only in onCreate(), so we must
+            // restart it for the new ring source selection to take effect.
+            val ctx = requireContext()
+            ctx.stopService(Intent(ctx, HeatMonitoringService::class.java))
+            val intent = Intent(ctx, HeatMonitoringService::class.java)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                ctx.startForegroundService(intent)
+            } else {
+                ctx.startService(intent)
             }
         }
     }

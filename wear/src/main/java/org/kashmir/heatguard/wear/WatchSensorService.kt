@@ -33,14 +33,14 @@ import org.json.JSONObject
  *
  * Data flow:
  *  Samsung Health Sensor SDK callbacks → dispatchReading()
- *      → Wearable MessageClient → path /sheensafe/watch-reading
+ *      → Wearable MessageClient → path /sheensafe-data/watch-reading
  *      → SheenSafeWearListenerService (phone)
  */
 class WatchSensorService : Service() {
 
     companion object {
         private const val TAG = "WatchSensorService"
-        const val MSG_PATH = "/sheensafe/watch-reading"
+        const val MSG_PATH = "/sheensafe-data/watch-reading"
         private const val CHANNEL_ID = "sheensafe_sensor"
         private const val NOTIF_ID = 1
     }
@@ -53,6 +53,7 @@ class WatchSensorService : Service() {
     private var skinTempTracker: HealthTracker? = null
 
     @Volatile private var latestHr: Int? = null
+    // TODO: skin temperature — latestTemp feeds dispatchReading() via startSkinTempTracker()
     @Volatile private var latestTemp: Float? = null
 
     private val connectionListener = object : ConnectionListener {
@@ -119,6 +120,7 @@ class WatchSensorService : Service() {
                 }
             })
             Log.i(TAG, "HR tracker started")
+            // TODO: skin temperature — remove this call if the Watch variant lacks a skin temp sensor
             startSkinTempTracker(service)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to start HR tracker: ${e.message}")
@@ -127,6 +129,7 @@ class WatchSensorService : Service() {
 
     // ------------------------------------------------------------------ Milestone E: Skin temp tracker
 
+    // TODO: skin temperature — validate OBJECT_TEMPERATURE field against Samsung SDK changelog before pilot
     private fun startSkinTempTracker(service: HealthTrackingService) {
         try {
             val tracker = service.getHealthTracker(HealthTrackerType.SKIN_TEMPERATURE_CONTINUOUS)

@@ -67,21 +67,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         repository = AppRepository(requireContext())
         escalationManager = EscalationManager(requireContext(), repository)
 
-        val shared = (requireActivity().application as HeatGuardApplication).activeRingDataSource
-        if (shared != null) {
-            // Service is running with a real watch — share its data source.
-            // We poll instead of calling start() to avoid overwriting the service's listener.
-            ringDataSource = shared
-            ownsDataSource = false
-            refreshHandler.post(refreshRunnable)
-        } else {
-            // No service/watch — use simulated data driven by listener callbacks.
-            ringDataSource = SimulatedRingDataSource()
-            ownsDataSource = true
-            ringDataSource.start { assessAndRender() }
-        }
-
-
         btnEmergency = view.findViewById(R.id.btnEmergency)
         heroCard = view.findViewById(R.id.heroCard)
         ivHeroIcon = view.findViewById(R.id.ivHeroIcon)
@@ -95,6 +80,24 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         tvOutsideTemp = view.findViewById(R.id.tvOutsideTemp)
         tvOutsideTempUnit = view.findViewById(R.id.tvOutsideTempUnit)
         tvWatchStatus = view.findViewById(R.id.tvWatchStatus)
+
+        // ringDataSource setup must come after the findViewById block above —
+        // SimulatedRingDataSource.start() invokes its callback synchronously, which calls
+        // render() and crashes with UninitializedPropertyAccessException if the views
+        // (heroCard etc.) aren't bound yet.
+        val shared = (requireActivity().application as HeatGuardApplication).activeRingDataSource
+        if (shared != null) {
+            // Service is running with a real watch — share its data source.
+            // We poll instead of calling start() to avoid overwriting the service's listener.
+            ringDataSource = shared
+            ownsDataSource = false
+            refreshHandler.post(refreshRunnable)
+        } else {
+            // No service/watch — use simulated data driven by listener callbacks.
+            ringDataSource = SimulatedRingDataSource()
+            ownsDataSource = true
+            ringDataSource.start { assessAndRender() }
+        }
 
         view.findViewById<android.widget.ImageButton>(R.id.btnNotifications).setOnClickListener {
             showWeatherDialog()
@@ -215,20 +218,21 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         // Firing them here caused a notification every 5 seconds.
 
         // Watch connection status
-        val macSaved = repository.getRingDeviceMac() != null
+        val watch6Enabled = repository.getUseWatch6()
+        val isConfigured = watch6Enabled || repository.getRingDeviceMac() != null
         val s = ringDataSource.latestSample()
         val ageSeconds = if (s != null) (System.currentTimeMillis() - s.timestampMillis) / 1000L else null
 
         tvWatchStatus.text = when {
-            !macSaved -> "Watch: not paired"
-            s == null -> "Watch: connecting…"
+            !isConfigured -> "Watch: not configured"
+            s == null -> if (watch6Enabled) "Watch: waiting for Galaxy Watch…" else "Watch: connecting…"
             s.connected == false -> "Watch: disconnected"
             ageSeconds != null && ageSeconds < 30 -> {
                 val hr = s.heartRateBpm
                 if (hr != null) "Watch: live — HR $hr bpm (${ageSeconds}s ago)"
                 else "Watch: connected — waiting for HR…"
             }
-            else -> "Watch: connected — no data yet (${ageSeconds}s ago)"
+            else -> "Watch: connected — no recent data (${ageSeconds}s ago)"
         }
         tvWatchStatus.setTextColor(ContextCompat.getColor(
             requireContext(),

@@ -7,6 +7,7 @@ import android.location.LocationManager
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -36,6 +37,10 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 
 class HeatMonitoringService : Service() {
+    companion object {
+        private const val TAG = "HeatMonitoringService"
+    }
+
     private val mainHandler = Handler(Looper.getMainLooper())
     private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private lateinit var executor: ScheduledExecutorService
@@ -59,6 +64,7 @@ class HeatMonitoringService : Service() {
         startForeground(1, monitoringNotification())
         executor = Executors.newSingleThreadScheduledExecutor()
         executor.scheduleAtFixedRate({ assessOnce() }, 0L, 5L, TimeUnit.MINUTES)
+        Log.i(TAG, "onCreate: useWatch6=${repository.getUseWatch6()} ringSource=${ringDataSource::class.simpleName}")
         if (repository.getUseWatch6()) startWatchCollection()
         promptForProfileIfNeeded()
         syncUserToCloud()
@@ -110,7 +116,7 @@ class HeatMonitoringService : Service() {
     }
 
     /**
-     * Sends /sheensafe/start to all connected Wear OS nodes. The watch's
+     * Sends /sheensafe-cmd/start to all connected Wear OS nodes. The watch's
      * WatchCommandService receives this and starts sensor collection (or shows
      * the one-time BODY_SENSORS permission prompt if not yet granted).
      * Fires and forgets — failures are silent since the next service restart retries.
@@ -118,12 +124,19 @@ class HeatMonitoringService : Service() {
     private fun startWatchCollection() {
         Wearable.getNodeClient(this).connectedNodes
             .addOnSuccessListener { nodes ->
+                Log.i(TAG, "startWatchCollection: ${nodes.size} connected node(s): ${nodes.map { it.displayName }}")
+                if (nodes.isEmpty()) {
+                    Log.w(TAG, "startWatchCollection: no connected Wear OS nodes — is the watch paired via Galaxy Wearable / Bluetooth?")
+                }
                 val payload = ByteArray(0)
                 nodes.forEach { node ->
                     Wearable.getMessageClient(this)
-                        .sendMessage(node.id, "/sheensafe/start", payload)
+                        .sendMessage(node.id, "/sheensafe-cmd/start", payload)
+                        .addOnSuccessListener { Log.i(TAG, "startWatchCollection: /sheensafe-cmd/start sent to ${node.displayName}") }
+                        .addOnFailureListener { e -> Log.e(TAG, "startWatchCollection: failed to send to ${node.displayName}: ${e.message}") }
                 }
             }
+            .addOnFailureListener { e -> Log.e(TAG, "startWatchCollection: getConnectedNodes failed: ${e.message}") }
     }
 
     private fun buildRingDataSource(): RingDataSource {

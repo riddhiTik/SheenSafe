@@ -40,7 +40,7 @@
                 <data
                     android:scheme="wear"
                     android:host="*"
-                    android:pathPrefix="/sheensafe" />
+                    android:pathPrefix="/sheensafe-cmd" />
             </intent-filter>
         </service>
 
