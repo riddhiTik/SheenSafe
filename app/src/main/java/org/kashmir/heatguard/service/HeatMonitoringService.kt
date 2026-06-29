@@ -24,6 +24,7 @@ import org.kashmir.heatguard.core.risk.HeatRiskEngine
 import org.kashmir.heatguard.data.AppRepository
 import org.kashmir.heatguard.data.SupabaseClientProvider
 import org.kashmir.heatguard.data.SupabaseRepository
+import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
 import org.kashmir.heatguard.HeatGuardApplication
 import org.kashmir.heatguard.ring.S5RingDataSource
@@ -72,6 +73,7 @@ class HeatMonitoringService : Service() {
 
     override fun onDestroy() {
         executor.shutdownNow()
+        if (repository.getUseWatch6()) stopWatchCollection()
         ringDataSource.stop()
         (application as HeatGuardApplication).activeRingDataSource = null
         serviceScope.cancel()
@@ -116,27 +118,32 @@ class HeatMonitoringService : Service() {
     }
 
     /**
-     * Sends /sheensafe-cmd/start to all connected Wear OS nodes. The watch's
-     * WatchCommandService receives this and starts sensor collection (or shows
-     * the one-time BODY_SENSORS permission prompt if not yet granted).
-     * Fires and forgets — failures are silent since the next service restart retries.
+     * Writes a "start" command DataItem to the Wear Data Layer. The watch's
+     * WatchCommandService observes this via onDataChanged() and starts sensor
+     * collection (or shows the one-time BODY_SENSORS permission prompt if not yet
+     * granted). Unlike MessageClient, DataClient does not require enumerating
+     * connected nodes — Play Services syncs the item to whatever's connected,
+     * and persists it for delivery once a disconnected watch reconnects.
      */
-    private fun startWatchCollection() {
-        Wearable.getNodeClient(this).connectedNodes
-            .addOnSuccessListener { nodes ->
-                Log.i(TAG, "startWatchCollection: ${nodes.size} connected node(s): ${nodes.map { it.displayName }}")
-                if (nodes.isEmpty()) {
-                    Log.w(TAG, "startWatchCollection: no connected Wear OS nodes — is the watch paired via Galaxy Wearable / Bluetooth?")
-                }
-                val payload = ByteArray(0)
-                nodes.forEach { node ->
-                    Wearable.getMessageClient(this)
-                        .sendMessage(node.id, "/sheensafe-cmd/start", payload)
-                        .addOnSuccessListener { Log.i(TAG, "startWatchCollection: /sheensafe-cmd/start sent to ${node.displayName}") }
-                        .addOnFailureListener { e -> Log.e(TAG, "startWatchCollection: failed to send to ${node.displayName}: ${e.message}") }
-                }
-            }
-            .addOnFailureListener { e -> Log.e(TAG, "startWatchCollection: getConnectedNodes failed: ${e.message}") }
+    private fun startWatchCollection() = sendWatchCommand("start")
+
+    /**
+     * Writes a "stop" command DataItem so WatchSensorService doesn't keep running
+     * on the watch indefinitely after Watch6 mode is disabled or this service stops.
+     */
+    private fun stopWatchCollection() = sendWatchCommand("stop")
+
+    private fun sendWatchCommand(command: String) {
+        val request = PutDataMapRequest.create("/sheensafe-cmd/control").apply {
+            dataMap.putString("command", command)
+            // Always-changing field so writing the same command twice in a row still
+            // produces a content change — DataItem change notification is content-diffed.
+            dataMap.putLong("timestamp", System.currentTimeMillis())
+        }.asPutDataRequest().setUrgent()
+
+        Wearable.getDataClient(this).putDataItem(request)
+            .addOnSuccessListener { Log.i(TAG, "sendWatchCommand: wrote '$command' DataItem") }
+            .addOnFailureListener { e -> Log.e(TAG, "sendWatchCommand: failed to write '$command': ${e.message}") }
     }
 
     private fun buildRingDataSource(): RingDataSource {

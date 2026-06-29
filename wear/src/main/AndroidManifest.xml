@@ -27,16 +27,16 @@
             android:excludeFromRecents="true" />
 
         <!--
-            Receives messages from the phone app via Wearable Data Layer.
-            Wear OS keeps this alive as a system-managed component — it wakes up
-            even when no watch-side UI is running.
+            Receives command DataItems written by the phone app via Wearable Data Layer's
+            DataClient (synced state, not point-to-point messages). Wear OS keeps this alive
+            as a system-managed component — it wakes up in response to data changes even
+            when no watch-side UI is running.
         -->
         <service
             android:name=".WatchCommandService"
-            android:exported="true"
-            android:permission="com.google.android.wearable.permission.BIND_LISTENER">
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
                 <data
                     android:scheme="wear"
                     android:host="*"

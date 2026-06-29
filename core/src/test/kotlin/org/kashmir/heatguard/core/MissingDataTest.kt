@@ -6,6 +6,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 import org.kashmir.heatguard.core.model.*
+import org.kashmir.heatguard.core.risk.CoreTempInvalidReason
 import org.kashmir.heatguard.core.risk.HeatRiskEngine
 
 class MissingDataTest {
@@ -81,5 +82,66 @@ class MissingDataTest {
             )
         )
         assertFalse(d.reasonCodes.contains(ReasonCode.SKIN_TEMPERATURE_RISING))
+    }
+
+    @Test
+    fun noSensorSampleMeansCoreTempEstimateMissingSkinTemp() {
+        val d = engine.assess(
+            RiskInput(
+                nowMillis = now,
+                sensorSample = null,
+                weatherSample = WeatherSample(now, airTemperatureC = 24.0, relativeHumidityPercent = 40.0)
+            )
+        )
+        assertFalse(d.coreTempEstimateValid)
+        assertEquals(CoreTempInvalidReason.MISSING_SKIN_TEMP, d.coreTempEstimateInvalidReason)
+        assertEquals(null, d.estimatedCoreTempC)
+    }
+
+    @Test
+    fun smoothedSkinTempPresentButNoAmbientMeansCoreTempEstimateMissingAmbient() {
+        val d = engine.assess(
+            RiskInput(
+                nowMillis = now,
+                sensorSample = SensorSample(now, heartRateBpm = 80, smoothedSkinTemperatureC = 34.0),
+                weatherSample = null
+            )
+        )
+        assertFalse(d.coreTempEstimateValid)
+        assertEquals(CoreTempInvalidReason.MISSING_AMBIENT, d.coreTempEstimateInvalidReason)
+        assertEquals(null, d.estimatedCoreTempC)
+    }
+
+    @Test
+    fun outOfPlausibleRangeCoreTempEstimateIsRecordedAsInvalid() {
+        // skin=34, ambient(weather)=38 -> 30.93C, below the 35.0 plausible floor
+        val d = engine.assess(
+            RiskInput(
+                nowMillis = now,
+                sensorSample = SensorSample(now, heartRateBpm = 80, smoothedSkinTemperatureC = 34.0),
+                weatherSample = WeatherSample(now, airTemperatureC = 38.0, relativeHumidityPercent = 40.0)
+            )
+        )
+        assertFalse(d.coreTempEstimateValid)
+        assertEquals(CoreTempInvalidReason.OUT_OF_PLAUSIBLE_RANGE, d.coreTempEstimateInvalidReason)
+        assertEquals(null, d.estimatedCoreTempC)
+    }
+
+    @Test
+    fun ambientSourceDiscrepancyMeansNoCoreTempEstimateProduced() {
+        val d = engine.assess(
+            RiskInput(
+                nowMillis = now,
+                sensorSample = SensorSample(
+                    now,
+                    heartRateBpm = 80,
+                    smoothedSkinTemperatureC = 34.0,
+                    onDeviceAmbientTemperatureC = 19.0
+                ),
+                weatherSample = WeatherSample(now, airTemperatureC = 30.0, relativeHumidityPercent = 40.0)
+            )
+        )
+        assertFalse(d.coreTempEstimateValid)
+        assertEquals(CoreTempInvalidReason.AMBIENT_SOURCE_DISCREPANCY, d.coreTempEstimateInvalidReason)
     }
 }

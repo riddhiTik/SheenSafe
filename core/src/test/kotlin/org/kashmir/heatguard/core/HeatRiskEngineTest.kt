@@ -94,4 +94,28 @@ class HeatRiskEngineTest {
         assertEquals(RiskLevel.EMERGENCY, decisionAtHeatIndexF(125.0).level)
         assertTrue(decisionAtHeatIndexF(125.0).reasonCodes.contains(ReasonCode.EXTREME_HEAT_INDEX))
     }
+
+    @Test
+    fun coreTempScoringGateOff_validHighEstimateDoesNotChangeRiskLevel() {
+        // CORE_TEMP_SCORING_ENABLED is false until live Watch6 data is reviewed (see HeatRiskEngine).
+        // skin=37.0, on-device ambient=33.0 -> 37.0 + 0.7665*(37.0-33.0) = 40.07C, a VALID estimate
+        // at/above the EMERGENCY threshold (40.0) -- but with the gate off, RiskLevel must stay SAFE
+        // since nothing else in this scenario (no weather data, no baseline) would raise it.
+        val decision = engine.assess(
+            RiskInput(
+                nowMillis = now,
+                sensorSample = SensorSample(
+                    now,
+                    heartRateBpm = 70,
+                    stepsSinceLastSample = 0,
+                    smoothedSkinTemperatureC = 37.0,
+                    onDeviceAmbientTemperatureC = 33.0
+                )
+            )
+        )
+        assertTrue(decision.coreTempEstimateValid)
+        assertEquals(40.066, decision.estimatedCoreTempC!!, 0.01)
+        assertEquals(RiskLevel.SAFE, decision.level)
+        assertFalse(decision.reasonCodes.contains(ReasonCode.ESTIMATED_CORE_TEMP_ELEVATED))
+    }
 }

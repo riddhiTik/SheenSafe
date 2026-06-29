@@ -8,6 +8,18 @@ class HeatRiskEngine(
     private val weatherStaleAfterMinutes: Long = 60,
     private val lowBatteryThresholdPercent: Int = 20
 ) {
+    companion object {
+        // TODO: flip to true once live Galaxy Watch6 skin-temp + STATUS data has been reviewed
+        // and the formula/threshold bands below have been validated against real readings.
+        // While false, estimatedCoreTempC is still computed, returned in RiskDecision, persisted,
+        // and displayed -- it simply does not influence RiskLevel yet.
+        private const val CORE_TEMP_SCORING_ENABLED = false
+
+        private const val CORE_TEMP_CHECK_THRESHOLD_C = 38.0
+        private const val CORE_TEMP_ACTION_THRESHOLD_C = 39.0
+        private const val CORE_TEMP_EMERGENCY_THRESHOLD_C = 40.0
+    }
+
     fun assess(input: RiskInput): RiskDecision {
         val reasons = linkedSetOf<ReasonCode>()
 
@@ -28,10 +40,18 @@ class HeatRiskEngine(
         val physiologyAssessment = assessPhysiology(input, envAssessment.level, ringStale, reasons)
         val profileAssessment = assessProfile(input.riskProfile, envAssessment.level, reasons)
 
+        val coreTempEstimate = CoreTemperatureEstimator.estimate(
+            skinTempC = input.sensorSample?.smoothedSkinTemperatureC,
+            onDeviceAmbientC = input.sensorSample?.onDeviceAmbientTemperatureC,
+            weatherAmbientC = input.weatherSample?.airTemperatureC
+        )
+        val coreTempAssessment = assessCoreTempEstimate(coreTempEstimate, reasons)
+
         var level = RiskLevel.maxOf(
             envAssessment.level,
             physiologyAssessment,
-            profileAssessment
+            profileAssessment,
+            coreTempAssessment
         )
 
         if (ringStale && envAssessment.level.rank >= RiskLevel.CHECK.rank) {
@@ -57,8 +77,41 @@ class HeatRiskEngine(
             recommendedAction = actionFor(level),
             effectiveHeatIndexC = envAssessment.effectiveHeatIndexC,
             ringDataAgeMinutes = ringAgeMinutes,
-            weatherDataAgeMinutes = weatherAgeMinutes
+            weatherDataAgeMinutes = weatherAgeMinutes,
+            estimatedCoreTempC = coreTempEstimate.valueC,
+            coreTempEstimateValid = coreTempEstimate.valid,
+            coreTempEstimateInvalidReason = coreTempEstimate.invalidReason,
+            estimatedCoreTempSource = coreTempEstimate.source
         )
+    }
+
+    /**
+     * Feature-gated: while CORE_TEMP_SCORING_ENABLED is false, the estimate is still computed
+     * and returned in RiskDecision (for display/persistence), but never contributes to RiskLevel.
+     */
+    private fun assessCoreTempEstimate(
+        estimate: CoreTempEstimateResult,
+        reasons: MutableSet<ReasonCode>
+    ): RiskLevel {
+        if (!CORE_TEMP_SCORING_ENABLED) return RiskLevel.SAFE
+        val value = estimate.valueC ?: return RiskLevel.SAFE
+        if (!estimate.valid) return RiskLevel.SAFE
+
+        return when {
+            value >= CORE_TEMP_EMERGENCY_THRESHOLD_C -> {
+                reasons += ReasonCode.ESTIMATED_CORE_TEMP_ELEVATED
+                RiskLevel.EMERGENCY
+            }
+            value >= CORE_TEMP_ACTION_THRESHOLD_C -> {
+                reasons += ReasonCode.ESTIMATED_CORE_TEMP_ELEVATED
+                RiskLevel.ACTION
+            }
+            value >= CORE_TEMP_CHECK_THRESHOLD_C -> {
+                reasons += ReasonCode.ESTIMATED_CORE_TEMP_ELEVATED
+                RiskLevel.CHECK
+            }
+            else -> RiskLevel.SAFE
+        }
     }
 
     private fun assessEnvironment(weather: WeatherSample?, reasons: MutableSet<ReasonCode>): EnvironmentAssessment {

@@ -8,31 +8,17 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "org.kashmir.heatguard.wear"
+        // Matches the phone app's applicationId exactly (Samsung's reference HR codelab uses this
+        // same pattern — identical applicationId on both modules, distinct namespace for source
+        // compilation). The Wearable Data Layer's AppKey resolution is keyed by package name +
+        // signing certificate; this is step 1 of testing whether a split applicationId between
+        // phone and watch was contributing to "Failed to deliver message" / stale AppKey routing.
+        applicationId = "org.kashmir.heatguard"
         minSdk = 30   // Wear OS 3; Galaxy Watch4+
         targetSdk = 34
         versionCode = 1
         versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    // Dedicated debug keystore, distinct from :app's. Google Play Services'
-    // Wearable Data Layer resolves capability/AppKey ownership partly by signing
-    // certificate; sharing the default debug keystore with :app caused message
-    // routing to stay locked onto :app even after :app was uninstalled from the watch.
-    signingConfigs {
-        getByName("debug") {
-            storeFile = file("wear-debug.keystore")
-            storePassword = "android"
-            keyAlias = "weardebugkey"
-            keyPassword = "android"
-        }
-    }
-
-    buildTypes {
-        getByName("debug") {
-            signingConfig = signingConfigs.getByName("debug")
-        }
     }
 
     compileOptions {
