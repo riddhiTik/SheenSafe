@@ -3,6 +3,8 @@ package org.kashmir.heatguard.ring
 import org.kashmir.heatguard.core.model.SensorSample
 import org.kashmir.heatguard.core.ring.RingDataSource
 import org.kashmir.heatguard.core.ring.RingSampleListener
+import org.kashmir.heatguard.core.ring.RingOutlierFilter
+import org.kashmir.heatguard.core.ring.SkinTemperatureSmoother
 
 /**
  * RingDataSource backed by a Galaxy Watch6 via the Wearable Data Layer.
@@ -21,6 +23,9 @@ class WearDataRingDataSource : RingDataSource {
     @Volatile private var listener: RingSampleListener? = null
     @Volatile private var running = false
 
+    private val outlierFilter = RingOutlierFilter()
+    private val tempSmoother = SkinTemperatureSmoother()
+
     override fun start(listener: RingSampleListener) {
         this.listener = listener
         running = true
@@ -29,12 +34,23 @@ class WearDataRingDataSource : RingDataSource {
     override fun stop() {
         running = false
         listener = null
+        outlierFilter.reset()
+        tempSmoother.reset()
     }
 
     override fun latestSample(): SensorSample? = latest
 
     fun onWatchReading(sample: SensorSample) {
-        latest = sample
-        if (running) listener?.onSample(sample)
+        val rawSkinTemp = sample.rawSkinTemperatureC
+        val filtered = outlierFilter.filter(sample.heartRateBpm, rawSkinTemp)
+        val smoothed = tempSmoother.smooth(filtered.skinTemperatureC)
+
+        val processed = sample.copy(
+            heartRateBpm = filtered.heartRateBpm,
+            smoothedSkinTemperatureC = smoothed,
+            skinTemperatureC = smoothed  // compat alias: always mirrors smoothedSkinTemperatureC
+        )
+        latest = processed
+        if (running) listener?.onSample(processed)
     }
 }

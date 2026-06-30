@@ -14,7 +14,7 @@ import org.kashmir.heatguard.core.model.SensorSample
  *
  * Expected message path: /sheensafe-data/watch-reading
  * Expected payload (JSON):
- *   { "heartRateBpm": 95, "skinTempC": 34.8, "timestampMillis": 1710000000000 }
+ *   { "heartRateBpm": 95, "skinTempC": 34.8, "onDeviceAmbientTempC": 24.1, "timestampMillis": 1710000000000 }
  *
  * Null fields are encoded as JSON null and decoded back to Kotlin null correctly.
  *
@@ -39,14 +39,17 @@ class SheenSafeWearListenerService : WearableListenerService() {
             return
         }
 
+        val rawSkinTemp = json.optDoubleOrNull("skinTempC")
         val sample = SensorSample(
-            timestampMillis  = json.optLong("timestampMillis", System.currentTimeMillis()),
-            heartRateBpm     = json.optIntOrNull("heartRateBpm"),
-            skinTemperatureC = json.optDoubleOrNull("skinTempC"),
-            connected        = true
+            timestampMillis              = json.optLong("timestampMillis", System.currentTimeMillis()),
+            heartRateBpm                 = json.optIntOrNull("heartRateBpm"),
+            rawSkinTemperatureC          = rawSkinTemp,
+            skinTemperatureC             = rawSkinTemp,  // overwritten to smoothed value in WearDataRingDataSource
+            onDeviceAmbientTemperatureC  = json.optDoubleOrNull("onDeviceAmbientTempC"),
+            connected                    = true
         )
 
-        Log.d(TAG, "Received watch reading: hr=${sample.heartRateBpm} temp=${sample.skinTemperatureC}")
+        Log.d(TAG, "Received watch reading: hr=${sample.heartRateBpm} rawTemp=${sample.rawSkinTemperatureC} ambient=${sample.onDeviceAmbientTemperatureC}")
         (application as HeatGuardApplication).wearDataSource.onWatchReading(sample)
     }
 

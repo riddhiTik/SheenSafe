@@ -134,7 +134,11 @@ class SupabaseRepository(private val client: SupabaseClient?) {
                 effective_heat_index_c = decision.effectiveHeatIndexC?.toFloat(),
                 ambient_temp_c = ambientTempC,
                 ring_data_age_minutes = decision.ringDataAgeMinutes?.toInt(),
-                weather_data_age_minutes = decision.weatherDataAgeMinutes?.toInt()
+                weather_data_age_minutes = decision.weatherDataAgeMinutes?.toInt(),
+                estimated_core_temp_c = decision.estimatedCoreTempC,
+                core_temp_estimate_valid = decision.coreTempEstimateValid,
+                core_temp_estimate_invalid_reason = decision.coreTempEstimateInvalidReason?.name,
+                estimated_core_temp_source = decision.estimatedCoreTempSource?.name
             )
         ))
     }
@@ -248,6 +252,10 @@ class SupabaseRepository(private val client: SupabaseClient?) {
         val ambient_temp_c: Float? = null,
         val ring_data_age_minutes: Int? = null,
         val weather_data_age_minutes: Int? = null,
+        val estimated_core_temp_c: Double? = null,
+        val core_temp_estimate_valid: Boolean = false,
+        val core_temp_estimate_invalid_reason: String? = null,
+        val estimated_core_temp_source: String? = null,
         val created_at: String? = null
     )
 

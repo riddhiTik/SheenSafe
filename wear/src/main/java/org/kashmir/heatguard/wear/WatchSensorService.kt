@@ -19,7 +19,9 @@ import com.samsung.android.service.health.tracking.data.ValueKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import org.json.JSONObject
@@ -32,7 +34,8 @@ import org.json.JSONObject
  *  - SDK Debug Mode enabled on Watch6: Samsung Health → About → SDK Debug Mode
  *
  * Data flow:
- *  Samsung Health Sensor SDK callbacks → dispatchReading()
+ *  Samsung Health Sensor SDK callbacks → HeartRateCollector / SkinTemperatureCollector
+ *      → dispatchReading()
  *      → Wearable MessageClient → path /sheensafe-data/watch-reading
  *      → SheenSafeWearListenerService (phone)
  */
@@ -47,19 +50,37 @@ class WatchSensorService : Service() {
 
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
-    // Held before connectService() is called; used inside onConnectionSuccess()
     private var healthTrackingService: HealthTrackingService? = null
-    private var hrTracker: HealthTracker? = null
-    private var skinTempTracker: HealthTracker? = null
+    private var hrCollector: HeartRateCollector? = null
+    private var skinTempCollector: SkinTemperatureCollector? = null
 
     @Volatile private var latestHr: Int? = null
-    // TODO: skin temperature — latestTemp feeds dispatchReading() via startSkinTempTracker()
     @Volatile private var latestTemp: Float? = null
+    @Volatile private var latestAmbientTemp: Float? = null
 
     private val connectionListener = object : ConnectionListener {
         override fun onConnectionSuccess() {
             Log.i(TAG, "HealthTrackingService connected")
-            startHrTracker()
+            val service = healthTrackingService ?: return
+
+            val supported: List<HealthTrackerType> = try {
+                service.getTrackingCapability().supportHealthTrackerTypes
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to query tracker capabilities: ${e.message}")
+                emptyList()
+            }
+            Log.i(TAG, "Supported tracker types: $supported")
+
+            hrCollector = HeartRateCollector(service, supported) { hr ->
+                latestHr = hr
+                dispatchReading()
+            }.also { it.start() }
+
+            skinTempCollector = SkinTemperatureCollector(service, supported) { temp, ambient ->
+                latestTemp = temp
+                latestAmbientTemp = ambient
+                dispatchReading()
+            }.also { it.start() }
         }
 
         override fun onConnectionEnded() {
@@ -75,7 +96,6 @@ class WatchSensorService : Service() {
     override fun onCreate() {
         super.onCreate()
         startForeground(NOTIF_ID, buildForegroundNotification())
-
         val service = HealthTrackingService(connectionListener, applicationContext)
         healthTrackingService = service
         service.connectService()
@@ -83,8 +103,8 @@ class WatchSensorService : Service() {
     }
 
     override fun onDestroy() {
-        hrTracker?.unsetEventListener()
-        skinTempTracker?.unsetEventListener()
+        hrCollector?.stop()
+        skinTempCollector?.stop()
         healthTrackingService?.disconnectService()
         scope.cancel()
         super.onDestroy()
@@ -92,84 +112,16 @@ class WatchSensorService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
-    // ------------------------------------------------------------------ Milestone D: HR tracker
-
-    private fun startHrTracker() {
-        val service = healthTrackingService ?: return
-        try {
-            val tracker = service.getHealthTracker(HealthTrackerType.HEART_RATE_CONTINUOUS)
-            hrTracker = tracker
-            tracker.setEventListener(object : HealthTracker.TrackerEventListener {
-                override fun onDataReceived(list: List<DataPoint>) {
-                    list.lastOrNull()?.let { dp ->
-                        val hr: Int = dp.getValue(ValueKey.HeartRateSet.HEART_RATE) ?: return@let
-                        val status: Int = dp.getValue(ValueKey.HeartRateSet.HEART_RATE_STATUS) ?: 0
-                        // Status 0 = no contact / initializing; any other status has a reading
-                        if (status != 0 && hr > 0) {
-                            Log.d(TAG, "HR=$hr status=$status")
-                            latestHr = hr
-                            dispatchReading()
-                        }
-                    }
-                }
-
-                override fun onFlushCompleted() = Unit
-
-                override fun onError(e: HealthTracker.TrackerError) {
-                    Log.e(TAG, "HR tracker error: $e")
-                }
-            })
-            Log.i(TAG, "HR tracker started")
-            // TODO: skin temperature — remove this call if the Watch variant lacks a skin temp sensor
-            startSkinTempTracker(service)
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to start HR tracker: ${e.message}")
-        }
-    }
-
-    // ------------------------------------------------------------------ Milestone E: Skin temp tracker
-
-    // TODO: skin temperature — validate OBJECT_TEMPERATURE field against Samsung SDK changelog before pilot
-    private fun startSkinTempTracker(service: HealthTrackingService) {
-        try {
-            val tracker = service.getHealthTracker(HealthTrackerType.SKIN_TEMPERATURE_CONTINUOUS)
-            skinTempTracker = tracker
-            tracker.setEventListener(object : HealthTracker.TrackerEventListener {
-                override fun onDataReceived(list: List<DataPoint>) {
-                    list.lastOrNull()?.let { dp ->
-                        val temp: Float = dp.getValue(ValueKey.SkinTemperatureSet.OBJECT_TEMPERATURE)
-                            ?: return@let
-                        if (temp > 0f) {
-                            Log.d(TAG, "SkinTemp=$temp°C")
-                            latestTemp = temp
-                            dispatchReading()
-                        }
-                    }
-                }
-
-                override fun onFlushCompleted() = Unit
-
-                override fun onError(e: HealthTracker.TrackerError) {
-                    Log.w(TAG, "Skin temp tracker error: $e")
-                }
-            })
-            Log.i(TAG, "Skin temp tracker started")
-        } catch (e: Exception) {
-            // SKIN_TEMPERATURE_CONTINUOUS is unavailable on some Watch variants
-            Log.w(TAG, "Skin temp tracker unavailable: ${e.message}")
-        }
-    }
-
-    // ------------------------------------------------------------------ Message dispatch (Milestone F)
-
     private fun dispatchReading() {
         val hr = latestHr
         val temp = latestTemp
+        val ambient = latestAmbientTemp
         if (hr == null && temp == null) return
 
         val json = JSONObject().apply {
             if (hr != null) put("heartRateBpm", hr) else put("heartRateBpm", JSONObject.NULL)
             if (temp != null) put("skinTempC", temp.toDouble()) else put("skinTempC", JSONObject.NULL)
+            if (ambient != null) put("onDeviceAmbientTempC", ambient.toDouble()) else put("onDeviceAmbientTempC", JSONObject.NULL)
             put("timestampMillis", System.currentTimeMillis())
         }.toString()
 
@@ -187,6 +139,125 @@ class WatchSensorService : Service() {
             }
         }
     }
+
+    // ------------------------------------------------------------------ Collectors
+
+    private inner class HeartRateCollector(
+        private val service: HealthTrackingService,
+        private val supportedTypes: List<HealthTrackerType>,
+        private val onReading: (hr: Int) -> Unit
+    ) {
+        private val collectorTag = "HRCollector"
+        private var tracker: HealthTracker? = null
+
+        fun start() {
+            if (!supportedTypes.contains(HealthTrackerType.HEART_RATE_CONTINUOUS)) {
+                Log.w(TAG, "$collectorTag: HEART_RATE_CONTINUOUS not supported on this device")
+                return
+            }
+            try {
+                val t = service.getHealthTracker(HealthTrackerType.HEART_RATE_CONTINUOUS)
+                tracker = t
+                t.setEventListener(object : HealthTracker.TrackerEventListener {
+                    override fun onDataReceived(list: List<DataPoint>) {
+                        list.lastOrNull()?.let { dp ->
+                            val hr: Int = dp.getValue(ValueKey.HeartRateSet.HEART_RATE) ?: return@let
+                            val status: Int = dp.getValue(ValueKey.HeartRateSet.HEART_RATE_STATUS) ?: 0
+                            if (status != 0 && hr > 0) {
+                                Log.d(TAG, "$collectorTag: hr=$hr status=$status")
+                                onReading(hr)
+                            }
+                        }
+                    }
+                    override fun onFlushCompleted() = Unit
+                    override fun onError(e: HealthTracker.TrackerError) {
+                        Log.e(TAG, "$collectorTag error: $e")
+                    }
+                })
+                Log.i(TAG, "$collectorTag: tracker started")
+            } catch (e: Exception) {
+                Log.e(TAG, "$collectorTag: failed to start tracker: ${e.message}")
+            }
+        }
+
+        fun stop() {
+            tracker?.unsetEventListener()
+            tracker = null
+        }
+    }
+
+    private inner class SkinTemperatureCollector(
+        private val service: HealthTrackingService,
+        private val supportedTypes: List<HealthTrackerType>,
+        private val onReading: (temp: Float, ambient: Float?) -> Unit
+    ) {
+        private val collectorTag = "SkinTempCollector"
+        private var tracker: HealthTracker? = null
+        private var flushJob: Job? = null
+
+        fun start() {
+            if (!supportedTypes.contains(HealthTrackerType.SKIN_TEMPERATURE_CONTINUOUS)) {
+                Log.w(TAG, "$collectorTag: SKIN_TEMPERATURE_CONTINUOUS not supported on this device")
+                return
+            }
+            try {
+                val t = service.getHealthTracker(HealthTrackerType.SKIN_TEMPERATURE_CONTINUOUS)
+                tracker = t
+                t.setEventListener(object : HealthTracker.TrackerEventListener {
+                    override fun onDataReceived(list: List<DataPoint>) {
+                        // Log and process EVERY datapoint — not just the last — so live logs
+                        // can be used to determine real STATUS semantics after the fact.
+                        list.forEach { dp ->
+                            val obj: Float? = dp.getValue(ValueKey.SkinTemperatureSet.OBJECT_TEMPERATURE)
+                            val amb: Float? = dp.getValue(ValueKey.SkinTemperatureSet.AMBIENT_TEMPERATURE)
+                            val status: Int = dp.getValue(ValueKey.SkinTemperatureSet.STATUS) ?: 0
+                            val accepted = obj != null && isStatusAcceptable(status)
+                            Log.d(TAG, "$collectorTag: object=$obj ambient=$amb status=$status accepted=$accepted")
+                            if (accepted) {
+                                onReading(obj!!, amb)
+                            }
+                        }
+                    }
+                    override fun onFlushCompleted() = Unit
+                    override fun onError(e: HealthTracker.TrackerError) {
+                        Log.w(TAG, "$collectorTag error: $e")
+                    }
+                })
+                Log.i(TAG, "$collectorTag: tracker started")
+                // Periodically flush buffered data so the Dashboard updates more frequently
+                // than the tracker's natural ~8-minute internal batch interval. flush() asks
+                // the SDK to deliver whatever it has accumulated immediately without waiting.
+                flushJob = scope.launch {
+                    while (true) {
+                        delay(60_000L)
+                        val flushed = tracker?.flush() ?: false
+                        Log.d(TAG, "$collectorTag: flush() returned $flushed")
+                    }
+                }
+            } catch (e: Exception) {
+                // SKIN_TEMPERATURE_CONTINUOUS is unavailable on some Watch variants
+                Log.w(TAG, "$collectorTag: tracker unavailable: ${e.message}")
+            }
+        }
+
+        fun stop() {
+            flushJob?.cancel()
+            flushJob = null
+            tracker?.unsetEventListener()
+            tracker = null
+        }
+
+        // STATUS semantics for SkinTemperatureSet are still not officially documented by
+        // Samsung, but live Galaxy Watch6 logs (2026-06-30, confirmed snug fit, HR reporting
+        // normally at the same time) showed every datapoint at status=0 with physiologically
+        // plausible object/ambient values (high-20s C) -- i.e. status=0 is the NORMAL status
+        // for this sensor, the opposite of HeartRateSet's "0 = no contact" convention. No
+        // non-zero status has been observed yet, so this remains provisional: revisit if a
+        // future session logs a different status value alongside garbage/missing readings.
+        private fun isStatusAcceptable(status: Int): Boolean = status == 0
+    }
+
+    // ------------------------------------------------------------------ Notification
 
     private fun buildForegroundNotification(): Notification {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

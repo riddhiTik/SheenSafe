@@ -2,6 +2,7 @@ package org.kashmir.heatguard.core
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import org.kashmir.heatguard.core.model.*
 import org.kashmir.heatguard.core.risk.HeatIndex
