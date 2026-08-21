@@ -3,16 +3,20 @@ package org.kashmir.heatguard.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.wearable.Wearable
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.launch
 import org.kashmir.heatguard.R
@@ -25,9 +29,19 @@ import org.kashmir.heatguard.ui.onboarding.OnboardingActivity
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private lateinit var repository: AppRepository
+    private var settingsView: View? = null
+
+    private val locationLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { settingsView?.let { bindPermissions(it) } }
+
+    private val notifLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { settingsView?.let { bindPermissions(it) } }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        settingsView = view
         repository = AppRepository(requireContext())
 
         bindProfile(view)
@@ -35,21 +49,30 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         bindPermissions(view)
         bindTempToggle(view)
         bindActions(view)
-        bindWatch6Toggle(view)
+        bindWatchCard(view)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val view = settingsView ?: return
+        bindPermissions(view)
+        bindWatchCard(view)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        settingsView = null
     }
 
     private fun bindProfile(view: View) {
         val tvProfileName = view.findViewById<TextView>(R.id.tvProfileName)
         tvProfileName.text = repository.getUserName().ifBlank { "—" }
-        // Long-press launches the admin dashboard (developer/clinician access)
         tvProfileName.setOnLongClickListener {
             startActivity(Intent(requireContext(), AdminLoginActivity::class.java))
             true
         }
-
         view.findViewById<TextView>(R.id.tvProfileAge).text =
             repository.getUserAge().takeIf { it > 0 }?.toString() ?: "—"
-
         view.findViewById<TextView>(R.id.tvProfileGender).text = when (repository.getUserGender()) {
             "MALE"   -> "Male"
             "FEMALE" -> "Female"
@@ -59,15 +82,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun bindAlertToggles(view: View) {
-        val switchHeat = view.findViewById<SwitchMaterial>(R.id.switchHeatRisk)
+        val switchHeat      = view.findViewById<SwitchMaterial>(R.id.switchHeatRisk)
         val switchHydration = view.findViewById<SwitchMaterial>(R.id.switchHydration)
         val switchEmergency = view.findViewById<SwitchMaterial>(R.id.switchEmergency)
 
-        switchHeat.isChecked = repository.getAlertHeatRisk()
+        switchHeat.isChecked      = repository.getAlertHeatRisk()
         switchHydration.isChecked = repository.getAlertHydration()
         switchEmergency.isChecked = repository.getAlertEmergency()
 
-        switchHeat.setOnCheckedChangeListener { _, on -> repository.setAlertHeatRisk(on) }
+        switchHeat.setOnCheckedChangeListener      { _, on -> repository.setAlertHeatRisk(on) }
         switchHydration.setOnCheckedChangeListener { _, on -> repository.setAlertHydration(on) }
         switchEmergency.setOnCheckedChangeListener { _, on -> repository.setAlertEmergency(on) }
     }
@@ -82,6 +105,32 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         applyChip(view.findViewById(R.id.tvLocationStatus), locGranted)
         applyChip(view.findViewById(R.id.tvNotifStatus), notifEnabled)
+
+        view.findViewById<View>(R.id.rowLocation).setOnClickListener {
+            if (!locGranted) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    locationLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                } else {
+                    startActivity(
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            Uri.fromParts("package", ctx.packageName, null))
+                    )
+                }
+            }
+        }
+
+        view.findViewById<View>(R.id.rowNotifications).setOnClickListener {
+            if (!notifEnabled) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    notifLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                } else {
+                    startActivity(
+                        Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                            .putExtra(Settings.EXTRA_APP_PACKAGE, ctx.packageName)
+                    )
+                }
+            }
+        }
     }
 
     private fun applyChip(tv: TextView, enabled: Boolean) {
@@ -103,7 +152,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         fun updateToggle(unit: String) {
             val activeColor = ContextCompat.getColor(requireContext(), R.color.background_dark)
-            val mutedColor = ContextCompat.getColor(requireContext(), R.color.muted)
+            val mutedColor  = ContextCompat.getColor(requireContext(), R.color.muted)
             btnC.setTextColor(if (unit == "C") activeColor else mutedColor)
             btnF.setTextColor(if (unit == "F") activeColor else mutedColor)
             btnC.setBackgroundResource(if (unit == "C") R.drawable.bg_temp_toggle_active else 0)
@@ -111,7 +160,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         updateToggle(repository.getTempUnit())
-
         btnC.setOnClickListener { repository.setTempUnit("C"); updateToggle("C") }
         btnF.setOnClickListener { repository.setTempUnit("F"); updateToggle("F") }
     }
@@ -121,18 +169,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             startActivity(Intent(requireContext(), RiskProfileActivity::class.java))
         }
 
-        view.findViewById<TextView>(R.id.btnReconnectWatch).setOnClickListener {
-            repository.setDeviceConnected(true)
-            Toast.makeText(requireContext(), getString(R.string.settings_reconnect_toast), Toast.LENGTH_SHORT).show()
-        }
-
         view.findViewById<TextView>(R.id.btnSignOut).setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 SupabaseClientProvider.client?.let { client ->
                     SupabaseRepository(client).signOut()
                 }
-                // Wipe all local user data so the next person to log in on this device
-                // starts completely fresh and does not see the previous user's profile.
                 repository.deleteAllData()
                 startActivity(
                     Intent(requireContext(), OnboardingActivity::class.java).apply {
@@ -143,22 +184,72 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
-    private fun bindWatch6Toggle(view: View) {
-        val switch = view.findViewById<SwitchMaterial>(R.id.switchWatch6)
-        switch.isChecked = repository.getUseWatch6()
-        switch.setOnCheckedChangeListener { _, on ->
-            Log.i("SettingsFragment", "Watch6 toggle changed to $on — restarting HeatMonitoringService")
-            repository.setUseWatch6(on)
-            // HeatMonitoringService reads getUseWatch6() only in onCreate(), so we must
-            // restart it for the new ring source selection to take effect.
-            val ctx = requireContext()
-            ctx.stopService(Intent(ctx, HeatMonitoringService::class.java))
-            val intent = Intent(ctx, HeatMonitoringService::class.java)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                ctx.startForegroundService(intent)
-            } else {
-                ctx.startService(intent)
+    private fun bindWatchCard(view: View) {
+        val useWatch6 = repository.getUseWatch6()
+
+        Wearable.getNodeClient(requireContext()).connectedNodes
+            .addOnSuccessListener { nodes ->
+                if (!isAdded) return@addOnSuccessListener
+                val node      = nodes.firstOrNull()
+                val connected = useWatch6 && node != null
+
+                view.findViewById<View>(R.id.viewWatchDot).setBackgroundResource(
+                    if (connected) R.drawable.bg_status_dot_green else R.drawable.bg_status_dot_grey
+                )
+                view.findViewById<TextView>(R.id.tvWatchStatus).apply {
+                    text = if (connected) "Connected" else "Not Connected"
+                    setTextColor(ContextCompat.getColor(requireContext(),
+                        if (connected) R.color.primary_dark else R.color.muted))
+                }
+                view.findViewById<TextView>(R.id.tvWatchDeviceName).text =
+                    node?.displayName ?: if (useWatch6) "Searching…" else "No device paired"
+
+                val battery = repository.getLastBatteryPercent()
+                view.findViewById<TextView>(R.id.tvWatchBattery).apply {
+                    visibility = if (battery != null && connected) View.VISIBLE else View.GONE
+                    text = getString(R.string.settings_watch_battery, battery ?: 0)
+                }
+
+                view.findViewById<MaterialButton>(R.id.btnPairWatch).visibility =
+                    if (!connected) View.VISIBLE else View.GONE
+                view.findViewById<MaterialButton>(R.id.btnUnpairWatch).visibility =
+                    if (connected) View.VISIBLE else View.GONE
+                view.findViewById<MaterialButton>(R.id.btnChangeDevice).visibility =
+                    if (connected) View.VISIBLE else View.GONE
             }
+            .addOnFailureListener {
+                if (!isAdded) return@addOnFailureListener
+                view.findViewById<TextView>(R.id.tvWatchDeviceName).text = "Wearable API unavailable"
+            }
+
+        view.findViewById<MaterialButton>(R.id.btnPairWatch).setOnClickListener {
+            repository.setUseWatch6(true)
+            restartMonitoringService()
+            val galIntent = requireContext().packageManager
+                .getLaunchIntentForPackage("com.samsung.android.app.watchmanager")
+            startActivity(galIntent ?: Intent(Settings.ACTION_BLUETOOTH_SETTINGS))
+            bindWatchCard(view)
         }
+
+        view.findViewById<MaterialButton>(R.id.btnUnpairWatch).setOnClickListener {
+            repository.setUseWatch6(false)
+            restartMonitoringService()
+            bindWatchCard(view)
+        }
+
+        view.findViewById<MaterialButton>(R.id.btnChangeDevice).setOnClickListener {
+            val galIntent = requireContext().packageManager
+                .getLaunchIntentForPackage("com.samsung.android.app.watchmanager")
+            startActivity(galIntent ?: Intent(Settings.ACTION_BLUETOOTH_SETTINGS))
+        }
+    }
+
+    private fun restartMonitoringService() {
+        val ctx = requireContext()
+        Log.i("SettingsFragment", "Restarting HeatMonitoringService after watch toggle")
+        ctx.stopService(Intent(ctx, HeatMonitoringService::class.java))
+        val intent = Intent(ctx, HeatMonitoringService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) ctx.startForegroundService(intent)
+        else ctx.startService(intent)
     }
 }

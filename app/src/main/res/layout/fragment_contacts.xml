@@ -36,17 +36,6 @@
                     android:textStyle="bold"
                     android:fontFamily="sans-serif" />
 
-                <FrameLayout
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/bg_initials_avatar">
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_notifications"
-                        app:tint="@color/text_main" />
-                </FrameLayout>
             </LinearLayout>
 
             <!-- Contact 1 card -->

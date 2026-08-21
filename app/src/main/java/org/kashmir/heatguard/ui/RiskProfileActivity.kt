@@ -1,111 +1,90 @@
 package org.kashmir.heatguard.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
-import android.widget.*
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.slider.Slider
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.textfield.TextInputEditText
 import org.kashmir.heatguard.R
-import org.kashmir.heatguard.core.model.AgeBand
 import org.kashmir.heatguard.core.model.RiskProfile
 import org.kashmir.heatguard.data.AppRepository
 
 class RiskProfileActivity : AppCompatActivity() {
-    private lateinit var repository: AppRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        repository = AppRepository(this)
-        buildUi()
-    }
+        setContentView(R.layout.activity_edit_profile)
 
-    private fun buildUi() {
-        val scroll = ScrollView(this)
-        val root = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(32, 40, 32, 40)
-        }
-        scroll.addView(root)
+        val repo = AppRepository(this)
+        val profile = repo.getRiskProfile()
 
-        val profile = repository.getRiskProfile()
+        setSupportActionBar(findViewById(R.id.toolbarEditProfile))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        root.addView(TextView(this).apply {
-            text = getString(R.string.risk_profile_title)
-            textSize = 24f
-            gravity = Gravity.CENTER
-            setPadding(0, 0, 0, 32)
+        val etName = findViewById<TextInputEditText>(R.id.etName)
+        val etAge  = findViewById<TextInputEditText>(R.id.etAge)
+        etName.setText(repo.getUserName())
+        etAge.setText(repo.getUserAge().takeIf { it > 0 }?.toString() ?: "")
+
+        val genderToggle = findViewById<MaterialButtonToggleGroup>(R.id.toggleGender)
+        genderToggle.check(when (repo.getUserGender()) {
+            "MALE"   -> R.id.btnGenderMale
+            "FEMALE" -> R.id.btnGenderFemale
+            else     -> R.id.btnGenderOther
         })
 
-        root.addView(TextView(this).apply {
-            text = getString(R.string.age_band_label)
-            textSize = 16f
-        })
-        val ageBandSpinner = Spinner(this).apply {
-            adapter = ArrayAdapter(
-                this@RiskProfileActivity,
-                android.R.layout.simple_spinner_item,
-                AgeBand.values().map { it.name }
-            )
-            setSelection(AgeBand.values().indexOf(profile.ageBand))
-        }
-        root.addView(ageBandSpinner)
+        val switchPregnant       = findViewById<SwitchMaterial>(R.id.switchPregnant)
+        val switchChronic        = findViewById<SwitchMaterial>(R.id.switchChronic)
+        val switchOutdoor        = findViewById<SwitchMaterial>(R.id.switchOutdoor)
+        val switchFasting        = findViewById<SwitchMaterial>(R.id.switchFasting)
+        val switchPriorHeat      = findViewById<SwitchMaterial>(R.id.switchPriorHeat)
+        val switchLimitedCooling = findViewById<SwitchMaterial>(R.id.switchLimitedCooling)
+        val sliderDays           = findViewById<Slider>(R.id.sliderDaysAcclimatized)
+        val tvDaysLabel          = findViewById<TextView>(R.id.tvDaysLabel)
 
-        val pregnantBox = checkBox(getString(R.string.pregnant_label), profile.pregnant, root)
-        val chronicBox = checkBox(getString(R.string.chronic_illness_label), profile.chronicIllness, root)
-        val outdoorBox = checkBox(getString(R.string.outdoor_work_label), profile.outdoorWorkOrTravel, root)
-        val fastingBox = checkBox(getString(R.string.fasting_label), profile.fastingOrFluidRestriction, root)
-        val priorHeatBox = checkBox(getString(R.string.prior_heat_illness_label), profile.priorHeatIllness, root)
-        val limitedCoolingBox = checkBox(getString(R.string.limited_cooling_label), profile.limitedCoolingAccess, root)
+        switchPregnant.isChecked       = profile.pregnant
+        switchChronic.isChecked        = profile.chronicIllness
+        switchOutdoor.isChecked        = profile.outdoorWorkOrTravel
+        switchFasting.isChecked        = profile.fastingOrFluidRestriction
+        switchPriorHeat.isChecked      = profile.priorHeatIllness
+        switchLimitedCooling.isChecked = profile.limitedCoolingAccess
+        sliderDays.value               = profile.daysAcclimatized.toFloat()
+        tvDaysLabel.text               = "Days adapting to heat: ${profile.daysAcclimatized}"
 
-        val daysLabel = TextView(this).apply {
-            text = getString(R.string.days_acclimatized_label, profile.daysAcclimatized)
-            textSize = 16f
-            setPadding(0, 16, 0, 4)
+        sliderDays.addOnChangeListener { _, value, _ ->
+            tvDaysLabel.text = "Days adapting to heat: ${value.toInt()}"
         }
-        root.addView(daysLabel)
-        val daysSeekBar = SeekBar(this).apply {
-            max = 14
-            progress = profile.daysAcclimatized
-            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(bar: SeekBar, value: Int, fromUser: Boolean) {
-                    daysLabel.text = getString(R.string.days_acclimatized_label, value)
-                }
-                override fun onStartTrackingTouch(bar: SeekBar) {}
-                override fun onStopTrackingTouch(bar: SeekBar) {}
-            })
-        }
-        root.addView(daysSeekBar)
 
-        root.addView(Button(this).apply {
-            text = getString(R.string.save)
-            textSize = 18f
-            setAllCaps(false)
-            setPadding(0, 24, 0, 0)
-            setOnClickListener {
-                repository.setRiskProfile(
-                    RiskProfile(
-                        ageBand = AgeBand.values()[ageBandSpinner.selectedItemPosition],
-                        pregnant = pregnantBox.isChecked,
-                        chronicIllness = chronicBox.isChecked,
-                        outdoorWorkOrTravel = outdoorBox.isChecked,
-                        fastingOrFluidRestriction = fastingBox.isChecked,
-                        priorHeatIllness = priorHeatBox.isChecked,
-                        limitedCoolingAccess = limitedCoolingBox.isChecked,
-                        daysAcclimatized = daysSeekBar.progress
-                    )
-                )
-                finish()
+        findViewById<MaterialButton>(R.id.btnSaveProfile).setOnClickListener {
+            val name   = etName.text.toString().trim()
+            val age    = etAge.text.toString().toIntOrNull() ?: 0
+            val gender = when (genderToggle.checkedButtonId) {
+                R.id.btnGenderMale   -> "MALE"
+                R.id.btnGenderFemale -> "FEMALE"
+                else                 -> "OTHER"
             }
-        })
-
-        setContentView(scroll)
+            if (name.isNotBlank()) repo.setUserName(name)
+            if (age > 0) repo.setUserAge(age)
+            repo.setUserGender(gender)
+            repo.setRiskProfile(RiskProfile(
+                ageBand                   = repo.getRiskProfile().ageBand,
+                pregnant                  = switchPregnant.isChecked,
+                chronicIllness            = switchChronic.isChecked,
+                outdoorWorkOrTravel       = switchOutdoor.isChecked,
+                fastingOrFluidRestriction = switchFasting.isChecked,
+                priorHeatIllness          = switchPriorHeat.isChecked,
+                limitedCoolingAccess      = switchLimitedCooling.isChecked,
+                daysAcclimatized          = sliderDays.value.toInt()
+            ))
+            finish()
+        }
     }
 
-    private fun checkBox(label: String, checked: Boolean, parent: LinearLayout): CheckBox {
-        return CheckBox(this).apply {
-            text = label
-            textSize = 16f
-            isChecked = checked
-            parent.addView(this)
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }

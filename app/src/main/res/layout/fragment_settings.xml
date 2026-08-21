@@ -31,17 +31,6 @@
                 android:textStyle="bold"
                 android:fontFamily="sans-serif" />
 
-            <FrameLayout
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/bg_initials_avatar">
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_notifications"
-                    app:tint="@color/text_main" />
-            </FrameLayout>
         </LinearLayout>
 
         <!-- Watch card -->
@@ -56,14 +45,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="20dp">
 
+                <!-- Watch icon + status row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="20dp">
+                    android:layout_marginBottom="12dp">
 
                     <FrameLayout
                         android:layout_width="48dp"
@@ -84,10 +75,36 @@
                         android:layout_marginStart="14dp"
                         android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/settings_watch_connected"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="2dp">
+
+                            <View
+                                android:id="@+id/viewWatchDot"
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/bg_status_dot_grey" />
+
+                            <TextView
+                                android:id="@+id/tvWatchStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Not Connected"
+                                android:textColor="@color/muted"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvWatchDeviceName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No device paired"
                             android:textColor="@color/text_main"
                             android:textSize="15sp"
                             android:textStyle="bold"
@@ -98,70 +115,62 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="85% Battery"
                             android:textColor="@color/muted"
                             android:textSize="13sp"
-                            android:fontFamily="sans-serif" />
-                    </LinearLayout>
+                            android:fontFamily="sans-serif"
+                            android:visibility="gone" />
 
-                    <TextView
-                        android:id="@+id/btnReconnectWatch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="@string/settings_reconnect"
-                        android:textColor="@color/primary_dark"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true" />
+                    </LinearLayout>
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:background="@color/background_surface" />
-
+                <!-- Action buttons -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="20dp">
+                    android:gravity="end">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_watch6_label"
-                            android:textColor="@color/text_main"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:fontFamily="sans-serif" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="@string/settings_watch6_hint"
-                            android:textColor="@color/muted"
-                            android:textSize="12sp"
-                            android:fontFamily="sans-serif" />
-                    </LinearLayout>
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchWatch6"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPairWatch"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/SwitchGreen" />
+                        android:layout_height="36dp"
+                        android:text="Pair Watch"
+                        android:textSize="13sp"
+                        android:fontFamily="sans-serif"
+                        app:cornerRadius="18dp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:strokeColor="@color/primary_dark"
+                        android:textColor="@color/primary_dark"
+                        android:visibility="visible" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnUnpairWatch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Unpair"
+                        android:textSize="13sp"
+                        android:fontFamily="sans-serif"
+                        app:cornerRadius="18dp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:strokeColor="@color/error_color"
+                        android:textColor="@color/error_color"
+                        android:visibility="gone" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnChangeDevice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Change"
+                        android:textSize="13sp"
+                        android:fontFamily="sans-serif"
+                        app:cornerRadius="18dp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:strokeColor="@color/muted"
+                        android:textColor="@color/muted"
+                        android:visibility="gone" />
+
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -306,7 +315,6 @@
                         android:focusable="true" />
                 </LinearLayout>
 
-                <!-- Name row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -333,7 +341,6 @@
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/background_surface" />
 
-                <!-- Age row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -360,7 +367,6 @@
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/background_surface" />
 
-                <!-- Gender row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -414,11 +420,16 @@
                     android:fontFamily="sans-serif" />
 
                 <LinearLayout
+                    android:id="@+id/rowLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="12dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingVertical="4dp">
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -437,13 +448,24 @@
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:fontFamily="sans-serif" />
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="4dp"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="@color/muted" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/rowNotifications"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingVertical="4dp">
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -462,38 +484,21 @@
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:fontFamily="sans-serif" />
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="4dp"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="@color/muted" />
                 </LinearLayout>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Sign out card -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/white">
-
-            <TextView
-                android:id="@+id/btnSignOut"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:gravity="center"
-                android:text="@string/settings_sign_out"
-                android:textColor="@color/error_color"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true" />
         </com.google.android.material.card.MaterialCardView>
 
         <!-- App Settings card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             app:cardCornerRadius="24dp"
             app:cardElevation="4dp"
             app:cardBackgroundColor="@color/white">
@@ -515,7 +520,6 @@
                     android:letterSpacing="0.08"
                     android:fontFamily="sans-serif" />
 
-                <!-- Temperature units -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -569,7 +573,6 @@
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/background_surface" />
 
-                <!-- About row -->
                 <LinearLayout
                     android:id="@+id/rowAbout"
                     android:layout_width="match_parent"
@@ -598,6 +601,29 @@
                         app:tint="@color/muted" />
                 </LinearLayout>
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Sign out — last item -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/white">
+
+            <TextView
+                android:id="@+id/btnSignOut"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center"
+                android:text="@string/settings_sign_out"
+                android:textColor="@color/error_color"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true" />
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>

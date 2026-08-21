@@ -3,11 +3,6 @@ package org.kashmir.heatguard.ui
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.Spinner
 import android.widget.TextView
 import android.os.Handler
 import android.os.Looper
@@ -99,10 +94,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             ringDataSource.start { assessAndRender() }
         }
 
-        view.findViewById<android.widget.ImageButton>(R.id.btnNotifications).setOnClickListener {
-            showWeatherDialog()
-        }
-
         btnEmergency.setOnClickListener {
             val primaryPhone = repository.getPrimaryPhone()
             val nonPrimary = repository.getNonPrimaryPhones()
@@ -142,13 +133,49 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         super.onDestroyView()
     }
 
+    private fun bestAvailableWeather(now: Long): WeatherSample {
+        val apiCached = repository.getCachedApiWeather()
+        val manual = ManualWeatherProvider(repository).latestWeather(now)
+        return if (apiCached != null) {
+            apiCached.copy(directSun = manual.directSun, officialWarning = manual.officialWarning)
+        } else {
+            manual
+        }
+    }
+
+    private fun subtitleFor(decision: RiskDecision): String {
+        val r = decision.reasonCodes
+        return when {
+            ReasonCode.COMBINED_PHYSIOLOGY_STRAIN in r                 -> "Elevated heart rate and skin temperature detected"
+            ReasonCode.HEART_RATE_HIGH_AT_REST in r                    -> "Heart rate elevated at rest"
+            ReasonCode.SKIN_TEMPERATURE_HIGH_RELATIVE_TO_BASELINE in r -> "Skin temperature above your baseline"
+            ReasonCode.SKIN_TEMPERATURE_RISING in r                    -> "Skin temperature rising"
+            ReasonCode.ESTIMATED_CORE_TEMP_ELEVATED in r               -> "Estimated body temperature elevated"
+            ReasonCode.EXTREME_HEAT_INDEX in r                         -> "Extreme heat index — dangerous outdoor conditions"
+            ReasonCode.HIGH_HEAT_INDEX in r                            -> "Heat index is dangerously high"
+            ReasonCode.LOW_HEAT_INDEX in r                             -> "Heat index is elevated"
+            ReasonCode.OFFICIAL_EXTREME_WARNING in r                   -> "Official extreme heat warning in effect"
+            ReasonCode.OFFICIAL_HEAT_WARNING in r                      -> "Official heat warning in effect"
+            ReasonCode.OFFICIAL_HEAT_WATCH in r                        -> "Official heat watch in effect"
+            ReasonCode.RING_DATA_STALE in r || ReasonCode.WEATHER_DATA_STALE in r -> "Some monitoring data is outdated"
+            ReasonCode.RING_DATA_MISSING in r                          -> "No wearable data yet — connect your watch"
+            ReasonCode.WEATHER_DATA_MISSING in r                       -> "No weather data yet — fetching…"
+            else -> when (decision.level) {
+                RiskLevel.SAFE      -> "All vitals and conditions normal"
+                RiskLevel.CHECK     -> "Monitor your symptoms carefully"
+                RiskLevel.ACTION    -> "Move to a cool area immediately"
+                RiskLevel.EMERGENCY -> "Seek help immediately"
+            }
+        }
+    }
+
     private fun assessAndRender() {
         val now = System.currentTimeMillis()
         val decision = engine.assess(
             RiskInput(
                 nowMillis = now,
                 sensorSample = ringDataSource.latestSample(),
-                weatherSample = ManualWeatherProvider(repository).latestWeather(now),
+                weatherSample = bestAvailableWeather(now),
                 baseline = repository.getBaseline(),
                 riskProfile = repository.getRiskProfile()
             )
@@ -162,9 +189,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         val unit = repository.getTempUnit()
         val now = System.currentTimeMillis()
         val sample = ringDataSource.latestSample()
-        val weather = ManualWeatherProvider(repository).latestWeather(now)
+        val weather = bestAvailableWeather(now)
 
         // Hero card
+        val subtitle = subtitleFor(decision)
         when (decision.level) {
             RiskLevel.SAFE -> {
                 heroCard.setCardBackgroundColor(Color.parseColor("#1A19E661"))
@@ -172,7 +200,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 ivHeroIcon.setImageResource(R.drawable.ic_favorite)
                 ivHeroIcon.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.primary)
                 tvHeroHeading.text = getString(R.string.status_safe_heading)
-                tvHeroSubtitle.text = getString(R.string.status_safe_sub)
+                tvHeroSubtitle.text = subtitle
             }
             RiskLevel.CHECK -> {
                 heroCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.risk_check_bg))
@@ -180,7 +208,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 ivHeroIcon.setImageResource(R.drawable.ic_warning_filled)
                 ivHeroIcon.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.warning_color)
                 tvHeroHeading.text = getString(R.string.status_check_heading)
-                tvHeroSubtitle.text = getString(R.string.status_check_sub)
+                tvHeroSubtitle.text = subtitle
             }
             RiskLevel.ACTION -> {
                 heroCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.risk_action_bg))
@@ -188,7 +216,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 ivHeroIcon.setImageResource(R.drawable.ic_warning_filled)
                 ivHeroIcon.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.critical_color)
                 tvHeroHeading.text = getString(R.string.status_action_heading)
-                tvHeroSubtitle.text = getString(R.string.status_action_sub)
+                tvHeroSubtitle.text = subtitle
             }
             RiskLevel.EMERGENCY -> {
                 heroCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.risk_emergency_bg))
@@ -196,7 +224,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 ivHeroIcon.setImageResource(R.drawable.ic_warning_filled)
                 ivHeroIcon.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.critical_color)
                 tvHeroHeading.text = getString(R.string.status_emergency_heading)
-                tvHeroSubtitle.text = getString(R.string.status_emergency_sub)
+                tvHeroSubtitle.text = subtitle
             }
         }
 
@@ -259,46 +287,4 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
     }
 
-    private fun showWeatherDialog() {
-        val ctx = requireContext()
-        val layout = LinearLayout(ctx).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(48, 24, 48, 0)
-        }
-        val existing = repository.getLastManualWeather(System.currentTimeMillis())
-        val temp = EditText(ctx).apply {
-            hint = getString(R.string.temperature_c)
-            setText(existing.airTemperatureC?.toString() ?: "36.0")
-        }
-        val rh = EditText(ctx).apply {
-            hint = getString(R.string.relative_humidity)
-            setText(existing.relativeHumidityPercent?.toString() ?: "45.0")
-        }
-        val sun = CheckBox(ctx).apply {
-            text = getString(R.string.direct_sun)
-            isChecked = existing.directSun
-        }
-        val warning = Spinner(ctx).apply {
-            adapter = ArrayAdapter(ctx, android.R.layout.simple_spinner_item, OfficialHeatWarning.values().map { it.name })
-            setSelection(OfficialHeatWarning.values().indexOf(existing.officialWarning))
-        }
-        layout.addView(temp)
-        layout.addView(rh)
-        layout.addView(sun)
-        layout.addView(warning)
-        AlertDialog.Builder(ctx)
-            .setTitle(R.string.set_weather)
-            .setView(layout)
-            .setPositiveButton(R.string.save) { _, _ ->
-                repository.setManualWeather(
-                    tempC = temp.text.toString().toDoubleOrNull() ?: 36.0,
-                    relativeHumidityPercent = rh.text.toString().toDoubleOrNull() ?: 45.0,
-                    directSun = sun.isChecked,
-                    warning = OfficialHeatWarning.valueOf(warning.selectedItem.toString())
-                )
-                assessAndRender()
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
 }

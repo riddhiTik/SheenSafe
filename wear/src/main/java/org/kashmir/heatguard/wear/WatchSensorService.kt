@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
+import android.os.BatteryManager
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
@@ -118,10 +119,14 @@ class WatchSensorService : Service() {
         val ambient = latestAmbientTemp
         if (hr == null && temp == null) return
 
+        val batteryMgr = getSystemService(BATTERY_SERVICE) as BatteryManager
+        val batteryPct = batteryMgr.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+
         val json = JSONObject().apply {
             if (hr != null) put("heartRateBpm", hr) else put("heartRateBpm", JSONObject.NULL)
             if (temp != null) put("skinTempC", temp.toDouble()) else put("skinTempC", JSONObject.NULL)
             if (ambient != null) put("onDeviceAmbientTempC", ambient.toDouble()) else put("onDeviceAmbientTempC", JSONObject.NULL)
+            put("batteryPercent", batteryPct)
             put("timestampMillis", System.currentTimeMillis())
         }.toString()
 

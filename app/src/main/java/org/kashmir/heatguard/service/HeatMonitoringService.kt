@@ -159,14 +159,15 @@ class HeatMonitoringService : Service() {
     }
 
     private fun buildPipeline(): MonitoringPipeline {
-        val (lat, lon) = getCoordinates()
-        val apiProvider = ApiWeatherProvider(latitude = lat, longitude = lon)
-        val weatherProvider = FallbackWeatherProvider(
-            listOf(
-                CachedWeatherProvider(apiProvider, repository),
-                ManualWeatherProvider(repository)
-            )
-        )
+        val coords = getCoordinates()
+        val providers = buildList {
+            if (coords != null) {
+                val (lat, lon) = coords
+                add(CachedWeatherProvider(ApiWeatherProvider(latitude = lat, longitude = lon), repository))
+            }
+            add(ManualWeatherProvider(repository))
+        }
+        val weatherProvider = FallbackWeatherProvider(providers)
         return MonitoringPipeline(
             clock = SystemClock,
             ringDataSource = ringDataSource,
@@ -179,7 +180,7 @@ class HeatMonitoringService : Service() {
     }
 
     @Suppress("MissingPermission")
-    private fun getCoordinates(): Pair<Double, Double> {
+    private fun getCoordinates(): Pair<Double, Double>? {
         val lm = getSystemService(LOCATION_SERVICE) as LocationManager
         val location = try {
             lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
@@ -189,9 +190,9 @@ class HeatMonitoringService : Service() {
             repository.setLastKnownCoords(location.latitude, location.longitude)
             Pair(location.latitude, location.longitude)
         } else {
-            val lat = repository.getLastLatitude() ?: 34.0837
-            val lon = repository.getLastLongitude() ?: 74.7973
-            Pair(lat, lon)
+            val lat = repository.getLastLatitude()
+            val lon = repository.getLastLongitude()
+            if (lat != null && lon != null) Pair(lat, lon) else null
         }
     }
 

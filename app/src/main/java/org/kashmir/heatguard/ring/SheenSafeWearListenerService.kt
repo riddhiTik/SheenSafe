@@ -8,6 +8,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.kashmir.heatguard.HeatGuardApplication
 import org.kashmir.heatguard.core.model.SensorSample
+import org.kashmir.heatguard.data.AppRepository
 
 /**
  * Receives watch readings sent by WatchSensorService on the Galaxy Watch6.
@@ -40,16 +41,19 @@ class SheenSafeWearListenerService : WearableListenerService() {
         }
 
         val rawSkinTemp = json.optDoubleOrNull("skinTempC")
+        val battery = json.optIntOrNull("batteryPercent")
         val sample = SensorSample(
             timestampMillis              = json.optLong("timestampMillis", System.currentTimeMillis()),
             heartRateBpm                 = json.optIntOrNull("heartRateBpm"),
             rawSkinTemperatureC          = rawSkinTemp,
             skinTemperatureC             = rawSkinTemp,  // overwritten to smoothed value in WearDataRingDataSource
             onDeviceAmbientTemperatureC  = json.optDoubleOrNull("onDeviceAmbientTempC"),
+            batteryPercent               = battery,
             connected                    = true
         )
 
-        Log.d(TAG, "Received watch reading: hr=${sample.heartRateBpm} rawTemp=${sample.rawSkinTemperatureC} ambient=${sample.onDeviceAmbientTemperatureC}")
+        if (battery != null) AppRepository(applicationContext).setLastBatteryPercent(battery)
+        Log.d(TAG, "Received watch reading: hr=${sample.heartRateBpm} rawTemp=${sample.rawSkinTemperatureC} battery=${battery}")
         (application as HeatGuardApplication).wearDataSource.onWatchReading(sample)
     }
 

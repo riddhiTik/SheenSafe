@@ -34,14 +34,6 @@
                 android:textStyle="bold"
                 android:fontFamily="sans-serif" />
 
-            <ImageButton
-                android:id="@+id/btnNotifications"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/bg_notif_btn"
-                android:contentDescription="Notifications"
-                android:src="@drawable/ic_notifications"
-                app:tint="@color/background_dark" />
         </LinearLayout>
 
         <!-- Watch connection status -->

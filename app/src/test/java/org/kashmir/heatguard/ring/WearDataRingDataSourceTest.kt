@@ -35,7 +35,8 @@ class WearDataRingDataSourceTest {
         source.onWatchReading(sample)
 
         assertEquals(75, source.latestSample()?.heartRateBpm)
-        assertEquals(34.5, source.latestSample()?.skinTemperatureC)
+        // First EMA reading initializes to the raw value exactly.
+        assertEquals(34.5, source.latestSample()?.smoothedSkinTemperatureC)
     }
 
     @Test
@@ -79,7 +80,9 @@ class WearDataRingDataSourceTest {
         source.onWatchReading(watchSample(hr = 95, temp = 35.3, timestamp = 3_000L))
 
         assertEquals(95, source.latestSample()?.heartRateBpm)
-        assertEquals(35.3, source.latestSample()?.skinTemperatureC)
+        // EMA-smoothed: value moves toward 35.3 but is not exactly 35.3.
+        // Check raw field to confirm the most recent input reached the sample.
+        assertEquals(35.3, source.latestSample()?.rawSkinTemperatureC)
         assertEquals(3_000L, source.latestSample()?.timestampMillis)
     }
 
@@ -110,12 +113,13 @@ class WearDataRingDataSourceTest {
         source.onWatchReading(SensorSample(
             timestampMillis = System.currentTimeMillis(),
             heartRateBpm = null,
-            skinTemperatureC = 34.8,
+            rawSkinTemperatureC = 34.8,
             connected = true
         ))
 
         assertNull(source.latestSample()?.heartRateBpm)
-        assertEquals(34.8, source.latestSample()?.skinTemperatureC)
+        // First EMA reading initializes to the raw value exactly.
+        assertEquals(34.8, source.latestSample()?.smoothedSkinTemperatureC)
     }
 
     @Test
@@ -139,7 +143,7 @@ class WearDataRingDataSourceTest {
     ) = SensorSample(
         timestampMillis = timestamp,
         heartRateBpm = hr,
-        skinTemperatureC = temp,
+        rawSkinTemperatureC = temp,  // onWatchReading() reads rawSkinTemperatureC, not skinTemperatureC
         connected = true
     )
 }

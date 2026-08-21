@@ -69,8 +69,8 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
     }
 
     override fun getLastManualWeather(nowMillis: Long): WeatherSample {
-        val temp = prefs.getDoubleOrNull(KEY_WEATHER_TEMP) ?: 36.0
-        val rh = prefs.getDoubleOrNull(KEY_WEATHER_RH) ?: 45.0
+        val temp = prefs.getDoubleOrNull(KEY_WEATHER_TEMP)
+        val rh = prefs.getDoubleOrNull(KEY_WEATHER_RH)
         val timestamp = prefs.getLong(KEY_WEATHER_TIME, nowMillis)
         return WeatherSample(
             timestampMillis = timestamp,
@@ -227,6 +227,9 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         prefs.edit().putBoolean(KEY_USE_WATCH6, on).apply()
     }
 
+    fun getLastBatteryPercent(): Int? = prefs.getIntOrNull(KEY_LAST_BATTERY_PCT)
+    fun setLastBatteryPercent(pct: Int) { prefs.edit().putInt(KEY_LAST_BATTERY_PCT, pct).apply() }
+
     fun setEmergencyAlertSuppressedUntil(millis: Long) {
         prefs.edit().putLong(KEY_EMERGENCY_ALERT_SUPPRESSED_UNTIL, millis).apply()
     }
@@ -297,5 +300,6 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         private const val KEY_PRIMARY_CONTACT_INDEX = "primary_contact_index"
         private const val KEY_EMERGENCY_ALERT_SUPPRESSED_UNTIL = "emergency_alert_suppressed_until"
         private const val KEY_USE_WATCH6 = "use_watch6"
+        private const val KEY_LAST_BATTERY_PCT = "last_battery_pct"
     }
 }

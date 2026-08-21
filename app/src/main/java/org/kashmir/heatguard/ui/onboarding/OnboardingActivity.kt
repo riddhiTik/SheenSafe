@@ -22,19 +22,19 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         repository = AppRepository(this)
 
-        // currentSessionOrNull() reads from the SDK's in-memory cache — safe to call on main thread.
         val hasSession = SupabaseClientProvider.client?.auth?.currentSessionOrNull() != null
 
-        if (hasSession && repository.isOnboardingComplete()) {
+        if (repository.isOnboardingComplete()) {
             val userId = repository.getSupabaseUserId()
             val client = SupabaseClientProvider.client
-            if (client != null && userId.isNotBlank()) {
+            if (hasSession && client != null && userId.isNotBlank()) {
                 lifecycleScope.launch {
-                    if (SupabaseRepository(client).isAdmin(userId)) {
-                        launchAdmin()
-                    } else {
-                        launchMain()
+                    val isAdmin = try {
+                        SupabaseRepository(client).isAdmin(userId)
+                    } catch (_: Exception) {
+                        false
                     }
+                    if (isAdmin) launchAdmin() else launchMain()
                 }
             } else {
                 launchMain()
