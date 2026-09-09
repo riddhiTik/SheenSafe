@@ -3,13 +3,15 @@ package org.kashmir.heatguard.data
 import android.content.Context
 import android.content.SharedPreferences
 import java.util.UUID
+import org.json.JSONArray
+import org.json.JSONObject
 import org.kashmir.heatguard.core.model.*
 
 // TODO: [PRIVACY-HARDENING] Replace SharedPreferences with EncryptedSharedPreferences once
 // androidx is enabled. Set android.useAndroidX=true in gradle.properties, add
 // implementation("androidx.security:security-crypto:1.1.0-alpha06") to app/build.gradle.kts,
 // then replace context.getSharedPreferences(...) with EncryptedSharedPreferences.create(...).
-class AppRepository(context: Context) : BaselineRepository, RiskProfileRepository, ContactRepository, WeatherRepository {
+class AppRepository(context: Context) : BaselineRepository, RiskProfileRepository, ContactRepository, WeatherRepository, HourlyForecastRepository {
     private val prefs: SharedPreferences = context.getSharedPreferences("heatguard", Context.MODE_PRIVATE)
 
     override fun getEmergencyContactName(): String = prefs.getString(KEY_CONTACT_NAME, "") ?: ""
@@ -164,6 +166,35 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
             .apply()
     }
 
+    // Relations for the two primary (sync-backed) contact slots.
+    fun getContact1Relation(): String = prefs.getString(KEY_CONTACT_1_RELATION, "") ?: ""
+    fun setContact1Relation(relation: String) { prefs.edit().putString(KEY_CONTACT_1_RELATION, relation.trim()).apply() }
+    fun getContact2Relation(): String = prefs.getString(KEY_CONTACT_2_RELATION, "") ?: ""
+    fun setContact2Relation(relation: String) { prefs.edit().putString(KEY_CONTACT_2_RELATION, relation.trim()).apply() }
+
+    // Secondary contacts (local-only, not synced to Supabase — its schema has only two contact slots).
+    fun getThirdContactName(): String = prefs.getString(KEY_CONTACT_3_NAME, "") ?: ""
+    fun getThirdContactPhone(): String = prefs.getString(KEY_CONTACT_3_PHONE, "") ?: ""
+    fun getThirdContactRelation(): String = prefs.getString(KEY_CONTACT_3_RELATION, "") ?: ""
+    fun setThirdContact(name: String, phone: String, relation: String) {
+        prefs.edit()
+            .putString(KEY_CONTACT_3_NAME, name.trim())
+            .putString(KEY_CONTACT_3_PHONE, phone.trim())
+            .putString(KEY_CONTACT_3_RELATION, relation.trim())
+            .apply()
+    }
+
+    fun getFourthContactName(): String = prefs.getString(KEY_CONTACT_4_NAME, "") ?: ""
+    fun getFourthContactPhone(): String = prefs.getString(KEY_CONTACT_4_PHONE, "") ?: ""
+    fun getFourthContactRelation(): String = prefs.getString(KEY_CONTACT_4_RELATION, "") ?: ""
+    fun setFourthContact(name: String, phone: String, relation: String) {
+        prefs.edit()
+            .putString(KEY_CONTACT_4_NAME, name.trim())
+            .putString(KEY_CONTACT_4_PHONE, phone.trim())
+            .putString(KEY_CONTACT_4_RELATION, relation.trim())
+            .apply()
+    }
+
     fun getPrimaryContactIndex(): Int = prefs.getInt(KEY_PRIMARY_CONTACT_INDEX, 1)
     fun setPrimaryContactIndex(index: Int) {
         prefs.edit().putInt(KEY_PRIMARY_CONTACT_INDEX, index).apply()
@@ -175,6 +206,18 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
     fun getNonPrimaryPhones(): List<String> = buildList {
         if (getPrimaryContactIndex() != 1 && getEmergencyContactPhone().isNotBlank()) add(getEmergencyContactPhone())
         if (getPrimaryContactIndex() != 2 && getSecondContactPhone().isNotBlank()) add(getSecondContactPhone())
+        if (getThirdContactPhone().isNotBlank()) add(getThirdContactPhone())
+        if (getFourthContactPhone().isNotBlank()) add(getFourthContactPhone())
+    }
+
+    /**
+     * User-facing "notify me above X°F" preference shown in Settings. This is independent of
+     * the clinical RiskLevel thresholds in HeatRiskEngine (which are fixed and require
+     * clinician review) — it only drives the informational slider UI for now.
+     */
+    fun getCustomAlertThresholdF(): Int = prefs.getInt(KEY_CUSTOM_ALERT_THRESHOLD_F, 101)
+    fun setCustomAlertThresholdF(value: Int) {
+        prefs.edit().putInt(KEY_CUSTOM_ALERT_THRESHOLD_F, value).apply()
     }
 
     fun getAlertHeatRisk(): Boolean = prefs.getBoolean(KEY_ALERT_HEAT_RISK, true)
@@ -220,6 +263,35 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
             .putDouble(KEY_LAST_LON, lon)
             .apply()
     }
+
+    override fun getCachedHourlyForecast(): List<HourlyForecastPoint> {
+        val json = prefs.getString(KEY_HOURLY_FORECAST, null) ?: return emptyList()
+        return try {
+            val array = JSONArray(json)
+            (0 until array.length()).map { i ->
+                val obj = array.getJSONObject(i)
+                HourlyForecastPoint(
+                    timestampMillis = obj.getLong("t"),
+                    airTemperatureC = obj.getDouble("c")
+                )
+            }
+        } catch (_: Exception) {
+            emptyList()
+        }
+    }
+
+    override fun setCachedHourlyForecast(nowMillis: Long, points: List<HourlyForecastPoint>) {
+        val array = JSONArray()
+        points.forEach { point ->
+            array.put(JSONObject().put("t", point.timestampMillis).put("c", point.airTemperatureC))
+        }
+        prefs.edit()
+            .putString(KEY_HOURLY_FORECAST, array.toString())
+            .putLong(KEY_HOURLY_FORECAST_FETCHED_AT, nowMillis)
+            .apply()
+    }
+
+    fun getHourlyForecastFetchedAt(): Long = prefs.getLong(KEY_HOURLY_FORECAST_FETCHED_AT, 0L)
 
     fun getUseWatch6(): Boolean = prefs.getBoolean(KEY_USE_WATCH6, false)
 
@@ -285,6 +357,15 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         private const val KEY_DEVICE_CONNECTED = "device_connected"
         private const val KEY_CONTACT_2_NAME = "contact_2_name"
         private const val KEY_CONTACT_2_PHONE = "contact_2_phone"
+        private const val KEY_CONTACT_1_RELATION = "contact_1_relation"
+        private const val KEY_CONTACT_2_RELATION = "contact_2_relation"
+        private const val KEY_CONTACT_3_NAME = "contact_3_name"
+        private const val KEY_CONTACT_3_PHONE = "contact_3_phone"
+        private const val KEY_CONTACT_3_RELATION = "contact_3_relation"
+        private const val KEY_CONTACT_4_NAME = "contact_4_name"
+        private const val KEY_CONTACT_4_PHONE = "contact_4_phone"
+        private const val KEY_CONTACT_4_RELATION = "contact_4_relation"
+        private const val KEY_CUSTOM_ALERT_THRESHOLD_F = "custom_alert_threshold_f"
         private const val KEY_ALERT_HEAT_RISK = "alert_heat_risk"
         private const val KEY_ALERT_HYDRATION = "alert_hydration"
         private const val KEY_ALERT_EMERGENCY = "alert_emergency"
@@ -297,5 +378,7 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         private const val KEY_PRIMARY_CONTACT_INDEX = "primary_contact_index"
         private const val KEY_EMERGENCY_ALERT_SUPPRESSED_UNTIL = "emergency_alert_suppressed_until"
         private const val KEY_USE_WATCH6 = "use_watch6"
+        private const val KEY_HOURLY_FORECAST = "hourly_forecast_json"
+        private const val KEY_HOURLY_FORECAST_FETCHED_AT = "hourly_forecast_fetched_at"
     }
 }

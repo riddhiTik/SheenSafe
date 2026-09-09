@@ -1,48 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/background_light">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/header_navy"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/settings_title"
+            android:textColor="@color/logo_white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif" />
+
+        <ImageButton
+            android:id="@+id/btnNotifications"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_notif_btn"
+            android:contentDescription="Notifications"
+            android:src="@drawable/ic_notifications"
+            app:tint="@color/header_navy" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingTop="16dp"
+        android:paddingTop="20dp"
         android:paddingBottom="32dp">
-
-        <!-- Header -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="20dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/settings_title"
-                android:textColor="@color/text_main"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif" />
-
-            <FrameLayout
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/bg_initials_avatar">
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_notifications"
-                    app:tint="@color/text_main" />
-            </FrameLayout>
-        </LinearLayout>
 
         <!-- Watch card -->
         <com.google.android.material.card.MaterialCardView
@@ -50,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             app:cardCornerRadius="24dp"
-            app:cardElevation="4dp"
+            app:cardElevation="2dp"
             app:cardBackgroundColor="@color/white">
 
             <LinearLayout
@@ -66,15 +71,15 @@
                     android:padding="20dp">
 
                     <FrameLayout
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/bg_icon_square">
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/bg_watch_thumbnail">
                         <ImageView
-                            android:layout_width="26dp"
-                            android:layout_height="26dp"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_watch"
-                            app:tint="@color/primary_dark" />
+                            app:tint="@color/header_navy" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -89,7 +94,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/settings_watch_connected"
                             android:textColor="@color/text_main"
-                            android:textSize="15sp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             android:fontFamily="sans-serif" />
 
@@ -98,25 +103,44 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="85% Battery"
+                            android:text="@string/settings_watch_not_connected"
                             android:textColor="@color/muted"
                             android:textSize="13sp"
                             android:fontFamily="sans-serif" />
-                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/btnReconnectWatch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="@string/settings_reconnect"
-                        android:textColor="@color/primary_dark"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true" />
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="6dp"
+                                android:background="@drawable/bg_battery_track" />
+
+                            <View
+                                android:id="@+id/vBatteryFill"
+                                android:layout_width="0dp"
+                                android:layout_height="6dp"
+                                android:layout_gravity="start"
+                                android:background="@drawable/bg_battery_fill" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/btnReconnectWatch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/settings_reconnect"
+                            android:textColor="@color/logo_blue"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <View
@@ -172,7 +196,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             app:cardCornerRadius="24dp"
-            app:cardElevation="4dp"
+            app:cardElevation="2dp"
             app:cardBackgroundColor="@color/white">
 
             <LinearLayout
@@ -198,15 +222,43 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:layout_marginBottom="16dp">
-                    <TextView
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_icon_square_orange">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_sunny"
+                            app:tint="@color/warning_color" />
+                    </FrameLayout>
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/settings_alert_heat"
-                        android:textColor="@color/text_main"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif" />
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_alert_heat"
+                            android:textColor="@color/text_main"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/settings_alert_heat_desc"
+                            android:textColor="@color/muted"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif" />
+                    </LinearLayout>
+
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/switchHeatRisk"
                         android:layout_width="wrap_content"
@@ -220,15 +272,43 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:layout_marginBottom="16dp">
-                    <TextView
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_icon_square_blue">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_water_drop"
+                            app:tint="@color/logo_blue" />
+                    </FrameLayout>
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/settings_alert_hydration"
-                        android:textColor="@color/text_main"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif" />
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_alert_hydration"
+                            android:textColor="@color/text_main"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/settings_alert_hydration_desc"
+                            android:textColor="@color/muted"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif" />
+                    </LinearLayout>
+
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/switchHydration"
                         android:layout_width="wrap_content"
@@ -241,21 +321,127 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
-                    <TextView
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_sos_badge">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="SOS"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif" />
+                    </FrameLayout>
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/settings_alert_emergency"
-                        android:textColor="@color/text_main"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif" />
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_alert_emergency"
+                            android:textColor="@color/text_main"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/settings_alert_emergency_desc"
+                            android:textColor="@color/muted"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif" />
+                    </LinearLayout>
+
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/switchEmergency"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:theme="@style/SwitchGreen" />
                 </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Thresholds card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/settings_section_thresholds"
+                    android:textColor="@color/muted"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08"
+                    android:fontFamily="sans-serif" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_threshold_label"
+                        android:textColor="@color/text_main"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif" />
+
+                    <TextView
+                        android:id="@+id/tvThresholdValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:textColor="@color/logo_blue"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/thresholdSliderTouchArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/bg_heat_index_track" />
+
+                    <View
+                        android:id="@+id/thresholdThumb"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical|start"
+                        android:background="@drawable/bg_slider_thumb" />
+                </FrameLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -418,11 +604,25 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="14dp">
+
+                    <FrameLayout
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/bg_perm_icon_red">
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_location_on"
+                            app:tint="@color/error_color" />
+                    </FrameLayout>
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginStart="12dp"
                         android:text="@string/settings_location"
                         android:textColor="@color/text_main"
                         android:textSize="15sp"
@@ -444,10 +644,24 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/bg_perm_icon_green">
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_notifications"
+                            app:tint="@color/primary_dark" />
+                    </FrameLayout>
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginStart="12dp"
                         android:text="@string/settings_notifications_label"
                         android:textColor="@color/text_main"
                         android:textSize="15sp"
@@ -601,4 +815,6 @@
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+</LinearLayout>

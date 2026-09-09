@@ -15,6 +15,7 @@ import io.github.jan.supabase.auth.auth
 import kotlinx.coroutines.launch
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.data.AppRepository
+import org.kashmir.heatguard.data.EmailConfirmationPendingException
 import org.kashmir.heatguard.data.SupabaseClientProvider
 import org.kashmir.heatguard.data.SupabaseRepository
 
@@ -104,7 +105,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
                 val userId = authResult.getOrElse { e ->
                     setLoading(false, btnPrimary, progressBar)
-                    showError(tvError, friendlyAuthError(e.message, isSignUp))
+                    if (e is EmailConfirmationPendingException) {
+                        isSignUp = false
+                        applyMode(tvPasswordLabel, layoutTerms, btnPrimary, tvAuthSwitchPrompt, tvAuthSwitchLink)
+                        showError(tvError, getString(R.string.login_confirm_email_sent))
+                    } else {
+                        showError(tvError, friendlyAuthError(e.message, isSignUp))
+                    }
                     return@launch
                 }
 

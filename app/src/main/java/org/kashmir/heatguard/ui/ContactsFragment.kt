@@ -1,17 +1,21 @@
 package org.kashmir.heatguard.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.data.AppRepository
@@ -22,97 +26,149 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
 
     private lateinit var repository: AppRepository
 
+    /** Slots 1-2 are the sync-backed "primary" contacts; 3-4 are local-only "secondary" contacts. */
+    private data class Slot(
+        val index: Int,
+        val name: String,
+        val phone: String,
+        val relation: String,
+        val isPrimary: Boolean,
+        val avatarColorRes: Int
+    )
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         repository = AppRepository(requireContext())
         refreshContacts(view)
     }
 
+    private fun slots(): List<Slot> = listOf(
+        Slot(1, repository.getEmergencyContactName(), repository.getEmergencyContactPhone(), repository.getContact1Relation(), true, R.color.warning_color),
+        Slot(2, repository.getSecondContactName(), repository.getSecondContactPhone(), repository.getContact2Relation(), true, R.color.logo_blue),
+        Slot(3, repository.getThirdContactName(), repository.getThirdContactPhone(), repository.getThirdContactRelation(), false, R.color.live_dot_green),
+        Slot(4, repository.getFourthContactName(), repository.getFourthContactPhone(), repository.getFourthContactRelation(), false, R.color.avatar_yellow)
+    )
+
+    private fun cardIdFor(slot: Int) = when (slot) {
+        1 -> R.id.contact1Card
+        2 -> R.id.contact2Card
+        3 -> R.id.contact3Card
+        else -> R.id.contact4Card
+    }
+
     private fun refreshContacts(view: View) {
-        val contact1Card = view.findViewById<MaterialCardView>(R.id.contact1Card)
-        val contact2Card = view.findViewById<MaterialCardView>(R.id.contact2Card)
-        val emptyState = view.findViewById<TextView>(R.id.tvContactsEmpty)
-        val fab = view.findViewById<FloatingActionButton>(R.id.fabAddContact)
+        val allSlots = slots()
+        val filled = allSlots.filter { it.name.isNotBlank() }
 
-        val name1 = repository.getEmergencyContactName()
-        val phone1 = repository.getEmergencyContactPhone()
-        val name2 = repository.getSecondContactName()
-        val phone2 = repository.getSecondContactPhone()
+        view.findViewById<TextView>(R.id.tvAlertCount).text =
+            getString(R.string.contacts_alert_count, filled.size)
 
-        val hasContact1 = name1.isNotBlank()
-        val hasContact2 = name2.isNotBlank()
-
-        contact1Card.visibility = if (hasContact1) View.VISIBLE else View.GONE
-        contact2Card.visibility = if (hasContact2) View.VISIBLE else View.GONE
-        emptyState.visibility = if (!hasContact1 && !hasContact2) View.VISIBLE else View.GONE
-        fab.visibility = if (hasContact1 && hasContact2) View.GONE else View.VISIBLE
-
-        val primaryIndex = repository.getPrimaryContactIndex()
-        val star1 = view.findViewById<ImageView>(R.id.ivContact1Star)
-        val star2 = view.findViewById<ImageView>(R.id.ivContact2Star)
-        val delete1 = view.findViewById<ImageView>(R.id.ivContact1Delete)
-        val delete2 = view.findViewById<ImageView>(R.id.ivContact2Delete)
-
-        if (hasContact1) {
-            view.findViewById<TextView>(R.id.tvContact1Initials).text = name1.firstOrNull()?.uppercaseChar()?.toString() ?: "?"
-            view.findViewById<TextView>(R.id.tvContact1Name).text = name1
-            view.findViewById<TextView>(R.id.tvContact1Phone).text = phone1.ifBlank { getString(R.string.metric_no_data) }
-            contact1Card.setOnClickListener { showContactDialog(view, slot = 1) }
-            applyStarState(star1, primaryIndex == 1)
-            star1.setOnClickListener {
-                repository.setPrimaryContactIndex(1)
-                refreshContacts(view)
+        view.findViewById<TextView>(R.id.tvInfoBanner).text = buildSpannedString {
+            append(getString(R.string.contacts_info_banner_prefix))
+            color(ContextCompat.getColor(requireContext(), R.color.critical_color)) {
+                append(getString(R.string.contacts_info_banner_critical))
             }
-            delete1.setOnClickListener { confirmDeleteContact(view, slot = 1, name = name1) }
         }
 
-        if (hasContact2) {
-            view.findViewById<TextView>(R.id.tvContact2Initials).text = name2.firstOrNull()?.uppercaseChar()?.toString() ?: "?"
-            view.findViewById<TextView>(R.id.tvContact2Name).text = name2
-            view.findViewById<TextView>(R.id.tvContact2Phone).text = phone2.ifBlank { getString(R.string.metric_no_data) }
-            contact2Card.setOnClickListener { showContactDialog(view, slot = 2) }
-            applyStarState(star2, primaryIndex == 2)
-            star2.setOnClickListener {
-                repository.setPrimaryContactIndex(2)
-                refreshContacts(view)
-            }
-            delete2.setOnClickListener { confirmDeleteContact(view, slot = 2, name = name2) }
+        view.findViewById<TextView>(R.id.tvPrimaryLabel).visibility =
+            if (allSlots.filter { it.isPrimary }.any { it.name.isNotBlank() }) View.VISIBLE else View.GONE
+        view.findViewById<TextView>(R.id.tvSecondaryLabel).visibility =
+            if (allSlots.filter { !it.isPrimary }.any { it.name.isNotBlank() }) View.VISIBLE else View.GONE
+
+        for (slot in allSlots) {
+            bindCard(view, slot)
         }
 
-        fab.setOnClickListener {
-            showContactDialog(view, slot = if (!hasContact1) 1 else 2)
-        }
-    }
+        view.findViewById<TextView>(R.id.tvContactsEmpty).visibility =
+            if (filled.isEmpty()) View.VISIBLE else View.GONE
 
-    private fun applyStarState(star: ImageView, isPrimary: Boolean) {
-        val ctx = requireContext()
-        if (isPrimary) {
-            star.setImageResource(R.drawable.ic_star_filled)
-            star.imageTintList = ContextCompat.getColorStateList(ctx, R.color.warning_color)
-        } else {
-            star.setImageResource(R.drawable.ic_star_outline)
-            star.imageTintList = ContextCompat.getColorStateList(ctx, R.color.muted)
-        }
-    }
-
-    private fun confirmDeleteContact(view: View, slot: Int, name: String) {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Remove $name?")
-            .setMessage("This contact will no longer receive emergency notifications.")
-            .setPositiveButton("Remove") { _, _ ->
-                if (slot == 1) repository.setEmergencyContact("", "")
-                else repository.setSecondContact("", "")
-                if (repository.getPrimaryContactIndex() == slot) {
-                    val otherSlot = if (slot == 1) 2 else 1
-                    val otherHasContact = if (otherSlot == 1) repository.getEmergencyContactName().isNotBlank()
-                                         else repository.getSecondContactName().isNotBlank()
-                    repository.setPrimaryContactIndex(if (otherHasContact) otherSlot else 1)
+        view.findViewById<LinearLayout>(R.id.btnAddContact).apply {
+            visibility = if (filled.size < allSlots.size) View.VISIBLE else View.GONE
+            setOnClickListener {
+                val nextEmpty = allSlots.firstOrNull { it.name.isBlank() }
+                if (nextEmpty == null) {
+                    Toast.makeText(requireContext(), R.string.contacts_max_reached, Toast.LENGTH_SHORT).show()
+                } else {
+                    showContactDialog(view, nextEmpty.index)
                 }
-                refreshContacts(view)
-                syncContactsToSupabase()
             }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
+        }
+    }
+
+    private fun bindCard(view: View, slot: Slot) {
+        val card = view.findViewById<MaterialCardView>(cardIdFor(slot.index))
+        val hasContact = slot.name.isNotBlank()
+        card.visibility = if (hasContact) View.VISIBLE else View.GONE
+        if (!hasContact) return
+
+        card.findViewById<TextView>(R.id.tvContactInitials).apply {
+            text = slot.name.firstOrNull()?.uppercaseChar()?.toString() ?: "?"
+            backgroundTintList = ContextCompat.getColorStateList(requireContext(), slot.avatarColorRes)
+        }
+        card.findViewById<TextView>(R.id.tvContactName).text = slot.name
+        card.findViewById<TextView>(R.id.tvContactDetail).text = listOf(slot.relation, slot.phone)
+            .filter { it.isNotBlank() }
+            .ifEmpty { listOf(getString(R.string.metric_no_data)) }
+            .joinToString(" • ")
+
+        card.findViewById<ImageView>(R.id.ivContactStar).visibility =
+            if (slot.isPrimary) View.VISIBLE else View.GONE
+
+        card.findViewById<View>(R.id.btnCallContact).setOnClickListener {
+            callContact(slot.phone)
+        }
+
+        card.setOnClickListener { showContactDialog(view, slot.index) }
+    }
+
+    private fun callContact(phone: String) {
+        if (phone.isBlank()) return
+        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${Uri.encode(phone)}"))
+        startActivity(intent)
+    }
+
+    private fun getSlotName(index: Int): String = when (index) {
+        1 -> repository.getEmergencyContactName()
+        2 -> repository.getSecondContactName()
+        3 -> repository.getThirdContactName()
+        else -> repository.getFourthContactName()
+    }
+
+    private fun getSlotPhone(index: Int): String = when (index) {
+        1 -> repository.getEmergencyContactPhone()
+        2 -> repository.getSecondContactPhone()
+        3 -> repository.getThirdContactPhone()
+        else -> repository.getFourthContactPhone()
+    }
+
+    private fun getSlotRelation(index: Int): String = when (index) {
+        1 -> repository.getContact1Relation()
+        2 -> repository.getContact2Relation()
+        3 -> repository.getThirdContactRelation()
+        else -> repository.getFourthContactRelation()
+    }
+
+    private fun saveSlot(index: Int, name: String, phone: String, relation: String) {
+        when (index) {
+            1 -> {
+                repository.setEmergencyContact(name, phone)
+                repository.setContact1Relation(relation)
+            }
+            2 -> {
+                repository.setSecondContact(name, phone)
+                repository.setContact2Relation(relation)
+            }
+            3 -> repository.setThirdContact(name, phone, relation)
+            else -> repository.setFourthContact(name, phone, relation)
+        }
+    }
+
+    private fun clearSlot(index: Int) {
+        saveSlot(index, "", "", "")
+        if (index <= 2 && repository.getPrimaryContactIndex() == index) {
+            val otherIndex = if (index == 1) 2 else 1
+            repository.setPrimaryContactIndex(if (getSlotPhone(otherIndex).isNotBlank()) otherIndex else 1)
+        }
     }
 
     private fun syncContactsToSupabase() {
@@ -139,12 +195,17 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
             orientation = LinearLayout.VERTICAL
             setPadding(48, 24, 48, 0)
         }
-        val existingName = if (slot == 1) repository.getEmergencyContactName() else repository.getSecondContactName()
-        val existingPhone = if (slot == 1) repository.getEmergencyContactPhone() else repository.getSecondContactPhone()
+        val existingName = getSlotName(slot)
+        val existingPhone = getSlotPhone(slot)
+        val existingRelation = getSlotRelation(slot)
 
         val name = EditText(ctx).apply {
             hint = getString(R.string.onboarding_contact_name_placeholder)
             setText(existingName)
+        }
+        val relation = EditText(ctx).apply {
+            hint = getString(R.string.contacts_relation_placeholder)
+            setText(existingRelation)
         }
         val phone = EditText(ctx).apply {
             hint = getString(R.string.onboarding_contact_phone_placeholder)
@@ -152,21 +213,30 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
             setText(existingPhone)
         }
         layout.addView(name)
+        layout.addView(relation)
         layout.addView(phone)
 
         val title = if (existingName.isNotBlank()) "Edit Contact" else getString(R.string.set_contact)
-        AlertDialog.Builder(ctx)
+        val builder = AlertDialog.Builder(ctx)
             .setTitle(title)
             .setView(layout)
             .setPositiveButton(R.string.save) { _, _ ->
                 val n = name.text.toString().trim()
                 val p = phone.text.toString().trim()
-                if (slot == 1) repository.setEmergencyContact(n, p)
-                else repository.setSecondContact(n, p)
+                val r = relation.text.toString().trim()
+                saveSlot(slot, n, p, r)
                 refreshContacts(view)
-                syncContactsToSupabase()
+                if (slot <= 2) syncContactsToSupabase()
             }
             .setNegativeButton(R.string.cancel, null)
-            .show()
+
+        if (existingName.isNotBlank()) {
+            builder.setNeutralButton("Remove") { _, _ ->
+                clearSlot(slot)
+                refreshContacts(view)
+                if (slot <= 2) syncContactsToSupabase()
+            }
+        }
+        builder.show()
     }
 }

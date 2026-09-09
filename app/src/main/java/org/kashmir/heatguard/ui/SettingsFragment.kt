@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.launch
+import org.kashmir.heatguard.HeatGuardApplication
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.data.AppRepository
 import org.kashmir.heatguard.data.SupabaseClientProvider
@@ -36,6 +38,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         bindTempToggle(view)
         bindActions(view)
         bindWatch6Toggle(view)
+        bindWatchStatus(view)
+        bindThresholdSlider(view)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (view != null) bindWatchStatus(requireView())
     }
 
     private fun bindProfile(view: View) {
@@ -124,6 +133,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         view.findViewById<TextView>(R.id.btnReconnectWatch).setOnClickListener {
             repository.setDeviceConnected(true)
             Toast.makeText(requireContext(), getString(R.string.settings_reconnect_toast), Toast.LENGTH_SHORT).show()
+            bindWatchStatus(view)
         }
 
         view.findViewById<TextView>(R.id.btnSignOut).setOnClickListener {
@@ -139,6 +149,72 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
                 )
+            }
+        }
+    }
+
+    private fun bindWatchStatus(view: View) {
+        val tvBattery = view.findViewById<TextView>(R.id.tvWatchBattery)
+        val fill = view.findViewById<View>(R.id.vBatteryFill)
+        val sample = (requireActivity().application as HeatGuardApplication).activeRingDataSource?.latestSample()
+        val batteryPercent = sample?.batteryPercent
+
+        if (sample == null || batteryPercent == null) {
+            tvBattery.text = getString(R.string.settings_watch_not_connected)
+            fill.post { fill.layoutParams = fill.layoutParams.apply { width = 0 }; fill.requestLayout() }
+            return
+        }
+
+        val ageSeconds = (System.currentTimeMillis() - sample.timestampMillis) / 1000L
+        val agoLabel = when {
+            ageSeconds < 60 -> "${ageSeconds}s"
+            ageSeconds < 3600 -> "${ageSeconds / 60}m"
+            else -> "${ageSeconds / 3600}h"
+        }
+        tvBattery.text = getString(R.string.settings_watch_sync_status, batteryPercent, agoLabel)
+
+        val track = fill.parent as View
+        track.post {
+            val trackWidth = track.width
+            if (trackWidth > 0) {
+                val fraction = (batteryPercent / 100f).coerceIn(0f, 1f)
+                fill.layoutParams = fill.layoutParams.apply { width = (trackWidth * fraction).toInt() }
+                fill.requestLayout()
+            }
+        }
+    }
+
+    private fun bindThresholdSlider(view: View) {
+        val touchArea = view.findViewById<View>(R.id.thresholdSliderTouchArea)
+        val thumb = view.findViewById<View>(R.id.thresholdThumb)
+        val tvValue = view.findViewById<TextView>(R.id.tvThresholdValue)
+        val minF = 70
+        val maxF = 130
+
+        fun applyValue(value: Int) {
+            tvValue.text = getString(R.string.settings_threshold_value, value)
+            val trackWidth = touchArea.width
+            val thumbWidth = thumb.width.takeIf { it > 0 } ?: thumb.layoutParams.width
+            if (trackWidth > 0) {
+                val fraction = ((value - minF).toFloat() / (maxF - minF)).coerceIn(0f, 1f)
+                thumb.translationX = fraction * (trackWidth - thumbWidth)
+            }
+        }
+
+        touchArea.post { applyValue(repository.getCustomAlertThresholdF()) }
+
+        touchArea.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+                    val thumbWidth = thumb.width.takeIf { it > 0 } ?: thumb.layoutParams.width
+                    val usableWidth = (v.width - thumbWidth).coerceAtLeast(1)
+                    val fraction = ((event.x - thumbWidth / 2f) / usableWidth).coerceIn(0f, 1f)
+                    val value = (minF + fraction * (maxF - minF)).toInt()
+                    applyValue(value)
+                    repository.setCustomAlertThresholdF(value)
+                    true
+                }
+                else -> false
             }
         }
     }

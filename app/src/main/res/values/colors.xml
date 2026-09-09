@@ -36,4 +36,45 @@
     <color name="on_primary_container">#006123</color>
     <color name="on_error_container">#93000A</color>
     <color name="emergency_btn">#C62828</color>
+
+    <!-- Dashboard v2 (mockup redesign) -->
+    <color name="header_navy">#0B1F3B</color>
+    <color name="header_navy_dark">#081527</color>
+    <color name="logo_white">#FFFFFF</color>
+    <color name="logo_blue">#4C8DFF</color>
+    <color name="pill_stroke">#33FFFFFF</color>
+    <color name="pill_text_on_navy">#FFFFFF</color>
+    <color name="live_dot_green">#2ECC71</color>
+    <color name="badge_red">#E5484D</color>
+
+    <color name="gradient_safe_start">#43C67A</color>
+    <color name="gradient_safe_end">#2E9D5E</color>
+    <color name="gradient_check_start">#F4B942</color>
+    <color name="gradient_check_end">#E08E1D</color>
+    <color name="gradient_action_start">#F08A45</color>
+    <color name="gradient_action_end">#D9622A</color>
+    <color name="gradient_emergency_start">#F14848</color>
+    <color name="gradient_emergency_end">#C42B2B</color>
+
+    <color name="heat_index_green">#3ABF6E</color>
+    <color name="heat_index_yellow">#F4D53F</color>
+    <color name="heat_index_orange">#F0973D</color>
+    <color name="heat_index_red">#E5484D</color>
+
+    <color name="vital_temp_accent">#E5484D</color>
+    <color name="vital_heart_accent">#F0973D</color>
+    <color name="vital_humidity_accent">#3ABF6E</color>
+    <color name="vital_outside_accent">#F0973D</color>
+
+    <!-- Emergency contacts v2 (mockup redesign) -->
+    <color name="avatar_yellow">#F0B429</color>
+    <color name="info_banner_bg">#E8F1FF</color>
+    <color name="info_banner_icon">#2F6FED</color>
+    <color name="dashed_border_blue">#4C8DFF</color>
+
+    <!-- Settings v2 (mockup redesign) -->
+    <color name="alert_icon_bg_orange">#FDECD9</color>
+    <color name="alert_icon_bg_blue">#E1EEFC</color>
+    <color name="perm_icon_bg_red">#FCE4E3</color>
+    <color name="perm_icon_bg_green">#DFF5E5</color>
 </resources>

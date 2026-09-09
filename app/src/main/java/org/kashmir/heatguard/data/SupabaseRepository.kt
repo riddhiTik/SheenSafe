@@ -13,6 +13,9 @@ import org.kashmir.heatguard.core.model.RiskDecision
 import org.kashmir.heatguard.core.model.RiskProfile
 import org.kashmir.heatguard.core.model.SensorSample
 
+class EmailConfirmationPendingException :
+    Exception("Sign up succeeded but requires email confirmation before a session is created.")
+
 class SupabaseRepository(private val client: SupabaseClient?) {
 
     // ------------------------------------------------------------------ auth
@@ -23,8 +26,7 @@ class SupabaseRepository(private val client: SupabaseClient?) {
             this.email = email
             this.password = password
         }
-        c.auth.currentUserOrNull()?.id
-            ?: throw IllegalStateException("Sign up succeeded but no session was created. Check if email confirmation is enabled in your Supabase project.")
+        c.auth.currentUserOrNull()?.id ?: throw EmailConfirmationPendingException()
     }
 
     suspend fun signInWithEmail(email: String, password: String): Result<String> = runCatching {

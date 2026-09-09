@@ -1,10 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/background_light">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/header_navy"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contacts_title"
+                android:textColor="@color/logo_white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif" />
+
+            <TextView
+                android:id="@+id/tvAlertCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/pill_text_on_navy"
+                android:textSize="14sp"
+                android:alpha="0.8"
+                android:fontFamily="sans-serif" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnNotifications"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_notif_btn"
+            android:contentDescription="Notifications"
+            android:src="@drawable/ic_notifications"
+            app:tint="@color/header_navy" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,199 +62,94 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
-            android:paddingTop="16dp"
+            android:paddingTop="20dp"
             android:paddingBottom="96dp">
 
-            <!-- Header -->
+            <!-- Info banner -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_info_banner"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="24dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/contacts_title"
-                    android:textColor="@color/text_main"
-                    android:textSize="28sp"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif" />
+                android:padding="16dp"
+                android:layout_marginBottom="20dp">
 
                 <FrameLayout
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/bg_initials_avatar">
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_notif_btn">
                     <ImageView
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_notifications"
-                        app:tint="@color/text_main" />
+                        android:src="@drawable/ic_shield"
+                        app:tint="@color/info_banner_icon" />
                 </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvInfoBanner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:textColor="@color/text_main"
+                    android:textSize="14sp"
+                    android:lineSpacingMultiplier="1.25"
+                    android:fontFamily="sans-serif" />
             </LinearLayout>
 
-            <!-- Contact 1 card -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- PRIMARY section -->
+            <TextView
+                android:id="@+id/tvPrimaryLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/contacts_section_primary"
+                android:textColor="@color/outline"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:fontFamily="sans-serif"
+                android:visibility="gone" />
+
+            <include
                 android:id="@+id/contact1Card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:visibility="gone"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="@color/white">
+                layout="@layout/item_emergency_contact" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
-
-                    <!-- Avatar -->
-                    <TextView
-                        android:id="@+id/tvContact1Initials"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/bg_initials_avatar"
-                        android:gravity="center"
-                        android:textColor="@color/text_main"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="14dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tvContact1Name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/background_dark"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:fontFamily="sans-serif" />
-
-                        <TextView
-                            android:id="@+id/tvContact1Phone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:textColor="@color/muted"
-                            android:textSize="13sp"
-                            android:fontFamily="sans-serif" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/ivContact1Star"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_marginEnd="4dp"
-                        android:padding="2dp"
-                        android:src="@drawable/ic_star_filled"
-                        android:contentDescription="Set as primary contact"
-                        app:tint="@color/warning_color" />
-
-                    <ImageView
-                        android:id="@+id/ivContact1Delete"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:padding="2dp"
-                        android:src="@drawable/ic_delete"
-                        android:contentDescription="Delete contact"
-                        app:tint="@color/muted" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Contact 2 card -->
-            <com.google.android.material.card.MaterialCardView
+            <include
                 android:id="@+id/contact2Card"
-                android:layout_width="match_parent"
+                layout="@layout/item_emergency_contact" />
+
+            <!-- SECONDARY section -->
+            <TextView
+                android:id="@+id/tvSecondaryLabel"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:visibility="gone"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="@color/white">
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/contacts_section_secondary"
+                android:textColor="@color/outline"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:fontFamily="sans-serif"
+                android:visibility="gone" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
+            <include
+                android:id="@+id/contact3Card"
+                layout="@layout/item_emergency_contact" />
 
-                    <TextView
-                        android:id="@+id/tvContact2Initials"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/bg_initials_avatar"
-                        android:gravity="center"
-                        android:textColor="@color/text_main"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="14dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tvContact2Name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/background_dark"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:fontFamily="sans-serif" />
-
-                        <TextView
-                            android:id="@+id/tvContact2Phone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:textColor="@color/muted"
-                            android:textSize="13sp"
-                            android:fontFamily="sans-serif" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/ivContact2Star"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_marginEnd="4dp"
-                        android:padding="2dp"
-                        android:src="@drawable/ic_star_outline"
-                        android:contentDescription="Set as primary contact"
-                        app:tint="@color/muted" />
-
-                    <ImageView
-                        android:id="@+id/ivContact2Delete"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:padding="2dp"
-                        android:src="@drawable/ic_delete"
-                        android:contentDescription="Delete contact"
-                        app:tint="@color/muted" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            <include
+                android:id="@+id/contact4Card"
+                layout="@layout/item_emergency_contact" />
 
             <!-- Empty state -->
             <TextView
                 android:id="@+id/tvContactsEmpty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:text="@string/contacts_empty"
                 android:textColor="@color/muted"
@@ -216,20 +158,39 @@
                 android:fontFamily="sans-serif"
                 android:visibility="gone" />
 
+            <!-- Add contact -->
+            <LinearLayout
+                android:id="@+id/btnAddContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layerType="software"
+                android:background="@drawable/bg_dashed_add_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingVertical="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_add_circle"
+                    app:tint="@color/dashed_border_blue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/contacts_add_button"
+                    android:textColor="@color/dashed_border_blue"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
-    <!-- FAB -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="24dp"
-        android:contentDescription="Add contact"
-        android:src="@drawable/ic_add_circle"
-        app:backgroundTint="@color/sage"
-        app:tint="@color/white"
-        app:elevation="6dp" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

@@ -1,11 +1,11 @@
 package org.kashmir.heatguard.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
@@ -14,8 +14,16 @@ import android.os.Looper
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.kashmir.heatguard.HeatGuardApplication
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.alerts.EscalationManager
@@ -27,6 +35,8 @@ import org.kashmir.heatguard.core.risk.HeatRiskEngine
 import org.kashmir.heatguard.core.ring.RingDataSource
 import org.kashmir.heatguard.data.AppRepository
 import org.kashmir.heatguard.ring.SimulatedRingDataSource
+import org.kashmir.heatguard.weather.ApiHourlyForecastProvider
+import org.kashmir.heatguard.weather.CachedHourlyForecastProvider
 import org.kashmir.heatguard.weather.ManualWeatherProvider
 
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
@@ -47,11 +57,18 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     private var pendingTextPhones: List<String> = emptyList()
 
+    private val bodyTempHistory = ArrayDeque<Float>()
+    private val heartRateHistory = ArrayDeque<Float>()
+    private val humidityHistory = ArrayDeque<Float>()
+    private val outsideTempHistory = ArrayDeque<Float>()
+
     private lateinit var btnEmergency: MaterialButton
     private lateinit var heroCard: MaterialCardView
-    private lateinit var ivHeroIcon: android.widget.ImageView
+    private lateinit var heroContent: LinearLayout
+    private lateinit var tvRiskBadge: TextView
     private lateinit var tvHeroHeading: TextView
     private lateinit var tvHeroSubtitle: TextView
+    private lateinit var heatIndexThumb: View
     private lateinit var tvCareBody: TextView
     private lateinit var tvBodyTemp: TextView
     private lateinit var tvBodyTempUnit: TextView
@@ -60,6 +77,16 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private lateinit var tvOutsideTemp: TextView
     private lateinit var tvOutsideTempUnit: TextView
     private lateinit var tvWatchStatus: TextView
+    private lateinit var ivBodyTempTrend: ImageView
+    private lateinit var ivHeartRateTrend: ImageView
+    private lateinit var ivHumidityTrend: ImageView
+    private lateinit var ivOutsideTempTrend: ImageView
+    private lateinit var sparkBodyTemp: SparklineView
+    private lateinit var sparkHeartRate: SparklineView
+    private lateinit var sparkHumidity: SparklineView
+    private lateinit var sparkOutsideTemp: SparklineView
+    private lateinit var forecastRow: LinearLayout
+    private lateinit var forecastSlots: List<View>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,9 +96,11 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         btnEmergency = view.findViewById(R.id.btnEmergency)
         heroCard = view.findViewById(R.id.heroCard)
-        ivHeroIcon = view.findViewById(R.id.ivHeroIcon)
+        heroContent = view.findViewById(R.id.heroContent)
+        tvRiskBadge = view.findViewById(R.id.tvRiskBadge)
         tvHeroHeading = view.findViewById(R.id.tvHeroHeading)
         tvHeroSubtitle = view.findViewById(R.id.tvHeroSubtitle)
+        heatIndexThumb = view.findViewById(R.id.heatIndexThumb)
         tvCareBody = view.findViewById(R.id.tvCareBody)
         tvBodyTemp = view.findViewById(R.id.tvBodyTemp)
         tvBodyTempUnit = view.findViewById(R.id.tvBodyTempUnit)
@@ -80,6 +109,22 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         tvOutsideTemp = view.findViewById(R.id.tvOutsideTemp)
         tvOutsideTempUnit = view.findViewById(R.id.tvOutsideTempUnit)
         tvWatchStatus = view.findViewById(R.id.tvWatchStatus)
+        ivBodyTempTrend = view.findViewById(R.id.ivBodyTempTrend)
+        ivHeartRateTrend = view.findViewById(R.id.ivHeartRateTrend)
+        ivHumidityTrend = view.findViewById(R.id.ivHumidityTrend)
+        ivOutsideTempTrend = view.findViewById(R.id.ivOutsideTempTrend)
+        sparkBodyTemp = view.findViewById(R.id.sparkBodyTemp)
+        sparkHeartRate = view.findViewById(R.id.sparkHeartRate)
+        sparkHumidity = view.findViewById(R.id.sparkHumidity)
+        sparkOutsideTemp = view.findViewById(R.id.sparkOutsideTemp)
+        forecastRow = view.findViewById(R.id.forecastRow)
+        forecastSlots = listOf(
+            view.findViewById(R.id.forecast0),
+            view.findViewById(R.id.forecast1),
+            view.findViewById(R.id.forecast2),
+            view.findViewById(R.id.forecast3),
+            view.findViewById(R.id.forecast4)
+        )
 
         // ringDataSource setup must come after the findViewById block above —
         // SimulatedRingDataSource.start() invokes its callback synchronously, which calls
@@ -127,6 +172,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         ensureDefaultBaseline()
         assessAndRender()
+        loadHourlyForecast()
     }
 
     override fun onResume() {
@@ -167,36 +213,40 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         // Hero card
         when (decision.level) {
             RiskLevel.SAFE -> {
-                heroCard.setCardBackgroundColor(Color.parseColor("#1A19E661"))
-                heroCard.strokeColor = Color.parseColor("#3319E661")
-                ivHeroIcon.setImageResource(R.drawable.ic_favorite)
-                ivHeroIcon.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.primary)
+                heroContent.setBackgroundResource(R.drawable.bg_hero_gradient_safe)
+                tvRiskBadge.text = "SAFE"
                 tvHeroHeading.text = getString(R.string.status_safe_heading)
                 tvHeroSubtitle.text = getString(R.string.status_safe_sub)
             }
             RiskLevel.CHECK -> {
-                heroCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.risk_check_bg))
-                heroCard.strokeColor = Color.parseColor("#4DF4A261")
-                ivHeroIcon.setImageResource(R.drawable.ic_warning_filled)
-                ivHeroIcon.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.warning_color)
+                heroContent.setBackgroundResource(R.drawable.bg_hero_gradient_check)
+                tvRiskBadge.text = "CHECK IN"
                 tvHeroHeading.text = getString(R.string.status_check_heading)
                 tvHeroSubtitle.text = getString(R.string.status_check_sub)
             }
             RiskLevel.ACTION -> {
-                heroCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.risk_action_bg))
-                heroCard.strokeColor = Color.parseColor("#4DE07A5F")
-                ivHeroIcon.setImageResource(R.drawable.ic_warning_filled)
-                ivHeroIcon.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.critical_color)
+                heroContent.setBackgroundResource(R.drawable.bg_hero_gradient_action)
+                tvRiskBadge.text = "ACTION NEEDED"
                 tvHeroHeading.text = getString(R.string.status_action_heading)
                 tvHeroSubtitle.text = getString(R.string.status_action_sub)
             }
             RiskLevel.EMERGENCY -> {
-                heroCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.risk_emergency_bg))
-                heroCard.strokeColor = ContextCompat.getColor(requireContext(), R.color.critical_color)
-                ivHeroIcon.setImageResource(R.drawable.ic_warning_filled)
-                ivHeroIcon.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.critical_color)
+                heroContent.setBackgroundResource(R.drawable.bg_hero_gradient_emergency)
+                tvRiskBadge.text = "CRITICAL RISK"
                 tvHeroHeading.text = getString(R.string.status_emergency_heading)
                 tvHeroSubtitle.text = getString(R.string.status_emergency_sub)
+            }
+        }
+
+        // Heat index slider — map effective heat index (°F) onto the 70–130°F gradient track.
+        val heatIndexF = decision.effectiveHeatIndexC?.let { it * 9.0 / 5.0 + 32.0 }
+        heroCard.post {
+            val trackWidth = heroContent.width
+            if (trackWidth > 0) {
+                val fraction = heatIndexF?.let { ((it - 70.0) / (130.0 - 70.0)).coerceIn(0.0, 1.0) } ?: 0.0
+                val thumbWidth = heatIndexThumb.width.takeIf { it > 0 } ?: heatIndexThumb.layoutParams.width
+                val maxTranslation = (trackWidth - thumbWidth - heroContent.paddingLeft - heroContent.paddingRight).coerceAtLeast(0)
+                heatIndexThumb.translationX = (fraction * maxTranslation).toFloat()
             }
         }
 
@@ -209,10 +259,21 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         tvBodyTempUnit.text = unitLabel
         tvOutsideTempUnit.text = unitLabel
 
-        tvBodyTemp.text = sample?.skinTemperatureC?.let { formatTemp(it, unit) } ?: getString(R.string.metric_no_data)
-        tvHeartRate.text = sample?.heartRateBpm?.toString() ?: getString(R.string.metric_no_data)
-        tvHumidity.text = weather.relativeHumidityPercent?.let { "%.0f".format(it) } ?: getString(R.string.metric_no_data)
-        tvOutsideTemp.text = weather.airTemperatureC?.let { formatTemp(it, unit) } ?: getString(R.string.metric_no_data)
+        val bodyTempC = sample?.skinTemperatureC
+        tvBodyTemp.text = bodyTempC?.let { formatTemp(it, unit) } ?: getString(R.string.metric_no_data)
+        updateTrend(bodyTempHistory, bodyTempC?.let { formatTemp(it, unit).toFloatOrNull() }, sparkBodyTemp, ivBodyTempTrend, R.color.vital_temp_accent)
+
+        val heartRate = sample?.heartRateBpm
+        tvHeartRate.text = heartRate?.toString() ?: getString(R.string.metric_no_data)
+        updateTrend(heartRateHistory, heartRate?.toFloat(), sparkHeartRate, ivHeartRateTrend, R.color.vital_heart_accent)
+
+        val humidity = weather.relativeHumidityPercent
+        tvHumidity.text = humidity?.let { "%.0f".format(it) } ?: getString(R.string.metric_no_data)
+        updateTrend(humidityHistory, humidity?.toFloat(), sparkHumidity, ivHumidityTrend, R.color.vital_humidity_accent)
+
+        val outsideTempC = weather.airTemperatureC
+        tvOutsideTemp.text = outsideTempC?.let { formatTemp(it, unit) } ?: getString(R.string.metric_no_data)
+        updateTrend(outsideTempHistory, outsideTempC?.let { formatTemp(it, unit).toFloatOrNull() }, sparkOutsideTemp, ivOutsideTempTrend, R.color.vital_outside_accent)
 
         // Notifications are handled by HeatMonitoringService with proper cooldowns.
         // Firing them here caused a notification every 5 seconds.
@@ -225,25 +286,86 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         tvWatchStatus.text = when {
             !isConfigured -> "Watch: not configured"
-            s == null -> if (watch6Enabled) "Watch: waiting for Galaxy Watch…" else "Watch: connecting…"
+            s == null -> if (watch6Enabled) "Watch: waiting…" else "Watch: connecting…"
             s.connected == false -> "Watch: disconnected"
             ageSeconds != null && ageSeconds < 30 -> {
                 val hr = s.heartRateBpm
-                if (hr != null) "Watch: live — HR $hr bpm (${ageSeconds}s ago)"
-                else "Watch: connected — waiting for HR…"
+                if (hr != null) "Watch: live — $hr bpm" else "Watch: connected"
             }
-            else -> "Watch: connected — no recent data (${ageSeconds}s ago)"
+            else -> "Watch: no recent data"
         }
-        tvWatchStatus.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (s != null && s.connected && ageSeconds != null && ageSeconds < 30) R.color.primary_dark
-            else R.color.muted
-        ))
+    }
+
+    /** Appends the latest value to a rolling history buffer, then updates its sparkline + trend arrow. */
+    private fun updateTrend(
+        history: ArrayDeque<Float>,
+        latest: Float?,
+        sparkline: SparklineView,
+        trendIcon: ImageView,
+        accentColorRes: Int
+    ) {
+        if (latest != null) {
+            history.addLast(latest)
+            while (history.size > 12) history.removeFirst()
+        }
+        val accent = ContextCompat.getColor(requireContext(), accentColorRes)
+        sparkline.setData(history.toList(), accent)
+
+        val direction = if (history.size >= 2) history.last() - history[history.size - 2] else 0f
+        trendIcon.setImageResource(
+            when {
+                direction > 0.05f -> R.drawable.ic_trending_up
+                direction < -0.05f -> R.drawable.ic_trending_down
+                else -> R.drawable.ic_trending_flat
+            }
+        )
+        trendIcon.imageTintList = ContextCompat.getColorStateList(requireContext(), accentColorRes)
     }
 
     private fun formatTemp(celsius: Double, unit: String): String {
         return if (unit == "C") "%.1f".format(celsius)
         else "%.1f".format(celsius * 9.0 / 5.0 + 32.0)
+    }
+
+    private fun loadHourlyForecast() {
+        val lat = repository.getLastLatitude() ?: 34.0837
+        val lon = repository.getLastLongitude() ?: 74.7973
+        viewLifecycleOwner.lifecycleScope.launch {
+            val points = withContext(Dispatchers.IO) {
+                runCatching {
+                    CachedHourlyForecastProvider(ApiHourlyForecastProvider(lat, lon), repository)
+                        .hourlyForecast(System.currentTimeMillis())
+                }.getOrDefault(emptyList())
+            }
+            if (!isAdded || points.isEmpty()) return@launch
+
+            val unit = repository.getTempUnit()
+            val hourFormat = SimpleDateFormat("h a", Locale.US).apply {
+                timeZone = TimeZone.getTimeZone("Asia/Kolkata")
+            }
+
+            forecastSlots.forEachIndexed { index, slotView ->
+                val point = points.getOrNull(index)
+                if (point == null) {
+                    slotView.visibility = View.GONE
+                    return@forEachIndexed
+                }
+                slotView.visibility = View.VISIBLE
+                slotView.findViewById<TextView>(R.id.tvForecastHour).text = hourFormat.format(Date(point.timestampMillis))
+                slotView.findViewById<TextView>(R.id.tvForecastTemp).text = formatTemp(point.airTemperatureC, unit) + if (unit == "C") "°" else "°F"
+
+                val fahrenheit = point.airTemperatureC * 9.0 / 5.0 + 32.0
+                val dotColorRes = when {
+                    fahrenheit > 103 -> R.color.heat_index_red
+                    fahrenheit > 90 -> R.color.heat_index_orange
+                    fahrenheit > 80 -> R.color.heat_index_yellow
+                    else -> R.color.heat_index_green
+                }
+                slotView.findViewById<View>(R.id.viewForecastDot).backgroundTintList =
+                    ContextCompat.getColorStateList(requireContext(), dotColorRes)
+            }
+            forecastRow.visibility = View.VISIBLE
+        }
     }
 
     private fun ensureDefaultBaseline() {

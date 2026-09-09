@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:visibility="gone"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvContactInitials"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_initials_avatar"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="14dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvContactName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_main"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif" />
+
+            <TextView
+                android:id="@+id/tvContactDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/muted"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivContactStar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_star_filled"
+            android:contentDescription="Primary contact"
+            app:tint="@color/warning_color" />
+
+        <FrameLayout
+            android:id="@+id/btnCallContact"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_call_button"
+            android:contentDescription="@string/contacts_call_label">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_phone"
+                app:tint="@color/white" />
+        </FrameLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
