@@ -1,7 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(./gradlew :app:processDebugResources)"
+      "Bash(./gradlew :app:processDebugResources)",
+      "Bash(/Users/anushkashah744/Library/Android/sdk/emulator/emulator -list-avds)",
+      "Bash(/Users/anushkashah744/Library/Android/sdk/platform-tools/adb devices *)",
+      "Bash(./gradlew :app:assembleDebug)",
+      "Bash(/Users/anushkashah744/Library/Android/sdk/platform-tools/adb install *)",
+      "Bash(/Users/anushkashah744/Library/Android/sdk/platform-tools/adb pull *)",
+      "Bash(awk -F'[\\(\\)]' '{print}')",
+      "Bash(python3 /private/tmp/claude-501/-Users-anushkashah744-SheenSafe/be679488-1b08-4919-830c-fe1874ff0602/scratchpad/make_transparent.py)",
+      "Bash(python3 -c ' *)",
+      "Bash(./gradlew :app:testDebugUnitTest -q --tests \"org.kashmir.heatguard.ring.WearDataRingDataSourceTest\")",
+      "Bash(./gradlew :app:installDebug -q)"
     ]
   }
 }

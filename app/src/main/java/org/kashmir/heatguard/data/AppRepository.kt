@@ -200,14 +200,21 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         prefs.edit().putInt(KEY_PRIMARY_CONTACT_INDEX, index).apply()
     }
 
-    fun getPrimaryPhone(): String =
-        if (getPrimaryContactIndex() == 2) getSecondContactPhone() else getEmergencyContactPhone()
+    private fun getContactPhone(index: Int): String = when (index) {
+        1 -> getEmergencyContactPhone()
+        2 -> getSecondContactPhone()
+        3 -> getThirdContactPhone()
+        else -> getFourthContactPhone()
+    }
 
-    fun getNonPrimaryPhones(): List<String> = buildList {
-        if (getPrimaryContactIndex() != 1 && getEmergencyContactPhone().isNotBlank()) add(getEmergencyContactPhone())
-        if (getPrimaryContactIndex() != 2 && getSecondContactPhone().isNotBlank()) add(getSecondContactPhone())
-        if (getThirdContactPhone().isNotBlank()) add(getThirdContactPhone())
-        if (getFourthContactPhone().isNotBlank()) add(getFourthContactPhone())
+    fun getPrimaryPhone(): String = getContactPhone(getPrimaryContactIndex())
+
+    fun getNonPrimaryPhones(): List<String> {
+        val primaryIndex = getPrimaryContactIndex()
+        return (1..4)
+            .filter { it != primaryIndex }
+            .map { getContactPhone(it) }
+            .filter { it.isNotBlank() }
     }
 
     /**

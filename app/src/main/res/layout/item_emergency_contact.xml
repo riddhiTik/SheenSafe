@@ -55,9 +55,13 @@
 
         <ImageView
             android:id="@+id/ivContactStar"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="6dp"
+            android:padding="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_star_filled"
             android:contentDescription="Primary contact"
             app:tint="@color/warning_color" />

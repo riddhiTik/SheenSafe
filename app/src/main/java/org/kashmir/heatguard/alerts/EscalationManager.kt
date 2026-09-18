@@ -59,6 +59,11 @@ class EscalationManager(
         context.startActivity(intent)
     }
 
+    /** Texts every non-primary contact (the primary contact is called instead, via [dialEmergencyContact]). */
+    fun smsNonPrimaryContacts() {
+        repository.getNonPrimaryPhones().forEach { phone -> openSmsForContact(phone) }
+    }
+
     fun execute(plan: EscalationPlan, decision: RiskDecision) {
         if (plan.actions.isEmpty()) return
         for (action in plan.actions) {

@@ -3,6 +3,8 @@ package org.kashmir.heatguard.ui.onboarding
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import io.github.jan.supabase.auth.auth
@@ -69,6 +71,9 @@ class OnboardingActivity : AppCompatActivity() {
 
     fun onLanguageSelected(languageCode: String) {
         repository.setLanguage(languageCode)
+        // Recreates this and every future Activity with the chosen locale applied;
+        // AppLocalesMetadataHolderService (see manifest) persists it across restarts.
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
         navigateTo(NameFragment(), addToBackStack = false)
     }
 

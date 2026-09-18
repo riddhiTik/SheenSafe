@@ -2,13 +2,10 @@ package org.kashmir.heatguard.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AlertDialog
@@ -56,6 +53,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     }
 
     private var pendingTextPhones: List<String> = emptyList()
+    private var lastDecision: RiskDecision? = null
 
     private val bodyTempHistory = ArrayDeque<Float>()
     private val heartRateHistory = ArrayDeque<Float>()
@@ -145,7 +143,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
 
         view.findViewById<android.widget.ImageButton>(R.id.btnNotifications).setOnClickListener {
-            showWeatherDialog()
+            lastDecision?.let { decision ->
+                escalationManager.showRiskNotification(decision)
+                Toast.makeText(requireContext(), R.string.dashboard_notification_sent, Toast.LENGTH_SHORT).show()
+            }
         }
 
         btnEmergency.setOnClickListener {
@@ -201,6 +202,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         )
         val plan = escalationEngine.plan(decision)
         repository.saveLastDecision(decision)
+        lastDecision = decision
         if (isAdded) render(decision, plan)
     }
 
@@ -381,46 +383,4 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
     }
 
-    private fun showWeatherDialog() {
-        val ctx = requireContext()
-        val layout = LinearLayout(ctx).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(48, 24, 48, 0)
-        }
-        val existing = repository.getLastManualWeather(System.currentTimeMillis())
-        val temp = EditText(ctx).apply {
-            hint = getString(R.string.temperature_c)
-            setText(existing.airTemperatureC?.toString() ?: "36.0")
-        }
-        val rh = EditText(ctx).apply {
-            hint = getString(R.string.relative_humidity)
-            setText(existing.relativeHumidityPercent?.toString() ?: "45.0")
-        }
-        val sun = CheckBox(ctx).apply {
-            text = getString(R.string.direct_sun)
-            isChecked = existing.directSun
-        }
-        val warning = Spinner(ctx).apply {
-            adapter = ArrayAdapter(ctx, android.R.layout.simple_spinner_item, OfficialHeatWarning.values().map { it.name })
-            setSelection(OfficialHeatWarning.values().indexOf(existing.officialWarning))
-        }
-        layout.addView(temp)
-        layout.addView(rh)
-        layout.addView(sun)
-        layout.addView(warning)
-        AlertDialog.Builder(ctx)
-            .setTitle(R.string.set_weather)
-            .setView(layout)
-            .setPositiveButton(R.string.save) { _, _ ->
-                repository.setManualWeather(
-                    tempC = temp.text.toString().toDoubleOrNull() ?: 36.0,
-                    relativeHumidityPercent = rh.text.toString().toDoubleOrNull() ?: 45.0,
-                    directSun = sun.isChecked,
-                    warning = OfficialHeatWarning.valueOf(warning.selectedItem.toString())
-                )
-                assessAndRender()
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
 }

@@ -442,6 +442,43 @@
                         android:layout_gravity="center_vertical|start"
                         android:background="@drawable/bg_slider_thumb" />
                 </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="16dp"
+                    android:background="@color/background_surface" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_local_weather_label"
+                        android:textColor="@color/text_main"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif" />
+
+                    <TextView
+                        android:id="@+id/btnSetLocalWeather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/set_weather"
+                        android:textColor="@color/logo_blue"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="4dp"
+                        android:clickable="true"
+                        android:focusable="true" />
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

@@ -107,9 +107,7 @@ class EmergencyAlertActivity : AppCompatActivity() {
 
     private fun executeEscalation() {
         escalationManager.dialEmergencyContact()
-        repository.getNonPrimaryPhones().firstOrNull()?.let { phone ->
-            escalationManager.openSmsForContact(phone)
-        }
+        escalationManager.smsNonPrimaryContacts()
         finish()
     }
 

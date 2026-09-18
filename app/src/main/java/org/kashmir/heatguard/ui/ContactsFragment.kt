@@ -26,13 +26,18 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
 
     private lateinit var repository: AppRepository
 
-    /** Slots 1-2 are the sync-backed "primary" contacts; 3-4 are local-only "secondary" contacts. */
+    /**
+     * Slots 1-2 are the sync-backed "primary" contacts; 3-4 are local-only "secondary" contacts.
+     * [isCallPrimary] is independent of that: it marks the single contact (any slot) the user has
+     * starred to receive a phone call on EMERGENCY escalation. Every other filled contact gets an SMS.
+     */
     private data class Slot(
         val index: Int,
         val name: String,
         val phone: String,
         val relation: String,
         val isPrimary: Boolean,
+        val isCallPrimary: Boolean,
         val avatarColorRes: Int
     )
 
@@ -42,12 +47,15 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
         refreshContacts(view)
     }
 
-    private fun slots(): List<Slot> = listOf(
-        Slot(1, repository.getEmergencyContactName(), repository.getEmergencyContactPhone(), repository.getContact1Relation(), true, R.color.warning_color),
-        Slot(2, repository.getSecondContactName(), repository.getSecondContactPhone(), repository.getContact2Relation(), true, R.color.logo_blue),
-        Slot(3, repository.getThirdContactName(), repository.getThirdContactPhone(), repository.getThirdContactRelation(), false, R.color.live_dot_green),
-        Slot(4, repository.getFourthContactName(), repository.getFourthContactPhone(), repository.getFourthContactRelation(), false, R.color.avatar_yellow)
-    )
+    private fun slots(): List<Slot> {
+        val primaryIndex = repository.getPrimaryContactIndex()
+        return listOf(
+            Slot(1, repository.getEmergencyContactName(), repository.getEmergencyContactPhone(), repository.getContact1Relation(), true, primaryIndex == 1, R.color.warning_color),
+            Slot(2, repository.getSecondContactName(), repository.getSecondContactPhone(), repository.getContact2Relation(), true, primaryIndex == 2, R.color.logo_blue),
+            Slot(3, repository.getThirdContactName(), repository.getThirdContactPhone(), repository.getThirdContactRelation(), false, primaryIndex == 3, R.color.live_dot_green),
+            Slot(4, repository.getFourthContactName(), repository.getFourthContactPhone(), repository.getFourthContactRelation(), false, primaryIndex == 4, R.color.avatar_yellow)
+        )
+    }
 
     private fun cardIdFor(slot: Int) = when (slot) {
         1 -> R.id.contact1Card
@@ -111,8 +119,25 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
             .ifEmpty { listOf(getString(R.string.metric_no_data)) }
             .joinToString(" • ")
 
-        card.findViewById<ImageView>(R.id.ivContactStar).visibility =
-            if (slot.isPrimary) View.VISIBLE else View.GONE
+        card.findViewById<ImageView>(R.id.ivContactStar).apply {
+            visibility = View.VISIBLE
+            setImageResource(if (slot.isCallPrimary) R.drawable.ic_star_filled else R.drawable.ic_star_outline)
+            imageTintList = ContextCompat.getColorStateList(
+                requireContext(),
+                if (slot.isCallPrimary) R.color.warning_color else R.color.muted
+            )
+            contentDescription = if (slot.isCallPrimary) {
+                getString(R.string.contacts_primary_contact_label)
+            } else {
+                getString(R.string.contacts_set_primary_contact)
+            }
+            setOnClickListener {
+                // Only one contact can ever be primary — setting a new one clears the old star.
+                repository.setPrimaryContactIndex(slot.index)
+                refreshContacts(view)
+                if (slot.index <= 2) syncContactsToSupabase()
+            }
+        }
 
         card.findViewById<View>(R.id.btnCallContact).setOnClickListener {
             callContact(slot.phone)
@@ -165,9 +190,9 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
 
     private fun clearSlot(index: Int) {
         saveSlot(index, "", "", "")
-        if (index <= 2 && repository.getPrimaryContactIndex() == index) {
-            val otherIndex = if (index == 1) 2 else 1
-            repository.setPrimaryContactIndex(if (getSlotPhone(otherIndex).isNotBlank()) otherIndex else 1)
+        if (repository.getPrimaryContactIndex() == index) {
+            val nextPrimary = (1..4).firstOrNull { it != index && getSlotPhone(it).isNotBlank() } ?: 1
+            repository.setPrimaryContactIndex(nextPrimary)
         }
     }
 

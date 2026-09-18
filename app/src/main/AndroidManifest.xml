@@ -82,5 +82,16 @@
             </intent-filter>
         </service>
 
+        <!-- Lets AppCompatDelegate.setApplicationLocales() persist the chosen
+             in-app language across restarts on API < 33 without extra storage code. -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+
     </application>
 </manifest>

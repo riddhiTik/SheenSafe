@@ -8,8 +8,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -18,6 +24,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.launch
 import org.kashmir.heatguard.HeatGuardApplication
 import org.kashmir.heatguard.R
+import org.kashmir.heatguard.core.model.OfficialHeatWarning
 import org.kashmir.heatguard.data.AppRepository
 import org.kashmir.heatguard.data.SupabaseClientProvider
 import org.kashmir.heatguard.data.SupabaseRepository
@@ -40,6 +47,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         bindWatch6Toggle(view)
         bindWatchStatus(view)
         bindThresholdSlider(view)
+        bindLocalWeather(view)
     }
 
     override fun onResume() {
@@ -217,6 +225,54 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 else -> false
             }
         }
+    }
+
+    private fun bindLocalWeather(view: View) {
+        view.findViewById<TextView>(R.id.btnSetLocalWeather).setOnClickListener {
+            showWeatherDialog()
+        }
+    }
+
+    private fun showWeatherDialog() {
+        val ctx = requireContext()
+        val layout = LinearLayout(ctx).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(48, 24, 48, 0)
+        }
+        val existing = repository.getLastManualWeather(System.currentTimeMillis())
+        val temp = EditText(ctx).apply {
+            hint = getString(R.string.temperature_c)
+            setText(existing.airTemperatureC?.toString() ?: "36.0")
+        }
+        val rh = EditText(ctx).apply {
+            hint = getString(R.string.relative_humidity)
+            setText(existing.relativeHumidityPercent?.toString() ?: "45.0")
+        }
+        val sun = CheckBox(ctx).apply {
+            text = getString(R.string.direct_sun)
+            isChecked = existing.directSun
+        }
+        val warning = Spinner(ctx).apply {
+            adapter = ArrayAdapter(ctx, android.R.layout.simple_spinner_item, OfficialHeatWarning.values().map { it.name })
+            setSelection(OfficialHeatWarning.values().indexOf(existing.officialWarning))
+        }
+        layout.addView(temp)
+        layout.addView(rh)
+        layout.addView(sun)
+        layout.addView(warning)
+        AlertDialog.Builder(ctx)
+            .setTitle(R.string.set_weather)
+            .setView(layout)
+            .setPositiveButton(R.string.save) { _, _ ->
+                repository.setManualWeather(
+                    tempC = temp.text.toString().toDoubleOrNull() ?: 36.0,
+                    relativeHumidityPercent = rh.text.toString().toDoubleOrNull() ?: 45.0,
+                    directSun = sun.isChecked,
+                    warning = OfficialHeatWarning.valueOf(warning.selectedItem.toString())
+                )
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun bindWatch6Toggle(view: View) {
