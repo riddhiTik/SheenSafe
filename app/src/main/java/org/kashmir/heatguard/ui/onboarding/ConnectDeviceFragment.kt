@@ -47,9 +47,9 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
     }
 
     /**
-     * Watch6 pairing itself happens outside the app, via Galaxy Wearable — this only
-     * confirms a Wear OS node is reachable over the Data Layer before turning useWatch6
-     * on, so HeatMonitoringService knows to read from wearDataSource instead of a BLE ring.
+     * Watch pairing itself happens outside the app, via the watch's own companion app —
+     * this only confirms a Wear OS node is reachable over the Data Layer before turning
+     * useWatch6 on, so HeatMonitoringService knows to read from wearDataSource instead of a BLE ring.
      */
     private fun checkWatchConnection() {
         if (checking) return

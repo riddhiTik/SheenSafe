@@ -97,15 +97,15 @@
     <!-- Step 3: Connect Watch -->
     <string name="onboarding_device_title">Connect your watch.</string>
     <string name="onboarding_device_subtitle">Your watch sends live body temperature and heart rate to this app.</string>
-    <string name="onboarding_device_name">Samsung Watch</string>
+    <string name="onboarding_device_name">Android Watch</string>
     <string name="onboarding_device_status">Ready to connect</string>
-    <string name="onboarding_device_hint">Make sure your watch is paired with this phone via the Galaxy Wearable app. A one-time permission prompt will appear on your watch — tap Allow.</string>
+    <string name="onboarding_device_hint">Make sure your watch is paired with this phone via its companion app (e.g. Galaxy Wearable, Wear OS by Google). A one-time permission prompt will appear on your watch — tap Allow.</string>
     <string name="onboarding_connect_device">Connect Watch</string>
     <string name="onboarding_scan_for_device">Connect Watch</string>
     <string name="onboarding_stop_scan">Connecting…</string>
     <string name="onboarding_skip_device">Skip for now</string>
     <string name="onboarding_watch_connected">Watch connected!</string>
-    <string name="onboarding_watch_not_found">Watch not detected. Make sure it\'s paired via Galaxy Wearable and nearby.</string>
+    <string name="onboarding_watch_not_found">Watch not detected. Make sure it\'s paired and nearby.</string>
     <string name="onboarding_watch_error">Could not reach watch. Make sure Bluetooth is on.</string>
     <string name="onboarding_watch_try_again">Try Again</string>
     <string name="onboarding_watch_continue_anyway">Continue anyway</string>
@@ -186,7 +186,7 @@
     <string name="settings_watch_sync_status">%1$d%% battery • synced %2$s ago</string>
     <string name="settings_watch_not_connected">Not connected</string>
     <string name="settings_reconnect">Reconnect</string>
-    <string name="settings_watch6_label">Use Galaxy Watch 6</string>
+    <string name="settings_watch6_label">Use Android Watch</string>
     <string name="settings_watch6_hint">Streams live heart rate via Wear Data Layer</string>
     <string name="settings_section_alerts">ALERTS</string>
     <string name="settings_alert_heat">Heat Risk Alerts</string>

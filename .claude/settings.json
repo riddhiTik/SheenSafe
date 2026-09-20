@@ -11,7 +11,12 @@
       "Bash(python3 /private/tmp/claude-501/-Users-anushkashah744-SheenSafe/be679488-1b08-4919-830c-fe1874ff0602/scratchpad/make_transparent.py)",
       "Bash(python3 -c ' *)",
       "Bash(./gradlew :app:testDebugUnitTest -q --tests \"org.kashmir.heatguard.ring.WearDataRingDataSourceTest\")",
-      "Bash(./gradlew :app:installDebug -q)"
+      "Bash(./gradlew :app:installDebug -q)",
+      "Bash(./gradlew :app:lintDebug -q)",
+      "Bash(./gradlew :app:compileDebugSources -q --offline)",
+      "Bash(./gradlew :app:assembleDebug --offline -q)",
+      "Bash(sips -g pixelWidth -g pixelHeight app/src/main/res/drawable/image.png)",
+      "Bash(pkill -f \"ping -c 2 8.8.8.8\")"
     ]
   }
 }
