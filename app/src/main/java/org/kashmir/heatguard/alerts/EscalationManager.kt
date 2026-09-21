@@ -7,11 +7,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.text.TextUtils
+import org.kashmir.heatguard.HeatGuardApplication
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.core.escalation.EscalationAction
 import org.kashmir.heatguard.core.escalation.EscalationPlan
 import org.kashmir.heatguard.core.model.RiskDecision
-import org.kashmir.heatguard.core.model.RiskLevel
 import org.kashmir.heatguard.data.AppRepository
 import org.kashmir.heatguard.ui.EmergencyAlertActivity
 import org.kashmir.heatguard.ui.MainActivity
@@ -20,27 +20,15 @@ class EscalationManager(
     private val context: Context,
     private val repository: AppRepository
 ) {
+    /**
+     * Routine (NOTIFY_USER) risk updates never hit the system tray — they're delivered as an
+     * in-app banner only while a screen is registered via [HeatGuardApplication.inAppAlertListener],
+     * and always recorded to notification history (see bell icon) regardless of whether the app
+     * is open. High-risk/emergency delivery (dial prompt, full-screen alert) is unaffected.
+     */
     fun showRiskNotification(decision: RiskDecision) {
-        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val intent = Intent(context, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            100,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        val notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            android.app.Notification.Builder(context, NotificationHelper.CHANNEL_ALERTS)
-        } else {
-            android.app.Notification.Builder(context)
-        }
-            .setSmallIcon(android.R.drawable.ic_dialog_alert)
-            .setContentTitle(context.getString(R.string.heat_alert_title, decision.level.name))
-            .setContentText(decision.recommendedAction)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(decision.level != RiskLevel.EMERGENCY)
-            .build()
-        manager.notify(200, notification)
+        val app = context.applicationContext as HeatGuardApplication
+        app.inAppAlertListener?.invoke(decision)
     }
 
     fun dialEmergencyContact() {

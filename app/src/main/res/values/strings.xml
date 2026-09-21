@@ -13,7 +13,9 @@
     <string name="set_contact">Set emergency contact</string>
     <string name="set_weather">Set local weather</string>
     <string name="settings_local_weather_label">Manual weather override</string>
-    <string name="dashboard_notification_sent">Alert notification sent</string>
+    <string name="notification_history_title">Notifications</string>
+    <string name="notification_history_empty">No notifications yet</string>
+    <string name="ok">OK</string>
     <string name="volunteer_view">Volunteer view</string>
     <string name="volunteer_stub">Prototype assigned-user queue. Replace demo rows with backend or local family-mode records.</string>
     <string name="contact_name">Contact name</string>

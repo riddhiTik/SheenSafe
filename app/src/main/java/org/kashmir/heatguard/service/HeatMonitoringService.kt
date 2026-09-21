@@ -86,6 +86,7 @@ class HeatMonitoringService : Service() {
         try {
             val result = pipeline.checkNow()
             repository.saveLastDecision(result.decision)
+            repository.addNotificationHistoryEntry(result.decision.level, result.decision.recommendedAction)
             mainHandler.post { escalationManager.execute(result.plan, result.decision) }
 
             val uid = repository.getSupabaseUserId().ifBlank { repository.getOrCreateDeviceId() }

@@ -2,10 +2,11 @@ package org.kashmir.heatguard.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -31,6 +33,7 @@ import org.kashmir.heatguard.core.model.*
 import org.kashmir.heatguard.core.risk.HeatRiskEngine
 import org.kashmir.heatguard.core.ring.RingDataSource
 import org.kashmir.heatguard.data.AppRepository
+import org.kashmir.heatguard.data.NotificationHistoryEntry
 import org.kashmir.heatguard.ring.SimulatedRingDataSource
 import org.kashmir.heatguard.weather.ApiHourlyForecastProvider
 import org.kashmir.heatguard.weather.CachedHourlyForecastProvider
@@ -85,6 +88,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private lateinit var sparkOutsideTemp: SparklineView
     private lateinit var forecastRow: LinearLayout
     private lateinit var forecastSlots: List<View>
+    private lateinit var tvNotificationBadge: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -123,6 +127,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             view.findViewById(R.id.forecast3),
             view.findViewById(R.id.forecast4)
         )
+        tvNotificationBadge = view.findViewById(R.id.tvNotificationBadge)
 
         // ringDataSource setup must come after the findViewById block above —
         // SimulatedRingDataSource.start() invokes its callback synchronously, which calls
@@ -143,11 +148,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
 
         view.findViewById<android.widget.ImageButton>(R.id.btnNotifications).setOnClickListener {
-            lastDecision?.let { decision ->
-                escalationManager.showRiskNotification(decision)
-                Toast.makeText(requireContext(), R.string.dashboard_notification_sent, Toast.LENGTH_SHORT).show()
-            }
+            showNotificationHistory()
         }
+        refreshNotificationBadge()
 
         btnEmergency.setOnClickListener {
             val primaryPhone = repository.getPrimaryPhone()
@@ -181,12 +184,63 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         val phones = pendingTextPhones
         pendingTextPhones = emptyList()
         phones.forEach { escalationManager.openSmsForContact(it) }
+
+        (requireActivity().application as HeatGuardApplication).inAppAlertListener = { decision ->
+            if (isAdded) showInAppAlert(decision)
+        }
+        refreshNotificationBadge()
+    }
+
+    override fun onPause() {
+        (requireActivity().application as HeatGuardApplication).inAppAlertListener = null
+        super.onPause()
     }
 
     override fun onDestroyView() {
         refreshHandler.removeCallbacks(refreshRunnable)
         if (ownsDataSource) ringDataSource.stop()
         super.onDestroyView()
+    }
+
+    /** Routine risk update while this screen is open — shown in-app only, never as a system notification. */
+    private fun showInAppAlert(decision: RiskDecision) {
+        val root = view ?: return
+        Snackbar.make(root, getString(R.string.heat_alert_title, decision.level.name) + ": " + decision.recommendedAction, Snackbar.LENGTH_LONG).show()
+        refreshNotificationBadge()
+    }
+
+    private fun refreshNotificationBadge() {
+        val unread = repository.getNotificationHistory().count { it.timestampMillis > repository.getLastNotificationsViewedAt() }
+        tvNotificationBadge.visibility = if (unread > 0) View.VISIBLE else View.GONE
+        tvNotificationBadge.text = if (unread > 9) "9+" else unread.toString()
+    }
+
+    private fun showNotificationHistory() {
+        val entries = repository.getNotificationHistory()
+        repository.markNotificationsViewed()
+        refreshNotificationBadge()
+
+        if (entries.isEmpty()) {
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.notification_history_title)
+                .setMessage(R.string.notification_history_empty)
+                .setPositiveButton(R.string.ok, null)
+                .show()
+            return
+        }
+
+        val formatter = SimpleDateFormat("MMM d, h:mm a", Locale.getDefault())
+        val rows = entries.map { entry: NotificationHistoryEntry ->
+            "${formatter.format(Date(entry.timestampMillis))} — ${entry.level.name}\n${entry.actionText}"
+        }
+        val listView = ListView(requireContext()).apply {
+            adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, rows)
+        }
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.notification_history_title)
+            .setView(listView)
+            .setPositiveButton(R.string.ok, null)
+            .show()
     }
 
     private fun assessAndRender() {

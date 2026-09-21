@@ -317,6 +317,44 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         prefs.edit().clear().apply()
     }
 
+    /** Appends one entry per risk check (every tick of the monitoring pipeline), newest first, capped at [MAX_NOTIFICATION_HISTORY]. */
+    fun addNotificationHistoryEntry(level: RiskLevel, actionText: String, timestampMillis: Long = System.currentTimeMillis()) {
+        val array = JSONArray(prefs.getString(KEY_NOTIFICATION_HISTORY, null) ?: "[]")
+        val entry = JSONObject()
+            .put("t", timestampMillis)
+            .put("level", level.name)
+            .put("action", actionText)
+        val updated = JSONArray()
+        updated.put(entry)
+        for (i in 0 until minOf(array.length(), MAX_NOTIFICATION_HISTORY - 1)) {
+            updated.put(array.getJSONObject(i))
+        }
+        prefs.edit().putString(KEY_NOTIFICATION_HISTORY, updated.toString()).apply()
+    }
+
+    fun getNotificationHistory(): List<NotificationHistoryEntry> {
+        val json = prefs.getString(KEY_NOTIFICATION_HISTORY, null) ?: return emptyList()
+        return try {
+            val array = JSONArray(json)
+            (0 until array.length()).map { i ->
+                val obj = array.getJSONObject(i)
+                NotificationHistoryEntry(
+                    timestampMillis = obj.getLong("t"),
+                    level = RiskLevel.valueOf(obj.getString("level")),
+                    actionText = obj.getString("action")
+                )
+            }
+        } catch (_: Exception) {
+            emptyList()
+        }
+    }
+
+    fun getLastNotificationsViewedAt(): Long = prefs.getLong(KEY_NOTIFICATIONS_VIEWED_AT, 0L)
+
+    fun markNotificationsViewed(atMillis: Long = System.currentTimeMillis()) {
+        prefs.edit().putLong(KEY_NOTIFICATIONS_VIEWED_AT, atMillis).apply()
+    }
+
     private fun SharedPreferences.getIntOrNull(key: String): Int? = if (contains(key)) getInt(key, 0) else null
 
     private fun SharedPreferences.getDoubleOrNull(key: String): Double? =
@@ -387,5 +425,14 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         private const val KEY_USE_WATCH6 = "use_watch6"
         private const val KEY_HOURLY_FORECAST = "hourly_forecast_json"
         private const val KEY_HOURLY_FORECAST_FETCHED_AT = "hourly_forecast_fetched_at"
+        private const val KEY_NOTIFICATION_HISTORY = "notification_history_json"
+        private const val KEY_NOTIFICATIONS_VIEWED_AT = "notifications_viewed_at"
+        private const val MAX_NOTIFICATION_HISTORY = 50
     }
 }
+
+data class NotificationHistoryEntry(
+    val timestampMillis: Long,
+    val level: RiskLevel,
+    val actionText: String
+)
