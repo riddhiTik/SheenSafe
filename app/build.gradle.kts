@@ -19,12 +19,32 @@ android {
         applicationId = "org.kashmir.heatguard"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
+        versionCode = 2
         versionName = "0.1.0-mvp"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "SUPABASE_URL",      "\"${localProps["SUPABASE_URL"] ?: ""}\"")
         buildConfigField("String", "SUPABASE_ANON_KEY", "\"${localProps["SUPABASE_ANON_KEY"] ?: ""}\"")
+    }
+
+    signingConfigs {
+        create("release") {
+            val storeFilePath = localProps["RELEASE_KEYSTORE_FILE"] as String?
+            if (!storeFilePath.isNullOrBlank()) {
+                storeFile = rootProject.file(storeFilePath)
+                storePassword = localProps["RELEASE_KEYSTORE_PASSWORD"] as String?
+                keyAlias = localProps["RELEASE_KEY_ALIAS"] as String?
+                keyPassword = localProps["RELEASE_KEY_PASSWORD"] as String?
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
+        }
     }
 
     buildFeatures {
