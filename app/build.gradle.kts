@@ -16,7 +16,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "org.kashmir.heatguard"
+        applicationId = "com.sheensafe.riddhi"
         minSdk = 26
         targetSdk = 35
         versionCode = 2
