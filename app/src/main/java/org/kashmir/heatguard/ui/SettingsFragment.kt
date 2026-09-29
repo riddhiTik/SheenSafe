@@ -14,7 +14,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -34,6 +33,7 @@ import org.kashmir.heatguard.ui.onboarding.OnboardingActivity
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private lateinit var repository: AppRepository
+    private var refreshThresholdLabel: (() -> Unit)? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -129,19 +129,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         updateToggle(repository.getTempUnit())
 
-        btnC.setOnClickListener { repository.setTempUnit("C"); updateToggle("C") }
-        btnF.setOnClickListener { repository.setTempUnit("F"); updateToggle("F") }
+        btnC.setOnClickListener { repository.setTempUnit("C"); updateToggle("C"); refreshThresholdLabel?.invoke() }
+        btnF.setOnClickListener { repository.setTempUnit("F"); updateToggle("F"); refreshThresholdLabel?.invoke() }
     }
 
     private fun bindActions(view: View) {
         view.findViewById<TextView>(R.id.btnEditProfile).setOnClickListener {
             startActivity(Intent(requireContext(), RiskProfileActivity::class.java))
-        }
-
-        view.findViewById<TextView>(R.id.btnReconnectWatch).setOnClickListener {
-            repository.setDeviceConnected(true)
-            Toast.makeText(requireContext(), getString(R.string.settings_reconnect_toast), Toast.LENGTH_SHORT).show()
-            bindWatchStatus(view)
         }
 
         view.findViewById<TextView>(R.id.btnSignOut).setOnClickListener {
@@ -152,6 +146,50 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 // Wipe all local user data so the next person to log in on this device
                 // starts completely fresh and does not see the previous user's profile.
                 repository.deleteAllData()
+                startActivity(
+                    Intent(requireContext(), OnboardingActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                )
+            }
+        }
+
+        view.findViewById<LinearLayout>(R.id.btnDeleteAccount).setOnClickListener {
+            confirmAndDeleteAccount()
+        }
+    }
+
+    private fun confirmAndDeleteAccount() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.delete_account_dialog_title)
+            .setMessage(R.string.delete_account_dialog_message)
+            .setPositiveButton(R.string.delete_account_confirm) { _, _ -> deleteAccount() }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun deleteAccount() {
+        val ctx = requireContext().applicationContext
+        val deviceId = repository.getSupabaseUserId().ifBlank { repository.getOrCreateDeviceId() }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            var failed = false
+            SupabaseClientProvider.client?.let { client ->
+                val repo = SupabaseRepository(client)
+                repo.deleteAllUserData(deviceId)
+                failed = repo.deleteAuthAccount().isFailure
+                repo.signOut()
+            }
+
+            // Local data is wiped regardless of remote failures — the person asked for their
+            // data gone from this device, and they can retry the remote deletion via support.
+            repository.deleteAllData()
+
+            if (failed && isAdded) {
+                android.widget.Toast.makeText(ctx, R.string.delete_account_error, android.widget.Toast.LENGTH_LONG).show()
+            }
+
+            if (isAdded) {
                 startActivity(
                     Intent(requireContext(), OnboardingActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -200,7 +238,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val maxF = 130
 
         fun applyValue(value: Int) {
-            tvValue.text = getString(R.string.settings_threshold_value, value)
+            // value is always stored/dragged in °F; only the displayed label respects the
+            // Temperature Units toggle (see bindTempToggle, which calls refreshThresholdLabel).
+            val unit = repository.getTempUnit()
+            val displayValue = if (unit == "C") Math.round((value - 32) * 5.0 / 9.0).toInt() else value
+            val unitLabel = if (unit == "C") getString(R.string.unit_celsius) else "°F"
+            tvValue.text = "$displayValue$unitLabel"
             val trackWidth = touchArea.width
             val thumbWidth = thumb.width.takeIf { it > 0 } ?: thumb.layoutParams.width
             if (trackWidth > 0) {
@@ -210,6 +253,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         touchArea.post { applyValue(repository.getCustomAlertThresholdF()) }
+        refreshThresholdLabel = { applyValue(repository.getCustomAlertThresholdF()) }
 
         touchArea.setOnTouchListener { v, event ->
             when (event.action) {

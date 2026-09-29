@@ -16,7 +16,10 @@
       "Bash(./gradlew :app:compileDebugSources -q --offline)",
       "Bash(./gradlew :app:assembleDebug --offline -q)",
       "Bash(sips -g pixelWidth -g pixelHeight app/src/main/res/drawable/image.png)",
-      "Bash(pkill -f \"ping -c 2 8.8.8.8\")"
+      "Bash(pkill -f \"ping -c 2 8.8.8.8\")",
+      "Bash(./gradlew :core:test :app:testDebugUnitTest -q)",
+      "Bash(xargs -I{} sh -c 'echo ==={}===; grep -A5 \"failure\\\\|error\" {}')",
+      "Bash(./gradlew :app:assembleDebug --console=plain)"
     ]
   }
 }

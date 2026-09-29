@@ -90,9 +90,10 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvWatchTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/settings_watch_connected"
+                            android:text="@string/settings_watch_title"
                             android:textColor="@color/text_main"
                             android:textSize="16sp"
                             android:textStyle="bold"
@@ -126,20 +127,6 @@
                                 android:layout_gravity="start"
                                 android:background="@drawable/bg_battery_fill" />
                         </FrameLayout>
-
-                        <TextView
-                            android:id="@+id/btnReconnectWatch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/settings_reconnect"
-                            android:textColor="@color/logo_blue"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:fontFamily="sans-serif"
-                            android:background="?attr/selectableItemBackground"
-                            android:clickable="true"
-                            android:focusable="true" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -739,6 +726,46 @@
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Delete account card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/white">
+
+            <LinearLayout
+                android:id="@+id/btnDeleteAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingVertical="12dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_delete_account"
+                    android:textColor="@color/error_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/settings_delete_account_desc"
+                    android:textColor="@color/muted"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif" />
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- App Settings card -->

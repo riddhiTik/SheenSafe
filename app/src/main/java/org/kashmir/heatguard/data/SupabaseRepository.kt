@@ -4,7 +4,9 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Order
+import io.github.jan.supabase.postgrest.rpc
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import kotlinx.serialization.Serializable
@@ -45,6 +47,32 @@ class SupabaseRepository(private val client: SupabaseClient?) {
     }
 
     fun currentUserId(): String? = client?.auth?.currentUserOrNull()?.id
+
+    /**
+     * Deletes every row associated with [deviceId] across all synced tables. Best-effort per
+     * table so one missing/renamed table doesn't block deletion of the rest.
+     */
+    suspend fun deleteAllUserData(deviceId: String) {
+        val c = client ?: return
+        listOf("sensor_samples", "risk_decisions", "risk_profiles", "users").forEach { table ->
+            runCatching {
+                c.from(table).delete { filter { eq("device_id", deviceId) } }
+            }
+        }
+    }
+
+    /**
+     * Deletes the caller's own Supabase Auth account (the `auth.users` row backing the current
+     * session), by invoking a Postgres RPC that must be created server-side — see
+     * docs/ACCOUNT_DELETION.md. The client only ever holds the anon key, so it cannot delete
+     * `auth.users` directly; the RPC must run as `SECURITY DEFINER` and restrict itself to
+     * `auth.uid()`, i.e. the account can only ever delete itself.
+     */
+    suspend fun deleteAuthAccount(): Result<Unit> = runCatching {
+        val c = client ?: return@runCatching
+        c.postgrest.rpc("delete_own_account")
+        Unit
+    }
 
     // ------------------------------------------------------------------ profile fetch
 

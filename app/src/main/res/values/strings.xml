@@ -183,11 +183,10 @@
 
     <!-- Settings tab -->
     <string name="settings_title">Settings</string>
-    <string name="settings_watch_connected">Sheen Watch Connected</string>
+    <string name="settings_watch_title">Sheen Watch</string>
     <string name="settings_watch_battery">%1$d%% Battery</string>
-    <string name="settings_watch_sync_status">%1$d%% battery • synced %2$s ago</string>
+    <string name="settings_watch_sync_status">Connected • %1$d%% battery • synced %2$s ago</string>
     <string name="settings_watch_not_connected">Not connected</string>
-    <string name="settings_reconnect">Reconnect</string>
     <string name="settings_watch6_label">Use Android Watch</string>
     <string name="settings_watch6_hint">Streams live heart rate via Wear Data Layer</string>
     <string name="settings_section_alerts">ALERTS</string>
@@ -213,8 +212,13 @@
     <string name="settings_section_app">APP SETTINGS</string>
     <string name="settings_temp_units">Temperature Units</string>
     <string name="settings_about">About SheenSafe</string>
-    <string name="settings_reconnect_toast">Watch reconnected.</string>
     <string name="settings_sign_out">Sign Out</string>
+    <string name="settings_delete_account">Delete Account</string>
+    <string name="settings_delete_account_desc">Permanently erase your account and data</string>
+    <string name="delete_account_dialog_title">Delete your account?</string>
+    <string name="delete_account_dialog_message">This permanently deletes your account, contacts, and all monitoring history from this device and our servers. This cannot be undone.</string>
+    <string name="delete_account_confirm">Delete</string>
+    <string name="delete_account_error">Could not fully delete your account — check your connection and try again.</string>
 
     <!-- Auth / Login -->
     <string name="app_brand_name">SheenSafe</string>
