@@ -257,4 +257,6 @@
     <string name="admin_login_subtitle">Sign in with your admin credentials to view the dashboard.</string>
     <string name="admin_login_btn">Sign In as Admin</string>
     <string name="admin_login_denied">Access denied. This account does not have admin privileges.</string>
+    <string name="onboarding_bt_permission_denied">Bluetooth permission is needed to find your watch.</string>
+    <string name="onboarding_use_wear_os">Use paired Galaxy Watch app instead</string>
 </resources>

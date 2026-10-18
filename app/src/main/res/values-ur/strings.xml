@@ -231,4 +231,6 @@
     <string name="admin_login_subtitle">ڈیش بورڈ دیکھنے کے لیے اپنی ایڈمن اسناد سے سائن اِن کریں۔</string>
     <string name="admin_login_btn">ایڈمن کے طور پر سائن اِن کریں</string>
     <string name="admin_login_denied">رسائی مسترد۔ اس اکاؤنٹ میں ایڈمن استحقاق نہیں ہے۔</string>
+    <string name="onboarding_bt_permission_denied">آپ کی گھڑی تلاش کرنے کے لیے بلوٹوتھ کی اجازت درکار ہے۔</string>
+    <string name="onboarding_use_wear_os">اس کے بجائے جوڑی گئی Galaxy Watch ایپ استعمال کریں</string>
 </resources>

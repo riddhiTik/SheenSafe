@@ -8,12 +8,10 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        // Matches the phone app's applicationId exactly (Samsung's reference HR codelab uses this
-        // same pattern — identical applicationId on both modules, distinct namespace for source
-        // compilation). The Wearable Data Layer's AppKey resolution is keyed by package name +
-        // signing certificate; this is step 1 of testing whether a split applicationId between
-        // phone and watch was contributing to "Failed to deliver message" / stale AppKey routing.
-        applicationId = "org.kashmir.heatguard"
+        // Must match the phone app's applicationId exactly (see app/build.gradle.kts). The
+        // Wearable Data Layer routes messages by package name + signing certificate, so if
+        // these drift apart the watch and phone silently stop talking to each other.
+        applicationId = "com.sheensafe.riddhi"
         minSdk = 30   // Wear OS 3; Galaxy Watch4+
         targetSdk = 34
         versionCode = 1

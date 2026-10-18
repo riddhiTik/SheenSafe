@@ -231,4 +231,6 @@
     <string name="admin_login_subtitle">डैशबोर्ड देखने के लिए अपने व्यवस्थापक क्रेडेंशियल से साइन इन करें।</string>
     <string name="admin_login_btn">व्यवस्थापक के रूप में साइन इन करें</string>
     <string name="admin_login_denied">पहुंच अस्वीकृत। इस अकाउंट में व्यवस्थापक विशेषाधिकार नहीं हैं।</string>
+    <string name="onboarding_bt_permission_denied">आपकी घड़ी खोजने के लिए ब्लूटूथ अनुमति आवश्यक है।</string>
+    <string name="onboarding_use_wear_os">इसके बजाय जोड़ी गई Galaxy Watch ऐप उपयोग करें</string>
 </resources>

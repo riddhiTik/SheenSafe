@@ -1,22 +1,60 @@
 package org.kashmir.heatguard.ui.onboarding
 
+import android.Manifest
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.bluetooth.BluetoothManager
+import android.bluetooth.le.ScanCallback
+import android.bluetooth.le.ScanResult
+import android.bluetooth.le.ScanSettings
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.widget.ArrayAdapter
 import android.widget.ImageButton
+import android.widget.ListView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.wearable.Wearable
 import com.google.android.material.button.MaterialButton
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.data.AppRepository
+import org.kashmir.heatguard.service.HeatMonitoringService
 
 class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
 
     private val animators = mutableListOf<ObjectAnimator>()
     private var checking = false
+
+    // BLE scan state — one scan at a time, auto-stopped after SCAN_TIMEOUT_MS.
+    private val mainHandler = Handler(Looper.getMainLooper())
+    private var scanCallback: ScanCallback? = null
+    private var scanDialog: AlertDialog? = null
+    private val foundDevices = linkedMapOf<String, String>() // MAC -> display name
+
+    private val permissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { grants ->
+            if (grants.values.all { it }) showScanDialog()
+            else setUiState(
+                buttonText = getString(R.string.onboarding_scan_for_device),
+                statusText = getString(R.string.onboarding_bt_permission_denied)
+            )
+        }
+
+    private val enableBtLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (bluetoothAdapterOrNull()?.isEnabled == true) showScanDialog()
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +73,7 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
         startPulseAnimation(middleRing, 500L)
         startOrbitAnimation(scanDot)
 
-        btnConnect.setOnClickListener { checkWatchConnection() }
+        btnConnect.setOnClickListener { beginBleConnect() }
 
         btnSkip.setOnClickListener {
             (activity as OnboardingActivity).onDeviceConnected()
@@ -44,6 +82,113 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
         btnBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
+    }
+
+    // ------------------------------------------------------------------ BLE scan / pick
+
+    private fun requiredBlePermissions(): Array<String> =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            arrayOf(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT)
+        else
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)  // required for BLE scan on API <= 30
+
+    private fun bluetoothAdapterOrNull() =
+        (requireContext().getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager)?.adapter
+
+    private fun beginBleConnect() {
+        val ctx = requireContext()
+        val missing = requiredBlePermissions().filter {
+            ContextCompat.checkSelfPermission(ctx, it) != PackageManager.PERMISSION_GRANTED
+        }
+        if (missing.isNotEmpty()) {
+            permissionLauncher.launch(missing.toTypedArray())
+            return
+        }
+        val adapter = bluetoothAdapterOrNull()
+        if (adapter == null) {
+            setUiState(getString(R.string.onboarding_scan_for_device), getString(R.string.onboarding_watch_error))
+            return
+        }
+        if (!adapter.isEnabled) {
+            // ACTION_REQUEST_ENABLE needs no extra permission and shows the system "turn on Bluetooth" prompt.
+            enableBtLauncher.launch(Intent(android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE))
+            return
+        }
+        showScanDialog()
+    }
+
+    @SuppressLint("MissingPermission") // permissions verified in beginBleConnect()
+    private fun showScanDialog() {
+        val ctx = requireContext()
+        val scanner = bluetoothAdapterOrNull()?.bluetoothLeScanner ?: return
+        foundDevices.clear()
+
+        val macs = mutableListOf<String>()
+        val adapter = ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, mutableListOf())
+        val list = ListView(ctx).apply { this.adapter = adapter }
+
+        val dialog = AlertDialog.Builder(ctx)
+            .setTitle(R.string.onboarding_scanning)
+            .setView(list)
+            .setNeutralButton(R.string.onboarding_use_wear_os) { _, _ -> checkWatchConnection() }
+            .setNegativeButton(R.string.cancel, null)
+            .create()
+        scanDialog = dialog
+
+        val callback = object : ScanCallback() {
+            override fun onScanResult(callbackType: Int, result: ScanResult) {
+                val mac = result.device.address ?: return
+                // Unnamed devices are mostly beacons/trackers — skip them to keep the list readable.
+                val name = result.scanRecord?.deviceName ?: result.device.name ?: return
+                if (foundDevices.put(mac, name) == null) {
+                    macs.add(mac)
+                    adapter.add("$name\n$mac")
+                    dialog.setTitle(getString(R.string.onboarding_scan_complete, macs.size))
+                }
+            }
+
+            override fun onScanFailed(errorCode: Int) {
+                dialog.setTitle(R.string.onboarding_watch_error)
+            }
+        }
+        scanCallback = callback
+
+        list.setOnItemClickListener { _, _, position, _ ->
+            val mac = macs[position]
+            stopScan()
+            dialog.dismiss()
+            onDevicePicked(mac)
+        }
+        dialog.setOnDismissListener { stopScan() }
+        dialog.show()
+
+        // Low-latency mode: the user is staring at the dialog waiting for their watch to appear.
+        scanner.startScan(null, ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build(), callback)
+        mainHandler.postDelayed({ stopScan() }, SCAN_TIMEOUT_MS)
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun stopScan() {
+        mainHandler.removeCallbacksAndMessages(null)
+        val cb = scanCallback ?: return
+        scanCallback = null
+        try {
+            bluetoothAdapterOrNull()?.bluetoothLeScanner?.stopScan(cb)
+        } catch (_: IllegalStateException) {
+            // Bluetooth was switched off mid-scan; nothing to stop.
+        }
+    }
+
+    /** Saves the chosen watch and restarts the monitoring service so it connects over BLE GATT. */
+    private fun onDevicePicked(mac: String) {
+        val ctx = requireContext().applicationContext
+        AppRepository(ctx).apply {
+            setRingDeviceMac(mac)
+            setUseWatch6(false) // BLE source is chosen only when Watch6/Wear OS mode is off
+        }
+        ctx.stopService(Intent(ctx, HeatMonitoringService::class.java))
+        ContextCompat.startForegroundService(ctx, Intent(ctx, HeatMonitoringService::class.java))
+        (activity as OnboardingActivity).onDeviceConnected()
     }
 
     /**
@@ -112,7 +257,14 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        stopScan()
+        scanDialog?.dismiss()
+        scanDialog = null
         animators.forEach { it.cancel() }
         animators.clear()
+    }
+
+    private companion object {
+        const val SCAN_TIMEOUT_MS = 20_000L
     }
 }

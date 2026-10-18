@@ -233,4 +233,6 @@
     <string name="admin_login_subtitle">ڈیش بورڈ ہیوٕنہٕ خٲطرٕ پننہٕ ایڈمن کریڈینشل سیتؠ سائن اِن کریو۔</string>
     <string name="admin_login_btn">ایڈمن طور پؠٹھ سائن اِن کریو</string>
     <string name="admin_login_denied">رسائی رَد۔ اَتھ اکاوٗنٹَس منٛز ایڈمن حق چھُ نہٕ۔</string>
+    <string name="onboarding_bt_permission_denied">توٗہنٛد گَھڑی ژارنہٕ خٲطرٕ چھ بلوٗٹوٗتھ اِجازت ضروٗری۔</string>
+    <string name="onboarding_use_wear_os">ہُنٛد بدلہٕ جوڑنہٕ آمِژ Galaxy Watch ایپ استعمال کریِو</string>
 </resources>
