@@ -25,11 +25,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.wearable.Wearable
 import com.google.android.material.button.MaterialButton
 import org.kashmir.heatguard.R
 import org.kashmir.heatguard.data.AppRepository
 import org.kashmir.heatguard.service.HeatMonitoringService
+import org.kashmir.heatguard.ui.WatchPicker
 
 class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
 
@@ -201,26 +201,25 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
         checking = true
         setUiState(buttonText = getString(R.string.onboarding_stop_scan), statusText = null)
 
-        Wearable.getNodeClient(requireContext()).connectedNodes
-            .addOnSuccessListener { nodes ->
-                checking = false
-                if (nodes.isNotEmpty()) {
-                    AppRepository(requireContext()).setUseWatch6(true)
+        val repo = AppRepository(requireContext())
+        WatchPicker.pick(requireContext(), repo) { result ->
+            checking = false
+            if (!isAdded) return@pick
+            when (result) {
+                is WatchPicker.Result.Picked -> {
+                    repo.setUseWatch6(true)
                     (activity as OnboardingActivity).onDeviceConnected()
-                } else {
-                    setUiState(
-                        buttonText = getString(R.string.onboarding_scan_for_device),
-                        statusText = getString(R.string.onboarding_watch_not_found)
-                    )
                 }
-            }
-            .addOnFailureListener {
-                checking = false
-                setUiState(
+                WatchPicker.Result.NoneFound, WatchPicker.Result.Cancelled -> setUiState(
+                    buttonText = getString(R.string.onboarding_scan_for_device),
+                    statusText = getString(R.string.onboarding_watch_not_found)
+                )
+                WatchPicker.Result.Error -> setUiState(
                     buttonText = getString(R.string.onboarding_scan_for_device),
                     statusText = getString(R.string.onboarding_watch_error)
                 )
             }
+        }
     }
 
     private fun setUiState(buttonText: String, statusText: String?) {

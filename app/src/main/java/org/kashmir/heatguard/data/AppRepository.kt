@@ -306,6 +306,15 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         prefs.edit().putBoolean(KEY_USE_WATCH6, on).apply()
     }
 
+    /** Wearable Data Layer node id of the watch the user picked, or null if none picked yet. */
+    fun getSelectedWatchNodeId(): String? = prefs.getString(KEY_WATCH_NODE_ID, null)
+
+    fun getSelectedWatchName(): String? = prefs.getString(KEY_WATCH_NAME, null)
+
+    fun setSelectedWatch(nodeId: String, name: String) {
+        prefs.edit().putString(KEY_WATCH_NODE_ID, nodeId).putString(KEY_WATCH_NAME, name).apply()
+    }
+
     fun setEmergencyAlertSuppressedUntil(millis: Long) {
         prefs.edit().putLong(KEY_EMERGENCY_ALERT_SUPPRESSED_UNTIL, millis).apply()
     }
@@ -423,6 +432,8 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         private const val KEY_PRIMARY_CONTACT_INDEX = "primary_contact_index"
         private const val KEY_EMERGENCY_ALERT_SUPPRESSED_UNTIL = "emergency_alert_suppressed_until"
         private const val KEY_USE_WATCH6 = "use_watch6"
+        private const val KEY_WATCH_NODE_ID = "watch_node_id"
+        private const val KEY_WATCH_NAME = "watch_name"
         private const val KEY_HOURLY_FORECAST = "hourly_forecast_json"
         private const val KEY_HOURLY_FORECAST_FETCHED_AT = "hourly_forecast_fetched_at"
         private const val KEY_NOTIFICATION_HISTORY = "notification_history_json"

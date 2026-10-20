@@ -8,6 +8,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.kashmir.heatguard.HeatGuardApplication
 import org.kashmir.heatguard.core.model.SensorSample
+import org.kashmir.heatguard.data.AppRepository
 
 /**
  * Receives watch readings sent by WatchSensorService on the Galaxy Watch6.
@@ -31,6 +32,7 @@ class SheenSafeWearListenerService : WearableListenerService() {
 
     override fun onMessageReceived(event: MessageEvent) {
         if (event.path != MSG_PATH) return
+        if (!isSelectedWatch(event.sourceNodeId)) return
 
         val json = try {
             JSONObject(String(event.data, Charsets.UTF_8))
@@ -56,12 +58,19 @@ class SheenSafeWearListenerService : WearableListenerService() {
     // Optional enhancement (Milestone J): push a disconnected sample immediately so the
     // risk engine marks data stale on the next 5-min tick rather than waiting 15 minutes.
     override fun onPeerDisconnected(peer: Node) {
+        if (!isSelectedWatch(peer.id)) return
         Log.i(TAG, "Watch disconnected: ${peer.displayName}")
         val disconnected = SensorSample(
             timestampMillis = System.currentTimeMillis(),
             connected = false
         )
         (application as HeatGuardApplication).wearDataSource.onWatchReading(disconnected)
+    }
+
+    /** True when no watch has been picked yet (accept any) or [nodeId] is the picked watch. */
+    private fun isSelectedWatch(nodeId: String): Boolean {
+        val selected = AppRepository(this).getSelectedWatchNodeId() ?: return true
+        return selected == nodeId
     }
 
     // JSONObject.optInt() returns 0 for missing/null keys; we need null semantics

@@ -137,6 +137,8 @@ class HeatMonitoringService : Service() {
     private fun sendWatchCommand(command: String) {
         val request = PutDataMapRequest.create("/sheensafe-cmd/control").apply {
             dataMap.putString("command", command)
+            // Every paired watch receives this DataItem; each ignores it unless it is the target.
+            repository.getSelectedWatchNodeId()?.let { dataMap.putString("targetNodeId", it) }
             // Always-changing field so writing the same command twice in a row still
             // produces a content change — DataItem change notification is content-diffed.
             dataMap.putLong("timestamp", System.currentTimeMillis())

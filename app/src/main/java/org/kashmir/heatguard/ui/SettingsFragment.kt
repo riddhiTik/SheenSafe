@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -352,20 +353,73 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun bindWatch6Toggle(view: View) {
         val switch = view.findViewById<SwitchMaterial>(R.id.switchWatch6)
+        val tvTitle = view.findViewById<TextView>(R.id.tvWatchTitle)
+
+        fun refreshTitle() {
+            val name = repository.getSelectedWatchName()
+            tvTitle.text = if (name != null) "$name  ›" else getString(R.string.settings_watch_title)
+        }
+
+        // Stop first so the old watch gets its "stop" command (the service targets the
+        // currently stored watch in onDestroy), then start against the newly stored one.
+        fun restartService(afterStop: () -> Unit = {}) {
+            val ctx = requireContext()
+            ctx.stopService(Intent(ctx, HeatMonitoringService::class.java))
+            afterStop()
+            val intent = Intent(ctx, HeatMonitoringService::class.java)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) ctx.startForegroundService(intent) else ctx.startService(intent)
+        }
+
+        fun chooseWatch(onPicked: (() -> Unit)? = null, onFailed: (() -> Unit)? = null) {
+            WatchPicker.pick(requireContext(), repository) { result ->
+                if (!isAdded) return@pick
+                when (result) {
+                    is WatchPicker.Result.Picked -> {
+                        refreshTitle()
+                        onPicked?.invoke()
+                    }
+                    WatchPicker.Result.NoneFound -> {
+                        Toast.makeText(requireContext(), R.string.onboarding_watch_not_found, Toast.LENGTH_LONG).show()
+                        onFailed?.invoke()
+                    }
+                    WatchPicker.Result.Error -> {
+                        Toast.makeText(requireContext(), R.string.onboarding_watch_error, Toast.LENGTH_LONG).show()
+                        onFailed?.invoke()
+                    }
+                    WatchPicker.Result.Cancelled -> onFailed?.invoke()
+                }
+            }
+        }
+
+        refreshTitle()
         switch.isChecked = repository.getUseWatch6()
+
+        // Tap the watch name to switch to a different paired watch.
+        (tvTitle.parent as View).setOnClickListener {
+            val wasOn = repository.getUseWatch6()
+            if (!wasOn) { chooseWatch(); return@setOnClickListener }
+            val ctx = requireContext()
+            ctx.stopService(Intent(ctx, HeatMonitoringService::class.java))   // stops the old watch
+            chooseWatch(
+                onPicked = { restartService() },
+                onFailed = { restartService() }
+            )
+        }
+
         switch.setOnCheckedChangeListener { _, on ->
             Log.i("SettingsFragment", "Watch6 toggle changed to $on — restarting HeatMonitoringService")
+            if (on && repository.getSelectedWatchNodeId() == null) {
+                // First time: pick the watch before starting. Revert the switch if nothing was chosen.
+                chooseWatch(
+                    onPicked = { repository.setUseWatch6(true); restartService() },
+                    onFailed = { switch.setOnCheckedChangeListener(null); switch.isChecked = false; bindWatch6Toggle(view) }
+                )
+                return@setOnCheckedChangeListener
+            }
             repository.setUseWatch6(on)
             // HeatMonitoringService reads getUseWatch6() only in onCreate(), so we must
             // restart it for the new ring source selection to take effect.
-            val ctx = requireContext()
-            ctx.stopService(Intent(ctx, HeatMonitoringService::class.java))
-            val intent = Intent(ctx, HeatMonitoringService::class.java)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                ctx.startForegroundService(intent)
-            } else {
-                ctx.startService(intent)
-            }
+            restartService()
         }
     }
 }

@@ -8,6 +8,8 @@ import androidx.core.content.ContextCompat
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
+import com.google.android.gms.tasks.Tasks
+import com.google.android.gms.wearable.Wearable
 import com.google.android.gms.wearable.WearableListenerService
 
 /**
@@ -34,6 +36,7 @@ class WatchCommandService : WearableListenerService() {
         const val COMMAND_PATH = "/sheensafe-cmd/control"
         const val KEY_COMMAND = "command"
         const val KEY_TIMESTAMP = "timestamp"
+        const val KEY_TARGET_NODE = "targetNodeId"
         const val COMMAND_START = "start"
         const val COMMAND_STOP = "stop"
     }
@@ -45,7 +48,13 @@ class WatchCommandService : WearableListenerService() {
                 val item = event.dataItem
                 if (item.uri.path != COMMAND_PATH) continue
 
-                val command = DataMapItem.fromDataItem(item).dataMap.getString(KEY_COMMAND)
+                val dataMap = DataMapItem.fromDataItem(item).dataMap
+                val target = dataMap.getString(KEY_TARGET_NODE)
+                if (target != null && target != localNodeId()) {
+                    Log.d(TAG, "Command is for another watch ($target) — ignoring")
+                    continue
+                }
+                val command = dataMap.getString(KEY_COMMAND)
                 Log.d(TAG, "DataItem command received: $command")
                 when (command) {
                     COMMAND_START -> handleStart()
@@ -55,6 +64,13 @@ class WatchCommandService : WearableListenerService() {
         } finally {
             dataEvents.release()
         }
+    }
+
+    private fun localNodeId(): String? = try {
+        Tasks.await(Wearable.getNodeClient(this).localNode).id
+    } catch (e: Exception) {
+        Log.w(TAG, "Could not read local node id: ${e.message}")
+        null
     }
 
     private fun handleStart() {
