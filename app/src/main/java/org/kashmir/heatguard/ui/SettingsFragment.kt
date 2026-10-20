@@ -35,6 +35,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private lateinit var repository: AppRepository
     private var refreshThresholdLabel: (() -> Unit)? = null
 
+    private companion object {
+        const val WATCH_FRESH_SECONDS = 60L
+        const val WATCH_REFRESH_MS = 3_000L
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         repository = AppRepository(requireContext())
@@ -203,31 +208,57 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val tvBattery = view.findViewById<TextView>(R.id.tvWatchBattery)
         val fill = view.findViewById<View>(R.id.vBatteryFill)
         val sample = (requireActivity().application as HeatGuardApplication).activeRingDataSource?.latestSample()
-        val batteryPercent = sample?.batteryPercent
 
-        if (sample == null || batteryPercent == null) {
+        val ageSeconds = sample?.let { (System.currentTimeMillis() - it.timestampMillis) / 1000L }
+        // Connected = a fresh sample that isn't flagged disconnected. Battery is optional:
+        // the Galaxy Watch6 stream doesn't report it, so don't require it.
+        val isConnected = sample != null && sample.connected && ageSeconds != null && ageSeconds < WATCH_FRESH_SECONDS
+
+        if (!isConnected) {
             tvBattery.text = getString(R.string.settings_watch_not_connected)
-            fill.post { fill.layoutParams = fill.layoutParams.apply { width = 0 }; fill.requestLayout() }
+            setFillFraction(fill, 0f)
             return
         }
 
-        val ageSeconds = (System.currentTimeMillis() - sample.timestampMillis) / 1000L
         val agoLabel = when {
-            ageSeconds < 60 -> "${ageSeconds}s"
-            ageSeconds < 3600 -> "${ageSeconds / 60}m"
-            else -> "${ageSeconds / 3600}h"
+            ageSeconds!! < 60 -> "${ageSeconds}s"
+            else -> "${ageSeconds / 60}m"
         }
-        tvBattery.text = getString(R.string.settings_watch_sync_status, batteryPercent, agoLabel)
+        val batteryPercent = sample!!.batteryPercent
+        tvBattery.text = if (batteryPercent != null)
+            getString(R.string.settings_watch_sync_status, batteryPercent, agoLabel)
+        else
+            getString(R.string.settings_watch_connected_status, agoLabel)
+        // Bar shows battery when known; otherwise full to indicate an active link.
+        setFillFraction(fill, (batteryPercent ?: 100) / 100f)
+    }
 
+    private fun setFillFraction(fill: View, fraction: Float) {
         val track = fill.parent as View
         track.post {
             val trackWidth = track.width
             if (trackWidth > 0) {
-                val fraction = (batteryPercent / 100f).coerceIn(0f, 1f)
-                fill.layoutParams = fill.layoutParams.apply { width = (trackWidth * fraction).toInt() }
+                fill.layoutParams = fill.layoutParams.apply { width = (trackWidth * fraction.coerceIn(0f, 1f)).toInt() }
                 fill.requestLayout()
             }
         }
+    }
+
+    private val watchStatusTicker = object : Runnable {
+        override fun run() {
+            view?.let { bindWatchStatus(it) }
+            view?.postDelayed(this, WATCH_REFRESH_MS)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        view?.post(watchStatusTicker)
+    }
+
+    override fun onStop() {
+        view?.removeCallbacks(watchStatusTicker)
+        super.onStop()
     }
 
     private fun bindThresholdSlider(view: View) {
