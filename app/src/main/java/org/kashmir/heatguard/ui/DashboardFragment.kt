@@ -61,6 +61,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     private companion object {
         const val WEATHER_MAX_AGE_MS = 2 * 60 * 60 * 1_000L
+        const val SENSOR_MAX_AGE_MS = 30 * 60 * 1_000L
     }
 
     private var pendingTextPhones: List<String> = emptyList()
@@ -297,8 +298,19 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         val sample = ringDataSource.latestSample()
         val weather = currentWeather(now)
 
+        // No live sensor reading (no watch, disconnected, or older than 30 min): never claim
+        // "safe". A higher level driven by weather alone is still shown.
+        val sampleAgeMs = sample?.let { now - it.timestampMillis }
+        val hasLiveSensorData = sample != null && sample.connected && sampleAgeMs != null && sampleAgeMs < SENSOR_MAX_AGE_MS
+        val showNoData = !hasLiveSensorData && decision.level == RiskLevel.SAFE
+
         // Hero card
-        when (decision.level) {
+        if (showNoData) {
+            heroContent.setBackgroundResource(R.drawable.bg_hero_gradient_nodata)
+            tvRiskBadge.text = getString(R.string.status_nodata_badge)
+            tvHeroHeading.text = getString(R.string.status_nodata_heading)
+            tvHeroSubtitle.text = getString(R.string.status_nodata_sub)
+        } else when (decision.level) {
             RiskLevel.SAFE -> {
                 heroContent.setBackgroundResource(R.drawable.bg_hero_gradient_safe)
                 tvRiskBadge.text = "SAFE"
@@ -338,7 +350,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
 
         // Care message
-        tvCareBody.text = decision.recommendedAction
+        tvCareBody.text = if (showNoData) getString(R.string.status_nodata_care) else decision.recommendedAction
 
         // Vitals
         val isCelsius = unit == "C"

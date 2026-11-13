@@ -147,6 +147,10 @@
 
     <!-- Dashboard -->
     <string name="dashboard_title">SheenSafe</string>
+    <string name="status_nodata_badge">NO DATA</string>
+    <string name="status_nodata_heading">No data.</string>
+    <string name="status_nodata_sub">Connect your watch to start monitoring.</string>
+    <string name="status_nodata_care">SheenSafe can\'t check your heat risk without live readings from your watch. Connect it in Settings.</string>
     <string name="status_safe_heading">You\'re safe.</string>
     <string name="status_safe_sub">Body temperature is stable.</string>
     <string name="status_check_heading">Check in needed.</string>
