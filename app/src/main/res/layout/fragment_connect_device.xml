@@ -200,6 +200,17 @@
         app:backgroundTint="@color/primary_dark"
         app:cornerRadius="28dp" />
 
+    <!-- Health Connect alternative -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnHealthConnect"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/onboarding_use_health_connect"
+        android:textColor="@color/primary"
+        android:textSize="15sp"
+        android:fontFamily="sans-serif" />
+
     <!-- Skip button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSkip"

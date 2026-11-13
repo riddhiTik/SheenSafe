@@ -51,6 +51,23 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
             )
         }
 
+    private val healthPermissionLauncher =
+        registerForActivityResult(
+            androidx.health.connect.client.PermissionController.createRequestPermissionResultContract()
+        ) { granted ->
+            if (!isAdded) return@registerForActivityResult
+            if (healthReadPermission in granted) onHealthConnectReady()
+            else setUiState(
+                buttonText = getString(R.string.onboarding_scan_for_device),
+                statusText = getString(R.string.onboarding_health_connect_denied)
+            )
+        }
+
+    private val healthReadPermission: String
+        get() = androidx.health.connect.client.permission.HealthPermission.getReadPermission(
+            androidx.health.connect.client.records.HeartRateRecord::class
+        )
+
     private val enableBtLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (bluetoothAdapterOrNull()?.isEnabled == true) showScanDialog()
@@ -74,6 +91,7 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
         startOrbitAnimation(scanDot)
 
         btnConnect.setOnClickListener { beginBleConnect() }
+        view.findViewById<MaterialButton>(R.id.btnHealthConnect).setOnClickListener { beginHealthConnect() }
 
         // Connecting a watch is mandatory. Skip exists only in debuggable builds so developers
         // without a wearable can still get through onboarding.
@@ -86,6 +104,34 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
         btnBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
+    }
+
+    // ------------------------------------------------------------------ Health Connect
+
+    private fun beginHealthConnect() {
+        val ctx = requireContext()
+        val status = androidx.health.connect.client.HealthConnectClient.getSdkStatus(ctx)
+        if (status != androidx.health.connect.client.HealthConnectClient.SDK_AVAILABLE) {
+            setUiState(getString(R.string.onboarding_scan_for_device), getString(R.string.onboarding_health_connect_missing))
+            // Opens the Play Store listing so the user can install/update Health Connect.
+            runCatching {
+                startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse(
+                    "market://details?id=com.google.android.apps.healthdata")))
+            }
+            return
+        }
+        healthPermissionLauncher.launch(setOf(healthReadPermission))
+    }
+
+    private fun onHealthConnectReady() {
+        val ctx = requireContext().applicationContext
+        AppRepository(ctx).apply {
+            setUseHealthConnect(true)
+            setUseWatch6(false)
+        }
+        ctx.stopService(Intent(ctx, HeatMonitoringService::class.java))
+        ContextCompat.startForegroundService(ctx, Intent(ctx, HeatMonitoringService::class.java))
+        (activity as OnboardingActivity).onDeviceConnected()
     }
 
     // ------------------------------------------------------------------ BLE scan / pick
@@ -188,6 +234,7 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
         val ctx = requireContext().applicationContext
         AppRepository(ctx).apply {
             setRingDeviceMac(mac)
+            setUseHealthConnect(false)
             setUseWatch6(false) // BLE source is chosen only when Watch6/Wear OS mode is off
         }
         ctx.stopService(Intent(ctx, HeatMonitoringService::class.java))
@@ -212,6 +259,7 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
             when (result) {
                 is WatchPicker.Result.Picked -> {
                     repo.setUseWatch6(true)
+                    repo.setUseHealthConnect(false)
                     (activity as OnboardingActivity).onDeviceConnected()
                 }
                 WatchPicker.Result.NoneFound, WatchPicker.Result.Cancelled -> setUiState(

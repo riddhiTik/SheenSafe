@@ -111,6 +111,7 @@ Inject all three into `MonitoringPipeline` for integration tests. The pattern is
 - **`EncryptedSharedPreferences` is deferred** — blocked by `android.useAndroidX=false`. A TODO comment marks the location in `AppRepository.kt`.
 - **No mock vitals** — when no watch is configured, `HeatMonitoringService` and `DashboardFragment` use `NoRingDataSource` (never emits), so the UI shows "no data". `SimulatedRingDataSource` is no longer wired into the app.
 - **Watch connection is mandatory in onboarding** (step 3). The Skip button is shown only in debuggable builds. The Settings watch card only re-selects the paired watch; there is no Data Layer toggle.
+- **Health Connect** (`HealthConnectRingDataSource`, `useHealthConnect` pref) is an alternative to the Wear Data Layer: polls heart rate every 60s; sample timestamp is the measurement time so stale data is flagged. No skin temperature (not in Health Connect 1.1). Chosen via "Use Health Connect instead" in onboarding step 3.
 - **Language** can be changed in Settings (profile card) as well as at onboarding.
 
 ## Gadgetbridge Integration

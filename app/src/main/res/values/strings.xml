@@ -216,6 +216,10 @@
     <string name="settings_permission_disabled">Disabled</string>
     <string name="settings_section_app">APP SETTINGS</string>
     <string name="settings_temp_units">Temperature Units</string>
+    <string name="health_connect_rationale">SheenSafe reads your heart rate from Health Connect to assess heat-stroke risk. It is decision support, not a medical device. Readings are used on your phone to assess risk and may be synced to the SheenSafe service if you signed in.</string>
+    <string name="onboarding_use_health_connect">Use Health Connect instead</string>
+    <string name="onboarding_health_connect_missing">Health Connect is not available. Install or update it from the Play Store.</string>
+    <string name="onboarding_health_connect_denied">Heart rate permission was not granted.</string>
     <string name="settings_language">Language</string>
     <string name="settings_language_dialog_title">Choose language</string>
     <string name="settings_about">About SheenSafe</string>

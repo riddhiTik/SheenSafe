@@ -81,6 +81,9 @@ dependencies {
     // Wear OS Data Layer (receives watch readings from Galaxy Watch6)
     implementation("com.google.android.gms:play-services-wearable:18.2.0")
 
+    // Health Connect (heart rate from any wearable whose app syncs to it)
+    implementation("androidx.health.connect:connect-client:1.1.0")
+
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 

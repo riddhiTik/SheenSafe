@@ -300,6 +300,12 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
 
     fun getHourlyForecastFetchedAt(): Long = prefs.getLong(KEY_HOURLY_FORECAST_FETCHED_AT, 0L)
 
+    fun getUseHealthConnect(): Boolean = prefs.getBoolean(KEY_USE_HEALTH_CONNECT, false)
+
+    fun setUseHealthConnect(on: Boolean) {
+        prefs.edit().putBoolean(KEY_USE_HEALTH_CONNECT, on).apply()
+    }
+
     fun getUseWatch6(): Boolean = prefs.getBoolean(KEY_USE_WATCH6, false)
 
     fun setUseWatch6(on: Boolean) {
@@ -432,6 +438,7 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
         private const val KEY_PRIMARY_CONTACT_INDEX = "primary_contact_index"
         private const val KEY_EMERGENCY_ALERT_SUPPRESSED_UNTIL = "emergency_alert_suppressed_until"
         private const val KEY_USE_WATCH6 = "use_watch6"
+        private const val KEY_USE_HEALTH_CONNECT = "use_health_connect"
         private const val KEY_WATCH_NODE_ID = "watch_node_id"
         private const val KEY_WATCH_NAME = "watch_name"
         private const val KEY_HOURLY_FORECAST = "hourly_forecast_json"

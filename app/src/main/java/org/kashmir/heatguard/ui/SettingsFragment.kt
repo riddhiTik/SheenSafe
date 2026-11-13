@@ -38,6 +38,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private companion object {
         const val WATCH_FRESH_SECONDS = 60L
+        const val HEALTH_CONNECT_FRESH_SECONDS = 30 * 60L
         const val WATCH_REFRESH_MS = 3_000L
     }
 
@@ -215,7 +216,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val ageSeconds = sample?.let { (System.currentTimeMillis() - it.timestampMillis) / 1000L }
         // Connected = a fresh sample that isn't flagged disconnected. Battery is optional:
         // the Galaxy Watch6 stream doesn't report it, so don't require it.
-        val isConnected = sample != null && sample.connected && ageSeconds != null && ageSeconds < WATCH_FRESH_SECONDS
+        // Health Connect data arrives minutes after it was measured, so allow a longer window.
+        val freshSeconds = if (repository.getUseHealthConnect()) HEALTH_CONNECT_FRESH_SECONDS else WATCH_FRESH_SECONDS
+        val isConnected = sample != null && sample.connected && ageSeconds != null && ageSeconds < freshSeconds
 
         if (!isConnected) {
             tvBattery.text = getString(R.string.settings_watch_not_connected)
@@ -425,7 +428,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             val ctx = requireContext()
             ctx.stopService(Intent(ctx, HeatMonitoringService::class.java))   // stops the old watch
             chooseWatch(
-                onPicked = { repository.setUseWatch6(true); restartService() },
+                onPicked = { repository.setUseWatch6(true); repository.setUseHealthConnect(false); restartService() },
                 onFailed = { restartService() }
             )
         }

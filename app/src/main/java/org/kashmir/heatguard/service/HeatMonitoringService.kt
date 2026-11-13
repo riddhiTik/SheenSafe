@@ -169,6 +169,9 @@ class HeatMonitoringService : Service() {
     }
 
     private fun buildRingDataSource(): RingDataSource {
+        if (repository.getUseHealthConnect()) {
+            return org.kashmir.heatguard.ring.HealthConnectRingDataSource(this)
+        }
         if (repository.getUseWatch6()) {
             return (application as HeatGuardApplication).wearDataSource
         }
