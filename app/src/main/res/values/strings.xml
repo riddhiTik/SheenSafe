@@ -101,6 +101,7 @@
     <string name="onboarding_device_subtitle">Your watch sends live body temperature and heart rate to this app.</string>
     <string name="onboarding_device_name">Android Watch</string>
     <string name="onboarding_device_status">Ready to connect</string>
+    <string name="onboarding_watch_required">A connected watch is required to continue.</string>
     <string name="onboarding_device_hint">Make sure your watch is paired with this phone via its companion app (e.g. Galaxy Wearable, Wear OS by Google). A one-time permission prompt will appear on your watch — tap Allow.</string>
     <string name="onboarding_connect_device">Connect Watch</string>
     <string name="onboarding_scan_for_device">Connect Watch</string>
@@ -108,6 +109,7 @@
     <string name="onboarding_skip_device">Skip for now</string>
     <string name="onboarding_watch_connected">Watch connected!</string>
     <string name="onboarding_watch_not_found">Watch not detected. Make sure it\'s paired and nearby.</string>
+    <string name="onboarding_watch_unavailable">Watch link unavailable. Install and open the Galaxy Wearable (or Wear OS) app, pair your watch there, then try again.</string>
     <string name="onboarding_watch_error">Could not reach watch. Make sure Bluetooth is on.</string>
     <string name="onboarding_watch_try_again">Try Again</string>
     <string name="onboarding_watch_continue_anyway">Continue anyway</string>
@@ -214,6 +216,8 @@
     <string name="settings_permission_disabled">Disabled</string>
     <string name="settings_section_app">APP SETTINGS</string>
     <string name="settings_temp_units">Temperature Units</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_dialog_title">Choose language</string>
     <string name="settings_about">About SheenSafe</string>
     <string name="settings_sign_out">Sign Out</string>
     <string name="settings_delete_account">Delete Account</string>

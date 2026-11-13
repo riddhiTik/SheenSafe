@@ -14,7 +14,7 @@ class HeatGuardApplication : Application() {
 
     // Set by HeatMonitoringService when it starts; cleared when it stops.
     // DashboardFragment reads from this so it shares the same live connection
-    // rather than spinning up its own SimulatedRingDataSource.
+    // rather than inventing data.
     var activeRingDataSource: RingDataSource? = null
 
     // Set by DashboardFragment while it's visible so EscalationManager can show a

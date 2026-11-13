@@ -75,6 +75,10 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
 
         btnConnect.setOnClickListener { beginBleConnect() }
 
+        // Connecting a watch is mandatory. Skip exists only in debuggable builds so developers
+        // without a wearable can still get through onboarding.
+        val debuggable = (requireContext().applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0
+        btnSkip.visibility = if (debuggable) View.VISIBLE else View.GONE
         btnSkip.setOnClickListener {
             (activity as OnboardingActivity).onDeviceConnected()
         }
@@ -214,9 +218,9 @@ class ConnectDeviceFragment : Fragment(R.layout.fragment_connect_device) {
                     buttonText = getString(R.string.onboarding_scan_for_device),
                     statusText = getString(R.string.onboarding_watch_not_found)
                 )
-                WatchPicker.Result.Error -> setUiState(
+                is WatchPicker.Result.Error -> setUiState(
                     buttonText = getString(R.string.onboarding_scan_for_device),
-                    statusText = getString(R.string.onboarding_watch_error)
+                    statusText = getString(if (result.unavailable) R.string.onboarding_watch_unavailable else R.string.onboarding_watch_error)
                 )
             }
         }

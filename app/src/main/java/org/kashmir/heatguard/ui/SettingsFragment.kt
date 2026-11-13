@@ -51,6 +51,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         bindTempToggle(view)
         bindActions(view)
         bindWatch6Toggle(view)
+        bindLanguage(view)
         bindWatchStatus(view)
         bindThresholdSlider(view)
         bindLocalWeather(view)
@@ -208,7 +209,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun bindWatchStatus(view: View) {
         val tvBattery = view.findViewById<TextView>(R.id.tvWatchBattery)
         val fill = view.findViewById<View>(R.id.vBatteryFill)
-        val sample = (requireActivity().application as HeatGuardApplication).activeRingDataSource?.latestSample()
+        val source = (requireActivity().application as HeatGuardApplication).activeRingDataSource
+        val sample = source?.latestSample()
 
         val ageSeconds = sample?.let { (System.currentTimeMillis() - it.timestampMillis) / 1000L }
         // Connected = a fresh sample that isn't flagged disconnected. Battery is optional:
@@ -351,8 +353,34 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             .show()
     }
 
+    private fun bindLanguage(view: View) {
+        val languages = listOf("en" to "English", "hi" to "हिन्दी", "ks" to "کٲشُر", "ur" to "اردو")
+        val tvValue = view.findViewById<TextView>(R.id.tvLanguageValue)
+        fun refresh() {
+            tvValue.text = languages.firstOrNull { it.first == repository.getLanguage() }?.second ?: "English"
+        }
+        refresh()
+        view.findViewById<View>(R.id.rowLanguage).setOnClickListener {
+            val current = languages.indexOfFirst { it.first == repository.getLanguage() }.coerceAtLeast(0)
+            androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle(R.string.settings_language_dialog_title)
+                .setSingleChoiceItems(languages.map { it.second }.toTypedArray(), current) { dialog, which ->
+                    dialog.dismiss()
+                    val code = languages[which].first
+                    if (code != repository.getLanguage()) {
+                        repository.setLanguage(code)
+                        // Recreates the activity with the new locale; persisted by AppLocalesMetadataHolderService.
+                        androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
+                            androidx.core.os.LocaleListCompat.forLanguageTags(code)
+                        )
+                    }
+                }
+                .setNegativeButton(R.string.cancel, null)
+                .show()
+        }
+    }
+
     private fun bindWatch6Toggle(view: View) {
-        val switch = view.findViewById<SwitchMaterial>(R.id.switchWatch6)
         val tvTitle = view.findViewById<TextView>(R.id.tvWatchTitle)
 
         fun refreshTitle() {
@@ -382,8 +410,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                         Toast.makeText(requireContext(), R.string.onboarding_watch_not_found, Toast.LENGTH_LONG).show()
                         onFailed?.invoke()
                     }
-                    WatchPicker.Result.Error -> {
-                        Toast.makeText(requireContext(), R.string.onboarding_watch_error, Toast.LENGTH_LONG).show()
+                    is WatchPicker.Result.Error -> {
+                        Toast.makeText(requireContext(), getString(if (result.unavailable) R.string.onboarding_watch_unavailable else R.string.onboarding_watch_error), Toast.LENGTH_LONG).show()
                         onFailed?.invoke()
                     }
                     WatchPicker.Result.Cancelled -> onFailed?.invoke()
@@ -392,34 +420,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         refreshTitle()
-        switch.isChecked = repository.getUseWatch6()
-
-        // Tap the watch name to switch to a different paired watch.
+        // Tap the watch card to (re)select the paired watch.
         (tvTitle.parent as View).setOnClickListener {
-            val wasOn = repository.getUseWatch6()
-            if (!wasOn) { chooseWatch(); return@setOnClickListener }
             val ctx = requireContext()
             ctx.stopService(Intent(ctx, HeatMonitoringService::class.java))   // stops the old watch
             chooseWatch(
-                onPicked = { restartService() },
+                onPicked = { repository.setUseWatch6(true); restartService() },
                 onFailed = { restartService() }
             )
-        }
-
-        switch.setOnCheckedChangeListener { _, on ->
-            Log.i("SettingsFragment", "Watch6 toggle changed to $on — restarting HeatMonitoringService")
-            if (on && repository.getSelectedWatchNodeId() == null) {
-                // First time: pick the watch before starting. Revert the switch if nothing was chosen.
-                chooseWatch(
-                    onPicked = { repository.setUseWatch6(true); restartService() },
-                    onFailed = { switch.setOnCheckedChangeListener(null); switch.isChecked = false; bindWatch6Toggle(view) }
-                )
-                return@setOnCheckedChangeListener
-            }
-            repository.setUseWatch6(on)
-            // HeatMonitoringService reads getUseWatch6() only in onCreate(), so we must
-            // restart it for the new ring source selection to take effect.
-            restartService()
         }
     }
 }

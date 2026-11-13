@@ -34,7 +34,7 @@ import org.kashmir.heatguard.core.risk.HeatRiskEngine
 import org.kashmir.heatguard.core.ring.RingDataSource
 import org.kashmir.heatguard.data.AppRepository
 import org.kashmir.heatguard.data.NotificationHistoryEntry
-import org.kashmir.heatguard.ring.SimulatedRingDataSource
+import org.kashmir.heatguard.ring.NoRingDataSource
 import org.kashmir.heatguard.weather.ApiHourlyForecastProvider
 import org.kashmir.heatguard.weather.CachedHourlyForecastProvider
 import org.kashmir.heatguard.weather.ManualWeatherProvider
@@ -50,6 +50,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private val refreshHandler = Handler(Looper.getMainLooper())
     private val refreshRunnable: Runnable = object : Runnable {
         override fun run() {
+            // The monitoring service may start (or stop) after this screen is shown.
+            (activity?.application as? HeatGuardApplication)?.activeRingDataSource?.let { ringDataSource = it }
             assessAndRender()
             refreshHandler.postDelayed(this, 5_000L)
         }
@@ -130,9 +132,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         tvNotificationBadge = view.findViewById(R.id.tvNotificationBadge)
 
         // ringDataSource setup must come after the findViewById block above —
-        // SimulatedRingDataSource.start() invokes its callback synchronously, which calls
-        // render() and crashes with UninitializedPropertyAccessException if the views
-        // (heroCard etc.) aren't bound yet.
+        // The refresh runnable calls render(), which needs the views above to be bound.
         val shared = (requireActivity().application as HeatGuardApplication).activeRingDataSource
         if (shared != null) {
             // Service is running with a real watch — share its data source.
@@ -141,10 +141,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             ownsDataSource = false
             refreshHandler.post(refreshRunnable)
         } else {
-            // No service/watch — use simulated data driven by listener callbacks.
-            ringDataSource = SimulatedRingDataSource()
-            ownsDataSource = true
-            ringDataSource.start { assessAndRender() }
+            // No service running yet: show "no data" rather than made-up vitals.
+            ringDataSource = NoRingDataSource()
+            ownsDataSource = false
+            refreshHandler.post(refreshRunnable)
         }
 
         view.findViewById<android.widget.ImageButton>(R.id.btnNotifications).setOnClickListener {

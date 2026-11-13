@@ -3,6 +3,7 @@ package org.kashmir.heatguard.service
 import android.app.Notification
 import android.app.Service
 import android.content.Intent
+import android.os.Build
 import android.location.LocationManager
 import android.os.Handler
 import android.os.IBinder
@@ -28,7 +29,7 @@ import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
 import org.kashmir.heatguard.HeatGuardApplication
 import org.kashmir.heatguard.ring.S5RingDataSource
-import org.kashmir.heatguard.ring.SimulatedRingDataSource
+import org.kashmir.heatguard.ring.NoRingDataSource
 import org.kashmir.heatguard.weather.ApiWeatherProvider
 import org.kashmir.heatguard.weather.CachedWeatherProvider
 import org.kashmir.heatguard.weather.FallbackWeatherProvider
@@ -62,7 +63,7 @@ class HeatMonitoringService : Service() {
         (application as HeatGuardApplication).activeRingDataSource = ringDataSource
         ringDataSource.start { /* latest sample retained by source */ }
         pipeline = buildPipeline()
-        startForeground(1, monitoringNotification())
+        startMonitoringForeground()
         executor = Executors.newSingleThreadScheduledExecutor()
         executor.scheduleAtFixedRate({ assessOnce() }, 0L, 5L, TimeUnit.MINUTES)
         Log.i(TAG, "onCreate: useWatch6=${repository.getUseWatch6()} ringSource=${ringDataSource::class.simpleName}")
@@ -149,6 +150,24 @@ class HeatMonitoringService : Service() {
             .addOnFailureListener { e -> Log.e(TAG, "sendWatchCommand: failed to write '$command': ${e.message}") }
     }
 
+    /**
+     * Android 14+ rejects a connectedDevice FGS unless a Bluetooth runtime permission is granted
+     * (fresh installs, or Wear Data Layer-only use). Fall back to dataSync so the service
+     * doesn't crash the app.
+     */
+    private fun startMonitoringForeground() {
+        val notification = monitoringNotification()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            startForeground(1, notification)
+            return
+        }
+        val btGranted = Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
+            checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) == android.content.pm.PackageManager.PERMISSION_GRANTED
+        val type = if (btGranted) android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE
+                   else android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+        startForeground(1, notification, type)
+    }
+
     private fun buildRingDataSource(): RingDataSource {
         if (repository.getUseWatch6()) {
             return (application as HeatGuardApplication).wearDataSource
@@ -157,7 +176,7 @@ class HeatMonitoringService : Service() {
         return if (mac != null) {
             S5RingDataSource(this, mac)
         } else {
-            SimulatedRingDataSource()
+            NoRingDataSource()
         }
     }
 

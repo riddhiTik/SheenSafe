@@ -109,7 +109,9 @@ Inject all three into `MonitoringPipeline` for integration tests. The pattern is
 - **No `testFixtures` plugin** — fakes are duplicated into `:app/src/test/` as needed.
 - **`EscalationEngine` state is in-memory** — cooldown map persists across 5-min ticks within one service session. Restart-persistence is out of scope.
 - **`EncryptedSharedPreferences` is deferred** — blocked by `android.useAndroidX=false`. A TODO comment marks the location in `AppRepository.kt`.
-- **`SimulatedRingDataSource` is always used in `MainActivity`** — the service uses the simulated/real toggle from prefs. MainActivity always uses simulated for UI-level assessments.
+- **No mock vitals** — when no watch is configured, `HeatMonitoringService` and `DashboardFragment` use `NoRingDataSource` (never emits), so the UI shows "no data". `SimulatedRingDataSource` is no longer wired into the app.
+- **Watch connection is mandatory in onboarding** (step 3). The Skip button is shown only in debuggable builds. The Settings watch card only re-selects the paired watch; there is no Data Layer toggle.
+- **Language** can be changed in Settings (profile card) as well as at onboarding.
 
 ## Gadgetbridge Integration
 

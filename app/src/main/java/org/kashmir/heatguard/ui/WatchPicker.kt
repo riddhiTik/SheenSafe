@@ -17,7 +17,7 @@ object WatchPicker {
     sealed interface Result {
         data class Picked(val name: String) : Result
         object NoneFound : Result
-        object Error : Result
+        data class Error(val reason: String? = null, val unavailable: Boolean = false) : Result
         object Cancelled : Result
     }
 
@@ -30,7 +30,11 @@ object WatchPicker {
                     else -> showDialog(context, repository, nodes.toList(), onResult)
                 }
             }
-            .addOnFailureListener { onResult(Result.Error) }
+            .addOnFailureListener { e ->
+                android.util.Log.e("WatchPicker", "getConnectedNodes failed", e)
+                val unavailable = (e as? com.google.android.gms.common.api.ApiException)?.statusCode == 17
+                onResult(Result.Error("${e.javaClass.simpleName}: ${e.message}", unavailable))
+            }
     }
 
     private fun showDialog(context: Context, repository: AppRepository, nodes: List<Node>, onResult: (Result) -> Unit) {
