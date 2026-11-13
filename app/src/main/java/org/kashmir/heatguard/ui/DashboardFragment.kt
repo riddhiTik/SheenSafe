@@ -37,6 +37,8 @@ import org.kashmir.heatguard.data.NotificationHistoryEntry
 import org.kashmir.heatguard.ring.NoRingDataSource
 import org.kashmir.heatguard.weather.ApiHourlyForecastProvider
 import org.kashmir.heatguard.weather.CachedHourlyForecastProvider
+import org.kashmir.heatguard.core.model.WeatherSample
+import org.kashmir.heatguard.weather.ApiWeatherProvider
 import org.kashmir.heatguard.weather.ManualWeatherProvider
 
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
@@ -55,6 +57,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             assessAndRender()
             refreshHandler.postDelayed(this, 5_000L)
         }
+    }
+
+    private companion object {
+        const val WEATHER_MAX_AGE_MS = 2 * 60 * 60 * 1_000L
     }
 
     private var pendingTextPhones: List<String> = emptyList()
@@ -176,6 +182,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         ensureDefaultBaseline()
         assessAndRender()
+        refreshWeatherAsync()
         loadHourlyForecast()
     }
 
@@ -243,13 +250,37 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             .show()
     }
 
+    /** Same order as the monitoring service: fresh fetched weather first, then user-entered, else none. */
+    private fun currentWeather(now: Long): WeatherSample? {
+        val cached = repository.getCachedApiWeather()?.takeIf { now - it.timestampMillis <= WEATHER_MAX_AGE_MS }
+        return cached ?: ManualWeatherProvider(repository).latestWeather(now)
+    }
+
+    /** Fetches real weather in the background so the dashboard doesn't depend on the service having run. */
+    private fun refreshWeatherAsync() {
+        val ctx = context?.applicationContext ?: return
+        val last = repository.getCachedApiWeather()
+        if (last != null && System.currentTimeMillis() - last.timestampMillis < 10 * 60_000L) return
+        Thread {
+            try {
+                val lat = repository.getLastLatitude() ?: 34.0837
+                val lon = repository.getLastLongitude() ?: 74.7973
+                val sample = ApiWeatherProvider(lat, lon).latestWeather(System.currentTimeMillis())
+                repository.setCachedApiWeather(sample)
+                activity?.runOnUiThread { if (isAdded) assessAndRender() }
+            } catch (_: Exception) {
+                // Offline: keep whatever is cached; the vitals show "no data" if nothing is.
+            }
+        }.start()
+    }
+
     private fun assessAndRender() {
         val now = System.currentTimeMillis()
         val decision = engine.assess(
             RiskInput(
                 nowMillis = now,
                 sensorSample = ringDataSource.latestSample(),
-                weatherSample = ManualWeatherProvider(repository).latestWeather(now),
+                weatherSample = currentWeather(now),
                 baseline = repository.getBaseline(),
                 riskProfile = repository.getRiskProfile()
             )
@@ -264,7 +295,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         val unit = repository.getTempUnit()
         val now = System.currentTimeMillis()
         val sample = ringDataSource.latestSample()
-        val weather = ManualWeatherProvider(repository).latestWeather(now)
+        val weather = currentWeather(now)
 
         // Hero card
         when (decision.level) {
@@ -323,11 +354,11 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         tvHeartRate.text = heartRate?.toString() ?: getString(R.string.metric_no_data)
         updateTrend(heartRateHistory, heartRate?.toFloat(), sparkHeartRate, ivHeartRateTrend, R.color.vital_heart_accent)
 
-        val humidity = weather.relativeHumidityPercent
+        val humidity = weather?.relativeHumidityPercent
         tvHumidity.text = humidity?.let { "%.0f".format(it) } ?: getString(R.string.metric_no_data)
         updateTrend(humidityHistory, humidity?.toFloat(), sparkHumidity, ivHumidityTrend, R.color.vital_humidity_accent)
 
-        val outsideTempC = weather.airTemperatureC
+        val outsideTempC = weather?.airTemperatureC
         tvOutsideTemp.text = outsideTempC?.let { formatTemp(it, unit) } ?: getString(R.string.metric_no_data)
         updateTrend(outsideTempHistory, outsideTempC?.let { formatTemp(it, unit).toFloatOrNull() }, sparkOutsideTemp, ivOutsideTempTrend, R.color.vital_outside_accent)
 

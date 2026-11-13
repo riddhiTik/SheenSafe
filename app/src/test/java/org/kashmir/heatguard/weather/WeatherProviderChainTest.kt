@@ -127,11 +127,10 @@ class WeatherProviderChainTest {
     // ------------------------------------------------------------------ ManualWeatherProvider
 
     @Test
-    fun manual_noWeatherSet_returnsDefaultSample() {
+    fun manual_noWeatherSet_returnsNull_notPlaceholderDefaults() {
         val repo = FakeWeatherRepository()
         val provider = ManualWeatherProvider(repo)
-        val result = provider.latestWeather(baseTime)
-        assertNotNull(result)
+        assertNull(provider.latestWeather(baseTime))
     }
 
     @Test
@@ -139,7 +138,7 @@ class WeatherProviderChainTest {
         val repo = FakeWeatherRepository()
         repo.setManualWeather(42.0, 80.0, true, OfficialHeatWarning.WARNING)
         val provider = ManualWeatherProvider(repo)
-        val result = provider.latestWeather(baseTime)
+        val result = provider.latestWeather(baseTime)!!
         assertEquals(42.0, result.airTemperatureC)
         assertEquals(80.0, result.relativeHumidityPercent)
         assertEquals(true, result.directSun)
@@ -151,6 +150,8 @@ class WeatherProviderChainTest {
     private class FakeWeatherRepository : WeatherRepository {
         private var manual: WeatherSample? = null
         private var cached: WeatherSample? = null
+
+        override fun hasManualWeather(): Boolean = manual != null
 
         override fun getLastManualWeather(nowMillis: Long): WeatherSample {
             return manual ?: WeatherSample(

@@ -70,6 +70,8 @@ class AppRepository(context: Context) : BaselineRepository, RiskProfileRepositor
             .apply()
     }
 
+    override fun hasManualWeather(): Boolean = prefs.contains(KEY_WEATHER_TIME)
+
     override fun getLastManualWeather(nowMillis: Long): WeatherSample {
         val temp = prefs.getDoubleOrNull(KEY_WEATHER_TEMP) ?: 36.0
         val rh = prefs.getDoubleOrNull(KEY_WEATHER_RH) ?: 45.0
