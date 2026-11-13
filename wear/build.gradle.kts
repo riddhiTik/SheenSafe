@@ -32,6 +32,10 @@ dependencies {
     // Samsung Health Sensor SDK — drop the .aar into wear/libs/ before building
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
 
+    // Health Services: heart rate on any Wear OS watch (fallback when the Samsung SDK is unavailable)
+    implementation("androidx.health:health-services-client:1.0.0")
+    implementation("com.google.guava:guava:33.0.0-android")
+
     // Wearable Data Layer
     implementation("com.google.android.gms:play-services-wearable:18.2.0")
 

@@ -95,7 +95,5 @@ class WatchCommandService : WearableListenerService() {
         Log.i(TAG, "WatchSensorService started by phone command")
     }
 
-    private fun hasBodySensorsPermission(): Boolean =
-        ContextCompat.checkSelfPermission(this, Manifest.permission.BODY_SENSORS) ==
-            PackageManager.PERMISSION_GRANTED
+    private fun hasBodySensorsPermission(): Boolean = SensorPermissions.anyGranted(this)
 }

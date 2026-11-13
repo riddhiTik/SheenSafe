@@ -112,6 +112,7 @@ Inject all three into `MonitoringPipeline` for integration tests. The pattern is
 - **No mock vitals** — when no watch is configured, `HeatMonitoringService` and `DashboardFragment` use `NoRingDataSource` (never emits), so the UI shows "no data". `SimulatedRingDataSource` is no longer wired into the app.
 - **Watch connection is mandatory in onboarding** (step 3). The Skip button is shown only in debuggable builds. The Settings watch card only re-selects the paired watch; there is no Data Layer toggle.
 - **Health Connect** (`HealthConnectRingDataSource`, `useHealthConnect` pref) is an alternative to the Wear Data Layer: polls heart rate every 60s; sample timestamp is the measurement time so stale data is flagged. No skin temperature (not in Health Connect 1.1). Chosen via "Use Health Connect instead" in onboarding step 3.
+- **Watch sensors:** `WatchSensorService` (`:wear`) uses the Samsung Health Sensor SDK (HR + skin temp) and falls back to Google Health Services (HR only) on non-Samsung Wear OS watches. Sensor permissions are requested together via `SensorPermissions`; any one granted starts the service (a `health` FGS fails without one on newer Wear OS). Phone and watch apps must share applicationId + signing key.
 - **Language** can be changed in Settings (profile card) as well as at onboarding.
 
 ## Gadgetbridge Integration

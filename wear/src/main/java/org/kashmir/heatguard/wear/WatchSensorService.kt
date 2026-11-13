@@ -8,6 +8,12 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import androidx.health.services.client.HealthServices
+import androidx.health.services.client.MeasureCallback
+import androidx.health.services.client.data.Availability
+import androidx.health.services.client.data.DataPointContainer
+import androidx.health.services.client.data.DataType
+import androidx.health.services.client.data.DeltaDataType
 import com.google.android.gms.wearable.Wearable
 import com.samsung.android.service.health.tracking.ConnectionListener
 import com.samsung.android.service.health.tracking.HealthTracker
@@ -27,7 +33,10 @@ import kotlinx.coroutines.tasks.await
 import org.json.JSONObject
 
 /**
- * Foreground service that owns the Samsung Health Sensor SDK connection lifecycle.
+ * Foreground service that owns sensor collection on the watch.
+ *
+ * Samsung watches: Samsung Health Sensor SDK (heart rate + skin temperature).
+ * Any other Wear OS watch: Google Health Services (heart rate only) as a fallback.
  *
  * Prerequisites:
  *  - Samsung Health Sensor SDK .aar is in wear/libs/
@@ -53,6 +62,7 @@ class WatchSensorService : Service() {
     private var healthTrackingService: HealthTrackingService? = null
     private var hrCollector: HeartRateCollector? = null
     private var skinTempCollector: SkinTemperatureCollector? = null
+    private var healthServicesHr: HealthServicesHeartRate? = null
 
     @Volatile private var latestHr: Int? = null
     @Volatile private var latestTemp: Float? = null
@@ -88,29 +98,47 @@ class WatchSensorService : Service() {
         }
 
         override fun onConnectionFailed(e: HealthTrackerException) {
-            Log.e(TAG, "Connection failed (code ${e.errorCode}): ${e.message}")
-            stopSelf()
+            // Not a Samsung watch, or Samsung SDK Debug Mode is off: use Google Health Services
+            // (heart rate only) so other Wear OS watches still work.
+            Log.w(TAG, "Samsung SDK connection failed (code ${e.errorCode}): ${e.message}; falling back to Health Services")
+            startHealthServicesFallback()
         }
     }
 
     override fun onCreate() {
         super.onCreate()
         startForeground(NOTIF_ID, buildForegroundNotification())
-        val service = HealthTrackingService(connectionListener, applicationContext)
-        healthTrackingService = service
-        service.connectService()
-        Log.i(TAG, "WatchSensorService started, connecting to HealthTrackingService")
+        try {
+            val service = HealthTrackingService(connectionListener, applicationContext)
+            healthTrackingService = service
+            service.connectService()
+            Log.i(TAG, "WatchSensorService started, connecting to HealthTrackingService")
+        } catch (e: Throwable) {
+            // On non-Samsung watches the SDK can throw instead of calling onConnectionFailed.
+            Log.w(TAG, "Samsung SDK unavailable (${e.javaClass.simpleName}); using Health Services")
+            healthTrackingService = null
+            startHealthServicesFallback()
+        }
     }
 
     override fun onDestroy() {
         hrCollector?.stop()
         skinTempCollector?.stop()
-        healthTrackingService?.disconnectService()
+        healthServicesHr?.stop()
+        try { healthTrackingService?.disconnectService() } catch (_: Throwable) { }
         scope.cancel()
         super.onDestroy()
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
+
+    private fun startHealthServicesFallback() {
+        if (healthServicesHr != null) return
+        healthServicesHr = HealthServicesHeartRate { hr ->
+            latestHr = hr
+            dispatchReading()
+        }.also { it.start() }
+    }
 
     private fun dispatchReading() {
         val hr = latestHr
@@ -141,6 +169,46 @@ class WatchSensorService : Service() {
     }
 
     // ------------------------------------------------------------------ Collectors
+
+    /**
+     * Heart rate via Google Health Services, available on every Wear OS watch with a heart-rate
+     * sensor. Skin temperature is not available this way, so temperature stays null and the
+     * phone assesses risk from heart rate and weather.
+     */
+    private inner class HealthServicesHeartRate(private val onReading: (hr: Int) -> Unit) {
+        private val collectorTag = "HSHeartRate"
+        private val client = HealthServices.getClient(applicationContext).measureClient
+        private val callback = object : MeasureCallback {
+            override fun onAvailabilityChanged(dataType: DeltaDataType<*, *>, availability: Availability) {
+                Log.d(TAG, "$collectorTag availability: $availability")
+            }
+
+            override fun onDataReceived(data: DataPointContainer) {
+                val hr = data.getData(DataType.HEART_RATE_BPM).lastOrNull()?.value?.toInt() ?: return
+                if (hr > 0) {
+                    Log.d(TAG, "$collectorTag: hr=$hr")
+                    onReading(hr)
+                }
+            }
+        }
+
+        fun start() {
+            try {
+                client.registerMeasureCallback(DataType.HEART_RATE_BPM, callback)
+                Log.i(TAG, "$collectorTag: measure callback registered")
+            } catch (e: Exception) {
+                Log.e(TAG, "$collectorTag: failed to start: ${e.message}")
+            }
+        }
+
+        fun stop() {
+            try {
+                client.unregisterMeasureCallbackAsync(DataType.HEART_RATE_BPM, callback)
+            } catch (e: Exception) {
+                Log.w(TAG, "$collectorTag: failed to stop: ${e.message}")
+            }
+        }
+    }
 
     private inner class HeartRateCollector(
         private val service: HealthTrackingService,

@@ -23,9 +23,7 @@ class WatchBootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != Intent.ACTION_BOOT_COMPLETED) return
 
-        val hasPermission = ContextCompat.checkSelfPermission(
-            context, Manifest.permission.BODY_SENSORS
-        ) == PackageManager.PERMISSION_GRANTED
+        val hasPermission = SensorPermissions.anyGranted(context)
 
         if (hasPermission) {
             Log.i(TAG, "Boot completed — restarting WatchSensorService")

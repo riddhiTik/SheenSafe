@@ -1,8 +1,6 @@
 package org.kashmir.heatguard.wear
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -23,13 +21,13 @@ class PermissionActivity : ComponentActivity() {
     }
 
     private val permissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted ->
-        if (granted) {
-            Log.i(TAG, "BODY_SENSORS granted — starting sensor service")
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { results ->
+        if (results.values.any { it } || SensorPermissions.anyGranted(this)) {
+            Log.i(TAG, "Sensor permission granted ($results) — starting sensor service")
             startForegroundService(Intent(this, WatchSensorService::class.java))
         } else {
-            Log.w(TAG, "BODY_SENSORS denied")
+            Log.w(TAG, "Sensor permissions denied: $results")
         }
         finish()
     }
@@ -37,11 +35,11 @@ class PermissionActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (checkSelfPermission(Manifest.permission.BODY_SENSORS) == PackageManager.PERMISSION_GRANTED) {
+        if (SensorPermissions.anyGranted(this)) {
             startForegroundService(Intent(this, WatchSensorService::class.java))
             finish()
         } else {
-            permissionLauncher.launch(Manifest.permission.BODY_SENSORS)
+            permissionLauncher.launch(SensorPermissions.ALL)
         }
     }
 }
