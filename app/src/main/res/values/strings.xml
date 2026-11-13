@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">HeatGuard Kashmir</string>
+    <string name="app_name">SheenSafe</string>
     <string name="state_safe">SAFE</string>
     <string name="state_check">CHECK</string>
     <string name="state_action">ACTION</string>
@@ -34,7 +34,7 @@
     <string name="reasons_label">Reasons</string>
     <string name="status_label">Status</string>
     <string name="heat_alert_title">Heat risk: %1$s</string>
-    <string name="share_emergency_prefix">HeatGuard alert. The user may need help.</string>
+    <string name="share_emergency_prefix">SheenSafe alert. The user may need help.</string>
     <string name="symptom_thirst">Thirst</string>
     <string name="symptom_headache">Headache</string>
     <string name="symptom_nausea">Nausea</string>

@@ -2,7 +2,7 @@
 <resources>
     <!-- Kashmiri (Koshur) translations, Perso-Arabic script. Machine-assisted draft —
          requires native-speaker/community review before field deployment. -->
-    <string name="app_name">ہیٹ گارڈ کشمیر</string>
+    <string name="app_name">SheenSafe</string>
     <string name="state_safe">محفوظ</string>
     <string name="state_check">چیک کریو</string>
     <string name="state_action">کارروائی کریو</string>

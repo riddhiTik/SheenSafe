@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ہیٹ گارڈ کشمیر</string>
+    <string name="app_name">SheenSafe</string>
     <string name="state_safe">محفوظ</string>
     <string name="state_check">چیک کریں</string>
     <string name="state_action">فوری عمل</string>
@@ -34,7 +34,7 @@
     <string name="reasons_label">وجوہات</string>
     <string name="status_label">حالت</string>
     <string name="heat_alert_title">گرمی کا خطرہ: %1$s</string>
-    <string name="share_emergency_prefix">ہیٹ گارڈ الرٹ۔ صارف کو مدد کی ضرورت ہو سکتی ہے۔</string>
+    <string name="share_emergency_prefix">SheenSafe الرٹ۔ صارف کو مدد کی ضرورت ہو سکتی ہے۔</string>
     <string name="symptom_thirst">پیاس</string>
     <string name="symptom_headache">سر درد</string>
     <string name="symptom_nausea">متلی</string>

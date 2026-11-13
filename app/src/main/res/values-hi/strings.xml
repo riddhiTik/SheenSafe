@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">हीटगार्ड कश्मीर</string>
+    <string name="app_name">SheenSafe</string>
     <string name="state_safe">सुरक्षित</string>
     <string name="state_check">जांच करें</string>
     <string name="state_action">कार्रवाई करें</string>
@@ -34,7 +34,7 @@
     <string name="reasons_label">कारण</string>
     <string name="status_label">स्थिति</string>
     <string name="heat_alert_title">गर्मी जोखिम: %1$s</string>
-    <string name="share_emergency_prefix">हीटगार्ड अलर्ट। व्यक्ति को मदद की आवश्यकता हो सकती है।</string>
+    <string name="share_emergency_prefix">SheenSafe अलर्ट। व्यक्ति को मदद की आवश्यकता हो सकती है।</string>
     <string name="symptom_thirst">प्यास</string>
     <string name="symptom_headache">सिरदर्द</string>
     <string name="symptom_nausea">मतली</string>

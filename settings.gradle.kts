@@ -17,7 +17,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "HeatGuardKashmir"
+rootProject.name = "SheenSafe"
 include(":core")
 include(":app")
 include(":wear")
